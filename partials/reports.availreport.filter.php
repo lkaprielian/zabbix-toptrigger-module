@@ -109,7 +109,7 @@ $filter_column = (new CFormList())
 		);
 
 	// severities
-	// $severity_columns = [0 => [], 1 => []];
+	$severity_columns = [0 => [], 1 => []];
 
 	// for ($severity = TRIGGER_SEVERITY_NOT_CLASSIFIED; $severity < TRIGGER_SEVERITY_COUNT; $severity++) {
 	// 	$severity_columns[$severity % 2][] = new CLabel([
