@@ -108,6 +108,23 @@ $filter_column = (new CFormList())
 			->setId('only_with_problems_#{uniqid}')
 		);
 
+	// severities
+	$severity_columns = [0 => [], 1 => []];
+
+	for ($severity = TRIGGER_SEVERITY_NOT_CLASSIFIED; $severity < TRIGGER_SEVERITY_COUNT; $severity++) {
+		$severity_columns[$severity % 2][] = new CLabel([
+			(new CCheckBox('severities['.$severity.']'))
+				->setChecked(in_array($severity, $data['filter']['severities'])),
+			getSeverityName($severity, $this->data['config'])
+		], 'severities['.$severity.']');
+	}
+
+	$filter_column->addRow(_('Severity'),
+		(new CTable())
+			->addRow($severity_columns[0])
+			->addRow($severity_columns[1])
+		);
+
 $template = (new CDiv())
 	->addClass(ZBX_STYLE_TABLE)
 	->addClass(ZBX_STYLE_FILTER_FORMS)
