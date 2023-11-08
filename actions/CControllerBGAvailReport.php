@@ -164,6 +164,10 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggers = $triggers_with_problems;
 		}
 
+		if ($filter['severities']) {
+			
+		}
+
 		// Now just prepare needed data.
 		CArrayHelper::sort($triggers, ['host_name', 'description'], 'ASC');
 
