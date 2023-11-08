@@ -97,7 +97,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		] + $this->getData($filter);
 
 		$response = new CControllerResponseData($data);
-		$response->setTitle(_('Availability report'));
+		$response->setTitle(_('100 busiest triggers'));
 
 		if ($data['action'] === 'availreport.view.csv') {
 			$response->setFileName('zbx_availability_report_export.csv');

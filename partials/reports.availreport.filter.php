@@ -114,8 +114,8 @@ $filter_column = (new CFormList())
 	for ($severity = TRIGGER_SEVERITY_NOT_CLASSIFIED; $severity < TRIGGER_SEVERITY_COUNT; $severity++) {
 		$severity_columns[$severity % 2][] = new CLabel([
 			(new CCheckBox('severities['.$severity.']'))
-			->setChecked(in_array($severity, $this->$data['filter']['severities'])),
-			getSeverityName($severity, $this->data['config'])
+			// ->setChecked(in_array($severity, $this->$data['filter']['severities'])),
+			// getSeverityName($severity, $this->data['config'])
 		], 'severities['.$severity.']');
 	}
 
