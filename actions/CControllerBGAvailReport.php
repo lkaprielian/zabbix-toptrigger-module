@@ -28,7 +28,8 @@ abstract class CControllerBGAvailReport extends CController {
 		'only_with_problems' => 1,
                 'page' => null,
 		'from' => '',
-		'to' => ''
+		'to' => '',
+		'severities' => []
 	];
 
 	protected function getData(array $filter): array {

@@ -11,7 +11,7 @@ if ($data['action'] == 'availreport.view') {
 	$this->enableLayoutModes();
 	$web_layout_mode = $this->getLayoutMode();
 	$widget = (new CHtmlPage())
-		->setTitle(_('Availability report'))
+		->setTitle(_('100 busiest triggers'))
 		->setWebLayoutMode($web_layout_mode)
 		->setControls(
 			(new CTag('nav', true, (new CList())
