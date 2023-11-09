@@ -95,7 +95,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'refresh_url' => $refresh_curl->getUrl(),
 			'refresh_interval' => CWebUser::getRefresh() * 10000, //+++1000,
 			'page' => $this->getInput('page', 1),
-			'severities' => [T_ZBX_INT,	O_OPT,	P_SYS,	null,	null]
+			'severities' => []
 		] + $this->getData($filter);
 
 		$response = new CControllerResponseData($data);
