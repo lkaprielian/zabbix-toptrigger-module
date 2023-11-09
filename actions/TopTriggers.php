@@ -13,7 +13,7 @@ class TopTriggers extends CController {
         return true;
     }
     protected function doAction(): void {
-        $data = ['my-ip' => file_get_contents("https://api.seeip.org")];
+        $data = ['my-ip'];
         $response = new CControllerResponseData($data);
         $this->setResponse($response);
     }
