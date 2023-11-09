@@ -1,17 +1,10 @@
 {
   "manifest_version": 2.0,
-  "id": "top_trigger",
-  "name": "top trigger",
+  "id": "top_triggers",
+  "name": "top triggers",
   "version": "1.0.0",
-  "namespace": "TopTrigger",
+  "namespace": "TopTriggers",
   "author": "Lisa KAPRIELIAN",
   "url": "",
-  "description": "top trigger report improvementes",
-  "actions": {
-    "availreport.view": {
-      "class": "CControllerBGAvailReportView",
-      "view": "module.reports.availreport.view",
-      "layout": "layout.htmlpage"
-    }
-  }
+  "description": "top triggers report improvementes"
 }
