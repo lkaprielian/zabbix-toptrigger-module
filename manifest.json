@@ -1,32 +1,17 @@
 {
   "manifest_version": 2.0,
-  "id": "availability_report",
-  "name": "top report",
+  "id": "top_trigger",
+  "name": "top trigger",
   "version": "1.0.0",
-  "namespace": "BGmotAR",
+  "namespace": "TopTrigger",
   "author": "Lisa KAPRIELIAN",
-  "url": "https://bgmot.com",
-  "description": "top report improvementes",
+  "url": "",
+  "description": "top trigger report improvementes",
   "actions": {
     "availreport.view": {
       "class": "CControllerBGAvailReportView",
       "view": "module.reports.availreport.view",
       "layout": "layout.htmlpage"
-    },
-    "availreport.view.refresh": {
-      "class": "CControllerBGAvailReportViewRefresh",
-      "view": "module.reports.availreport.view.refresh",
-      "layout": "layout.json"
-    },
-    "availreport.view.csv": {
-      "class": "CControllerBGAvailReportView",
-      "view": "module.reports.availreport.view",
-      "layout": "layout.csv"
-    },
-    "tabfilter.profile.update": {
-      "class": "CControllerBGTabFilterProfileUpdate",
-      "view": null,
-      "layout": "layout.json"
     }
   }
 }
