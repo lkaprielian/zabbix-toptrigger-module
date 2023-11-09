@@ -96,7 +96,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'refresh_interval' => CWebUser::getRefresh() * 10000, //+++1000,
 			'page' => $this->getInput('page', 1),
 			'severities' => []
-		] + $this->getData($filter);
+		] + $this->getData($filter);	
 
 		$response = new CControllerResponseData($data);
 		$response->setTitle(_('100 busiest triggers'));
