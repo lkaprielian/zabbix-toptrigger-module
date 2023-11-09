@@ -6,5 +6,11 @@
   "namespace": "TopTriggers",
   "author": "Lisa KAPRIELIAN",
   "url": "",
-  "description": "top triggers report improvementes"
+  "description": "top triggers report improvementes",
+  "actions": {
+    "top.triggers.view": {
+        "class": "TopTriggers",
+        "view": "top.triggers"
+    }
+  }
 }
