@@ -11,7 +11,7 @@ class Module extends \Zabbix\Core\CModule {
 			->findOrAdd(_('Reports'))
 				->getSubmenu()
 					->insertAfter('Availability report', (new \CMenuItem(_('Top triggers')))
-						->setAction('report.status')
+						->setAction('reports.toptriggers')
 					);
 	}
 }
