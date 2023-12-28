@@ -1,16 +1,32 @@
 {
   "manifest_version": 2.0,
-  "id": "top_triggers",
-  "name": "top triggers",
-  "version": "1.0.0",
-  "namespace": "TopTriggers",
-  "author": "Lisa KAPRIELIAN",
-  "url": "",
-  "description": "top triggers report improvementes",
+  "id": "availability_report",
+  "name": "Availability report",
+  "version": "3.0.0",
+  "namespace": "BGmotAR",
+  "author": "Evgeny Yurchenko",
+  "url": "https://bgmot.com",
+  "description": "Availability report improvementes",
   "actions": {
-    "top.triggers.view": {
-        "class": "TopTriggers",
-        "view": "top.triggers"
+    "availreport.view": {
+      "class": "CControllerBGAvailReportView",
+      "view": "module.reports.availreport.view",
+      "layout": "layout.htmlpage"
+    },
+    "availreport.view.refresh": {
+      "class": "CControllerBGAvailReportViewRefresh",
+      "view": "module.reports.availreport.view.refresh",
+      "layout": "layout.json"
+    },
+    "availreport.view.csv": {
+      "class": "CControllerBGAvailReportView",
+      "view": "module.reports.availreport.view",
+      "layout": "layout.csv"
+    },
+    "tabfilter.profile.update": {
+      "class": "CControllerBGTabFilterProfileUpdate",
+      "view": null,
+      "layout": "layout.json"
     }
   }
 }

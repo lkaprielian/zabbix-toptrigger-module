@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
  
-namespace Modules\TopTriggers;
+namespace Modules\BGmotAR;
  
 use APP;
  
@@ -10,8 +10,8 @@ class Module extends \Zabbix\Core\CModule {
 		APP::Component()->get('menu.main')
 			->findOrAdd(_('Reports'))
 				->getSubmenu()
-					->insertAfter('Availability report', (new \CMenuItem(_('Top triggers')))
-						->setAction('top.triggers.view')
+					->insertAfter('Availability report', (new \CMenuItem(_('Top Triggers Recurrence')))
+						->setAction('availreport.view')
 					);
 	}
 }
