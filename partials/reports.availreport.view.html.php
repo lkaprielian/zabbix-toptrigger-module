@@ -8,11 +8,10 @@ $view_url = $data['view_curl']->getUrl();
 
 $table->setHeader([
 	(new CColHeader(_('Host'))),
-	(new CColHeader(_('Name'))),
+	(new CColHeader(_('Trigger'))),
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	(new CColHeader(_('Tags'))),
-	(new CColHeader(_('Trigger')))
 ]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
@@ -44,8 +43,7 @@ foreach ($triggers as $trigger) {
 		($trigger['availability']['false'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-		$trigger['tags'],
-		$trigger['description']
+		$trigger['tags']
 	]);
 }
 
