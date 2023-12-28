@@ -21,8 +21,6 @@ $triggers = $data['triggers'];
 $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 foreach ($triggers as &$trigger) {
 	$trigger['tags'] = $tags[$trigger['triggerid']];
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 }
 unset($trigger);
 
@@ -47,7 +45,7 @@ foreach ($triggers as $trigger) {
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
 		$trigger['tags'],
-		$triggerDescription
+		$trigger['description']
 	]);
 }
 
