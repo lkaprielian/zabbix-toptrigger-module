@@ -11,7 +11,8 @@ $table->setHeader([
 	(new CColHeader(_('Name'))),
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
-	(new CColHeader(_('Tags')))
+	(new CColHeader(_('Tags'))),
+	(new CColHeader(_('Triggers')))
 ]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
@@ -40,7 +41,8 @@ foreach ($triggers as $trigger) {
 		($trigger['availability']['false'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-		$trigger['tags']
+		$trigger['tags'],
+		$trigger
 	]);
 }
 
