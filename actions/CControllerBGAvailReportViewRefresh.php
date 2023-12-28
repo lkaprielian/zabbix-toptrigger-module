@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modules\BGmotAR\Actions;
+namespace Modules\LMFR\Actions;
 
 use CUrl;
 use CControllerResponseData;

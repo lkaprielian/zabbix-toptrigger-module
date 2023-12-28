@@ -18,7 +18,7 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-namespace Modules\BGmotAR\Actions;
+namespace Modules\LMFR\Actions;
 
 use CController;
 use CControllerHost;

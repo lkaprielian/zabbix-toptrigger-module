@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Modules\BGmotAR\Actions;
+namespace Modules\LMFR\Actions;
 
 use CRoleHelper;
 use CControllerResponseData;
@@ -96,7 +96,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		] + $this->getData($filter);
 
 		$response = new CControllerResponseData($data);
-		$response->setTitle(_('Availability report'));
+		$response->setTitle(_('Top Triggers Recurrence'));
 
 		if ($data['action'] === 'availreport.view.csv') {
 			$response->setFileName('zbx_availability_report_export.csv');
