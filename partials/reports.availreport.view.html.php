@@ -32,7 +32,7 @@ foreach ($triggers as $trigger) {
 		$trigger['host_name'],
 		$allowed_ui_problems
 			? new CLink($trigger['description'],
-				(new CUrl('toptriggers.php))
+				(new CUrl('toptriggers.php'))
 					->setArgument('action', 'problem.view')
 					->setArgument('filter_name', '')
 					->setArgument('triggerids', [$trigger['triggerid']])
