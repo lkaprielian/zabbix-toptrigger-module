@@ -6,7 +6,7 @@
   "namespace": "LMFR",
   "author": "Leroy Merlin",
   "url": "https://bgmot.com",
-  "description": "Top Triggers Recurrence improvementes",
+  "description": "Top triggers recurrence improvementes",
   "actions": {
     "availreport.view": {
       "class": "CControllerBGAvailReportView",
