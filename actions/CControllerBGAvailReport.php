@@ -60,7 +60,7 @@ abstract class CControllerBGAvailReport extends CController {
 		if ($num_of_triggers > $limit) {
 			$warning = 'WARNING: ' . $num_of_triggers . ' triggers found which is more than reasonable limit ' . $limit . ', results below might be not totally accurate. Please add or review current filter conditions.';
 		}
-		print $num_of_triggers;
+		// print $num_of_triggers;
 
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value'],
