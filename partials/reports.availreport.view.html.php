@@ -25,23 +25,6 @@ foreach ($triggers as &$trigger) {
 unset($trigger);
 
 
-
-$trigger_hostids = [];
-$triggersEventCount = [];
-
-
-foreach ($data['triggers'] as $triggerId => $trigger) {
-	$hostId = $trigger['hosts'][0]['hostid'];
-	$trigger_hostids[$hostId] = $hostId;
-
-	$data['triggers'][$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
-}
-
-CArrayHelper::sort($data['triggers'], [
-	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-	'host', 'description', 'priority'
-]);
-
 foreach ($triggers as $trigger) {
 	$table->addRow([
 		$trigger['host_name'],
@@ -60,8 +43,8 @@ foreach ($triggers as $trigger) {
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
 		$trigger['tags'],
-		$triggersEventCount[$triggerId]
-		// $trigger['cnt_event']
+		// $triggersEventCount[$triggerId]
+		$trigger['tags']
 	]);
 }
 
