@@ -10,6 +10,7 @@ $table->setHeader([
 	(new CColHeader(_('Host'))),
 	(new CColHeader(_('Trigger'))),
 	(new CColHeader(_('Problems'))),
+	(new CColHeader(_('Ok'))),
 	(new CColHeader(_('Tags'))),
 	(new CColHeader(_('Number of status changes')))
 ]);
@@ -20,22 +21,28 @@ $triggers = $data['triggers'];
 $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 foreach ($triggers as &$trigger) {
 	$trigger['tags'] = $tags[$trigger['triggerid']];
-
-	$hostId = $trigger['hosts'][0]['hostid'];
-
-	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
 }
 unset($trigger);
 
 
 
+$trigger_hostids = [];
+
+foreach ($data['triggers'] as $triggerId => $trigger) {
+	$hostId = $trigger['hosts'][0]['hostid'];
+	$trigger_hostids[$hostId] = $hostId;
+
+	$data['triggers'][$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+}
+
+CArrayHelper::sort($data['triggers'], [
+	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+	'host', 'description', 'priority'
+]);
 
 foreach ($triggers as $trigger) {
 	$table->addRow([
-		$hostName,
+		$trigger['host_name'],
 		$allowed_ui_problems
 			? new CLink($trigger['description'],
 				(new CUrl('zabbix.php'))
@@ -50,7 +57,8 @@ foreach ($triggers as $trigger) {
 		($trigger['availability']['false'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-		$trigger['tags']
+		$trigger['tags'],
+		$triggersEventCount[$triggerId]
 		// $trigger['cnt_event']
 	]);
 }
