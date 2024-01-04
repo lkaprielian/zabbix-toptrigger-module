@@ -125,7 +125,7 @@ abstract class CControllerBGAvailReport extends CController {
 			// Find all triggers that were in the PROBLEM state
 			// at the start of this time frame
 			foreach($triggers as $trigger) {
-				$sql = 'SELECT e.eventid, e.objectid, e.value'.
+				$sql = 'SELECT e.eventid, e.objectid, e.value AS cnt_event'.
 						' FROM events e'.
 						' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
 							' AND e.source='.EVENT_SOURCE_TRIGGERS.
