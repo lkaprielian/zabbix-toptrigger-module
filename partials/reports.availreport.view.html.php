@@ -10,7 +10,6 @@ $table->setHeader([
 	(new CColHeader(_('Host'))),
 	(new CColHeader(_('Trigger'))),
 	(new CColHeader(_('Problems'))),
-	(new CColHeader(_('Ok'))),
 	(new CColHeader(_('Tags'))),
 	(new CColHeader(_('Number of status changes')))
 ]);
@@ -21,6 +20,13 @@ $triggers = $data['triggers'];
 $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 foreach ($triggers as &$trigger) {
 	$trigger['tags'] = $tags[$trigger['triggerid']];
+
+	$hostId = $trigger['hosts'][0]['hostid'];
+
+	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+		$hostName->addClass(ZBX_STYLE_RED);
+	}
 }
 unset($trigger);
 
@@ -29,7 +35,7 @@ unset($trigger);
 
 foreach ($triggers as $trigger) {
 	$table->addRow([
-		$trigger['host_name'],
+		$hostName,
 		$allowed_ui_problems
 			? new CLink($trigger['description'],
 				(new CUrl('zabbix.php'))
