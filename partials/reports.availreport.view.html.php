@@ -44,8 +44,8 @@ foreach ($triggers as $trigger) {
 		($trigger['availability']['false'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-		$trigger['tags'],
-		$trigger['cnt_event']
+		$trigger['tags']
+		// $trigger['cnt_event']
 	]);
 }
 
