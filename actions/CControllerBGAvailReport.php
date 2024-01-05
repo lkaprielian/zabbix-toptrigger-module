@@ -162,7 +162,7 @@ abstract class CControllerBGAvailReport extends CController {
 
                         // Reset all previously selected triggers to only ones with problems
                         unset($triggers);
-			print $triggers_with_problems;
+			print_r($triggers_with_problems);
 			$triggers = $triggers_with_problems;
 		}
 
