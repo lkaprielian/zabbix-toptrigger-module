@@ -183,7 +183,7 @@ abstract class CControllerBGAvailReport extends CController {
 				'preservekeys' => true
 			]);
 
-			$trigger_hostids = [];
+			// $trigger_hostids = [];
 
 			foreach ($triggers as $triggerId => $trigger) {
 				$hostId = $trigger['hosts'][0]['hostid'];
@@ -197,11 +197,11 @@ abstract class CControllerBGAvailReport extends CController {
 				'host', 'description', 'priority'
 			]);
 
-			$data['hosts'] = API::Host()->get([
-				'output' => ['hostid', 'status'],
-				'hostids' => $trigger_hostids,
-				'preservekeys' => true
-			]);
+			// $data['hosts'] = API::Host()->get([
+			// 	'output' => ['hostid', 'status'],
+			// 	'hostids' => $trigger_hostids,
+			// 	'preservekeys' => true
+			// ]);
 
 			$triggers_with_problems = [];
 			foreach ($triggers as $trigger) {
