@@ -24,7 +24,6 @@ foreach ($triggers as &$trigger) {
 }
 unset($trigger);
 
-
 foreach ($triggers as $trigger) {
 	$table->addRow([
 		$trigger['host_name'],
@@ -44,7 +43,7 @@ foreach ($triggers as $trigger) {
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
 		$trigger['tags'],
 		// $triggersEventCount[$triggerId]
-		$trigger['tags']
+		$trigger
 	]);
 }
 
