@@ -167,7 +167,8 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggers = $triggers_with_problems;
 
 		}
-
+		
+		unset($triggers);
 		// data generation
 		$triggersEventCount = [];
 
