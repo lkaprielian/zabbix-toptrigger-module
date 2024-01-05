@@ -44,7 +44,6 @@ abstract class CControllerBGAvailReport extends CController {
 			$limit = 5001;
 		}
 
-		$triggersEventCount = [];
 
 		// All CONFIGURED triggers that fall under selected filter
 		$num_of_triggers = API::Trigger()->get([
@@ -152,50 +151,92 @@ abstract class CControllerBGAvailReport extends CController {
 						}
 					}
 				}
+
+				$triggersEventCount = [];
+
+				// get 100 triggerids with max event count
+				$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
+						' FROM triggers t,events e'.
+						' WHERE t.triggerid=e.objectid'.
+							' AND e.source='.EVENT_SOURCE_TRIGGERS.
+							' AND e.clock>='.zbx_dbstr($filter['from_ts']).
+							' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+	
+	
+				$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
+						' GROUP BY e.objectid'.
+						' ORDER BY cnt_event DESC';
+				$result = DBselect($sql, 100);
+				while ($row = DBfetch($result)) {
+					$triggersEventCount[$row['objectid']] = $row['cnt_event'];
+				}
+	
+				$triggers = API::Trigger()->get([
+					'output' => ['triggerid', 'description', 'expression', 'priority', 'lastchange'],
+					'selectHosts' => ['hostid', 'status', 'name'],
+					'triggerids' => array_keys($triggersEventCount),
+					'expandDescription' => true,
+					'preservekeys' => true
+				]);
+	
+				// $trigger_hostids = [];
+	
+				foreach ($triggers as $triggerId => $trigger) {
+					$hostId = $trigger['hosts'][0]['hostid'];
+					$trigger_hostids[$hostId] = $hostId;
+	
+					$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+				}
+	
+				CArrayHelper::sort($triggers, [
+					['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+					'host', 'description', 'priority'
+				]);
+	
 			}
 
 			###############
-					// data generation
-			$triggersEventCount = [];
+			// data generation
+			// $triggersEventCount = [];
 
-			// get 100 triggerids with max event count
-			$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
-					' FROM triggers t,events e'.
-					' WHERE t.triggerid=e.objectid'.
-						' AND e.source='.EVENT_SOURCE_TRIGGERS.
-						' AND e.clock>='.zbx_dbstr($filter['from_ts']).
-						' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+			// // get 100 triggerids with max event count
+			// $sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
+			// 		' FROM triggers t,events e'.
+			// 		' WHERE t.triggerid=e.objectid'.
+			// 			' AND e.source='.EVENT_SOURCE_TRIGGERS.
+			// 			' AND e.clock>='.zbx_dbstr($filter['from_ts']).
+			// 			' AND e.clock<='.zbx_dbstr($filter['to_ts']);
 
 
-			$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
-					' GROUP BY e.objectid'.
-					' ORDER BY cnt_event DESC';
-			$result = DBselect($sql, 100);
-			while ($row = DBfetch($result)) {
-				$triggersEventCount[$row['objectid']] = $row['cnt_event'];
-			}
+			// $sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
+			// 		' GROUP BY e.objectid'.
+			// 		' ORDER BY cnt_event DESC';
+			// $result = DBselect($sql, 100);
+			// while ($row = DBfetch($result)) {
+			// 	$triggersEventCount[$row['objectid']] = $row['cnt_event'];
+			// }
 
-			$triggers = API::Trigger()->get([
-				'output' => ['triggerid', 'description', 'expression', 'priority', 'lastchange'],
-				'selectHosts' => ['hostid', 'status', 'name'],
-				'triggerids' => array_keys($triggersEventCount),
-				'expandDescription' => true,
-				'preservekeys' => true
-			]);
+			// $triggers = API::Trigger()->get([
+			// 	'output' => ['triggerid', 'description', 'expression', 'priority', 'lastchange'],
+			// 	'selectHosts' => ['hostid', 'status', 'name'],
+			// 	'triggerids' => array_keys($triggersEventCount),
+			// 	'expandDescription' => true,
+			// 	'preservekeys' => true
+			// ]);
 
-			// $trigger_hostids = [];
+			// // $trigger_hostids = [];
 
-			foreach ($triggers as $triggerId => $trigger) {
-				$hostId = $trigger['hosts'][0]['hostid'];
-				$trigger_hostids[$hostId] = $hostId;
+			// foreach ($triggers as $triggerId => $trigger) {
+			// 	$hostId = $trigger['hosts'][0]['hostid'];
+			// 	$trigger_hostids[$hostId] = $hostId;
 
-				$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
-			}
+			// 	$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+			// }
 
-			CArrayHelper::sort($triggers, [
-				['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-				'host', 'description', 'priority'
-			]);
+			// CArrayHelper::sort($triggers, [
+			// 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+			// 	'host', 'description', 'priority'
+			// ]);
 
 			// $data['hosts'] = API::Host()->get([
 			// 	'output' => ['hostid', 'status'],
