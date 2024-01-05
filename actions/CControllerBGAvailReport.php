@@ -177,7 +177,7 @@ abstract class CControllerBGAvailReport extends CController {
 				' WHERE t.triggerid=e.objectid'.
 					' AND e.source='.EVENT_SOURCE_TRIGGERS.
 					' AND e.clock<'.zbx_dbstr($filter['from_ts']).
-					' ORDER BY e.eventid DESC';
+					' AND e.clock<'.zbx_dbstr($filter['to_ts']);
 
 
 		$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
