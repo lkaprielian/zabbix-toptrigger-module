@@ -15,7 +15,6 @@ abstract class CControllerBGAvailReport extends CController {
 
 	// Filter idx prefix.
 	const FILTER_IDX = 'web.avail_report.filter';
-
 	// Filter fields default values.
 	const FILTER_FIELDS_DEFAULT = [
 		'name' => '',
@@ -44,6 +43,8 @@ abstract class CControllerBGAvailReport extends CController {
 			// Generating for CSV report
 			$limit = 5001;
 		}
+
+		$triggersEventCount = [];
 
 		// All CONFIGURED triggers that fall under selected filter
 		$num_of_triggers = API::Trigger()->get([
@@ -161,6 +162,7 @@ abstract class CControllerBGAvailReport extends CController {
 
                         // Reset all previously selected triggers to only ones with problems
                         unset($triggers);
+			print $triggers_with_problems;
 			$triggers = $triggers_with_problems;
 		}
 
