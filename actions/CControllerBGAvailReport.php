@@ -124,10 +124,11 @@ abstract class CControllerBGAvailReport extends CController {
 					];
 				}
 			}
+			#here
 			// Find all triggers that were in the PROBLEM state
 			// at the start of this time frame
 			foreach($triggers as $trigger) {
-				$sql = 'SELECT e.eventid, e.objectid, e.value'.
+				$sql = 'SELECT e.eventid, e.objectid, e.value, count(distinct e.eventid) AS cnt_event' .
 						' FROM events e'.
 						' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
 							' AND e.source='.EVENT_SOURCE_TRIGGERS.
@@ -138,6 +139,7 @@ abstract class CControllerBGAvailReport extends CController {
 					// Add the triggerid to the array if it is not there
 					if ($row['value'] == TRIGGER_VALUE_TRUE &&
 						!in_array($row['objectid'], $triggerids_with_problems)) {
+						$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 						$triggerids_with_problems[$row['objectid']] = ['tags' => []];
 						$sql1 = 'SELECT et.tag, et.value' .
 							' FROM event_tag et' .
@@ -152,6 +154,7 @@ abstract class CControllerBGAvailReport extends CController {
 					}
 				}
 			}
+
 			$triggers_with_problems = [];
 			foreach ($triggers as $trigger) {
 				if (array_key_exists($trigger['triggerid'], $triggerids_with_problems)) {
@@ -162,7 +165,7 @@ abstract class CControllerBGAvailReport extends CController {
 
                         // Reset all previously selected triggers to only ones with problems
                         unset($triggers);
-			print_r($triggers_with_problems);
+			print_r($triggersEventCount);
 			$triggers = $triggers_with_problems;
 		}
 
