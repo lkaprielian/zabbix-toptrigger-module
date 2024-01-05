@@ -43,7 +43,7 @@ foreach ($triggers as $trigger) {
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
 		$trigger['tags'],
 		// $triggersEventCount[$triggerId]
-		$trigger
+		$trigger['cnt_event']
 	]);
 }
 
