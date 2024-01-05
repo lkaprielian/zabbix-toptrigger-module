@@ -188,7 +188,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
 
-		$data['triggers'] = API::Trigger()->get([
+		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
 			'triggerids' => array_keys($triggersEventCount),
@@ -198,14 +198,14 @@ abstract class CControllerBGAvailReport extends CController {
 
 		$trigger_hostids = [];
 
-		foreach ($data['triggers'] as $triggerId => $trigger) {
+		foreach ($triggers as $triggerId => $trigger) {
 			$hostId = $trigger['hosts'][0]['hostid'];
 			$trigger_hostids[$hostId] = $hostId;
 
-			$data['triggers'][$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
 
-		CArrayHelper::sort($data['triggers'], [
+		CArrayHelper::sort($triggers, [
 			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
 			'host', 'description', 'priority'
 		]);
