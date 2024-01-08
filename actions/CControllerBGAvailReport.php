@@ -124,10 +124,10 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
 
-		CArrayHelper::sort($triggers, [
-			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-			'host', 'description', 'priority'
-		]);
+		// CArrayHelper::sort($triggers, [
+		// 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+		// 	'host', 'description', 'priority'
+		// ]);
 
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
