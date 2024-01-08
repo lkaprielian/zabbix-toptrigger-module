@@ -64,6 +64,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
 		
+		print_r($triggersEventCount);	
 
 
 		// All CONFIGURED triggers that fall under selected filter
@@ -92,14 +93,14 @@ abstract class CControllerBGAvailReport extends CController {
 			'monitored' => true,
 			'groupids' => $host_group_ids,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
-			'triggerids' => array_keys($triggersEventCount),
+			// 'triggerids' => array_keys($triggersEventCount),
 			'filter' => [
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
                         'limit' => $limit
         ]);
 
-		print_r($triggers);
+		// print_r($triggers);
 
 		
 
