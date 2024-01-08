@@ -44,6 +44,25 @@ abstract class CControllerBGAvailReport extends CController {
 			$limit = 5001;
 		}
 
+		$triggersEventCount = [];
+
+		// get 100 triggerids with max event count
+		$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
+				' FROM triggers t,events e'.
+				' WHERE t.triggerid=e.objectid'.
+					' AND e.source='.EVENT_SOURCE_TRIGGERS.
+					' AND e.clock>='.zbx_dbstr($filter['from_ts']).
+					' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+		
+		$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
+				' GROUP BY e.objectid'.
+				' ORDER BY cnt_event DESC';
+		$result = DBselect($sql, 100);
+		while ($row = DBfetch($result)) {
+			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
+		}
+		
+
 
 		// All CONFIGURED triggers that fall under selected filter
 		$num_of_triggers = API::Trigger()->get([
@@ -71,11 +90,21 @@ abstract class CControllerBGAvailReport extends CController {
 			'monitored' => true,
 			'groupids' => $host_group_ids,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
+			'triggerids' => array_keys($triggersEventCount),
 			'filter' => [
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
                         'limit' => $limit
                 ]);
+
+		// $trigger_hostids = [];
+
+		foreach ($triggers as $triggerId => $trigger) {
+			$hostId = $trigger['hosts'][0]['hostid'];
+			$trigger_hostids[$hostId] = $hostId;
+
+			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+		}
 
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
@@ -152,27 +181,9 @@ abstract class CControllerBGAvailReport extends CController {
 					}
 				}
 
-				$triggersEventCount = [];
-
-				// get 100 triggerids with max event count
-				$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
-						' FROM triggers t,events e'.
-						' WHERE t.triggerid=e.objectid'.
-							' AND e.source='.EVENT_SOURCE_TRIGGERS.
-							' AND e.clock>='.zbx_dbstr($filter['from_ts']).
-							' AND e.clock<='.zbx_dbstr($filter['to_ts']);
-				
-				$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
-						' GROUP BY e.objectid'.
-						' ORDER BY cnt_event DESC';
-				$result = DBselect($sql, 100);
-				while ($row = DBfetch($result)) {
-					$triggersEventCount[$row['objectid']] = $row['cnt_event'];
-				}
-				
 			}
 
-			// ############### I added here but in comented mode
+			// ############### I added here but in commented mode
 			// // data generation
 			// $triggersEventCount = [];
 
