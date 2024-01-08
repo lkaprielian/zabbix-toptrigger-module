@@ -114,7 +114,7 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($triggers as $triggerId => $trigger) {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
-		
+
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
 			// at any time in given time frame
@@ -182,7 +182,7 @@ abstract class CControllerBGAvailReport extends CController {
 
 
 			$triggers_with_problems = [];
-			foreach ($triggers as $triggerId => $trigger) {
+			foreach ($triggers as $trigger) {
 				if (array_key_exists($trigger['triggerid'], $triggerids_with_problems)) {
 					$trigger['tags'] = $triggerids_with_problems[$trigger['triggerid']]['tags'];
 					$triggers_with_problems[] = $trigger;
