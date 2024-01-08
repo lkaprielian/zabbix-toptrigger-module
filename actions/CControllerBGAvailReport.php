@@ -78,19 +78,6 @@ abstract class CControllerBGAvailReport extends CController {
                         'limit' => $limit
         ]);
 
-		// print_r($triggers);
-
-		
-
-		// $trigger_hostids = [];
-
-		// foreach ($triggers as $triggerId => $trigger) {
-		// 	$hostId = $trigger['hosts'][0]['hostid'];
-		// 	$trigger_hostids[$hostId] = $hostId;
-
-		// 	$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
-		// }
-
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
 			$range_time_parser = new CRangeTimeParser();
@@ -132,19 +119,15 @@ abstract class CControllerBGAvailReport extends CController {
 			'preservekeys' => true
 		]);
 
-		$trigger_hostids = [];
 
 		foreach ($triggers as $triggerId => $trigger) {
-			$hostId = $trigger['hosts'][0]['hostid'];
-			$trigger_hostids[$hostId] = $hostId;
-
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
 
-		CArrayHelper::sort($triggers, [
-			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-			'host', 'description', 'priority'
-		]);
+		// CArrayHelper::sort($triggers, [
+		// 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+		// 	'host', 'description', 'priority'
+		// ]);
 
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
