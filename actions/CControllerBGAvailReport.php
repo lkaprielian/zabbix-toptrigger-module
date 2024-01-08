@@ -122,8 +122,8 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
 		
-		print($triggersEventCount);	
-		
+		print_r($triggersEventCount);	
+
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
 			// at any time in given time frame
