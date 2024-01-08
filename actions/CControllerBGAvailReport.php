@@ -45,28 +45,6 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 
 
-		####
-		$triggersEventCount = [];
-
-		// get 100 triggerids with max event count
-		$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
-				' FROM triggers t,events e'.
-				' WHERE t.triggerid=e.objectid'.
-					' AND e.source='.EVENT_SOURCE_TRIGGERS.
-					' AND e.clock>='.zbx_dbstr($filter['from_ts']).
-					' AND e.clock<='.zbx_dbstr($filter['to_ts']);
-		
-		$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
-				' GROUP BY e.objectid'.
-				' ORDER BY cnt_event DESC';
-		$result = DBselect($sql, 100);
-		while ($row = DBfetch($result)) {
-			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
-		}
-		
-		print_r($triggersEventCount);	
-
-
 		// All CONFIGURED triggers that fall under selected filter
 		$num_of_triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value'],
@@ -125,6 +103,27 @@ abstract class CControllerBGAvailReport extends CController {
 			$filter['to_ts'] = null;
 		}
 
+		####
+		$triggersEventCount = [];
+
+		// get 100 triggerids with max event count
+		$sql = 'SELECT e.objectid,count(distinct e.eventid) AS cnt_event'.
+				' FROM triggers t,events e'.
+				' WHERE t.triggerid=e.objectid'.
+					' AND e.source='.EVENT_SOURCE_TRIGGERS.
+					' AND e.clock>='.zbx_dbstr($filter['from_ts']).
+					' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+		
+		$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
+				' GROUP BY e.objectid'.
+				' ORDER BY cnt_event DESC';
+		$result = DBselect($sql, 100);
+		while ($row = DBfetch($result)) {
+			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
+		}
+		
+		print($triggersEventCount);	
+		
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
 			// at any time in given time frame
