@@ -44,6 +44,8 @@ abstract class CControllerBGAvailReport extends CController {
 			$limit = 5001;
 		}
 
+
+		####
 		$triggersEventCount = [];
 
 		// get 100 triggerids with max event count
@@ -97,7 +99,7 @@ abstract class CControllerBGAvailReport extends CController {
                         'limit' => $limit
                 ]);
 
-		// $trigger_hostids = [];
+		$trigger_hostids = [];
 
 		foreach ($triggers as $triggerId => $trigger) {
 			$hostId = $trigger['hosts'][0]['hostid'];
