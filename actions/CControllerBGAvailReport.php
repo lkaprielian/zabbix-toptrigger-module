@@ -124,6 +124,15 @@ abstract class CControllerBGAvailReport extends CController {
 		
 		// print_r($triggersEventCount);	
 
+		$triggers = API::Trigger()->get([
+			'output' => ['triggerid', 'description', 'expression', 'priority', 'lastchange'],
+			'selectHosts' => ['hostid', 'status', 'name'],
+			'triggerids' => array_keys($triggersEventCount),
+			'expandDescription' => true,
+			'preservekeys' => true
+		]);
+
+
 		if ($filter['only_with_problems']) {
 			// Find all triggers that went into PROBLEM state
 			// at any time in given time frame
