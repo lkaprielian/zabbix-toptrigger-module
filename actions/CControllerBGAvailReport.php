@@ -246,7 +246,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggers_with_problems = [];
 			foreach ($triggers as $trigger) {
 				if (array_key_exists($trigger['triggerid'], $triggerids_with_problems)) {
-					$trigger['triggerid']['cnt_event'] = $triggersEventCount['triggerid'];
+					$trigger['cnt_event'] = $triggersEventCount['triggerid'];
 					$trigger['tags'] = $triggerids_with_problems[$trigger['triggerid']]['tags'];
 					$triggers_with_problems[] = $trigger;
 				}
