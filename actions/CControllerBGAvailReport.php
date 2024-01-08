@@ -97,16 +97,20 @@ abstract class CControllerBGAvailReport extends CController {
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
                         'limit' => $limit
-                ]);
+        ]);
 
-		$trigger_hostids = [];
+		print_r($triggers);
 
-		foreach ($triggers as $triggerId => $trigger) {
-			$hostId = $trigger['hosts'][0]['hostid'];
-			$trigger_hostids[$hostId] = $hostId;
+		
 
-			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
-		}
+		// $trigger_hostids = [];
+
+		// foreach ($triggers as $triggerId => $trigger) {
+		// 	$hostId = $trigger['hosts'][0]['hostid'];
+		// 	$trigger_hostids[$hostId] = $hostId;
+
+		// 	$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
+		// }
 
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
