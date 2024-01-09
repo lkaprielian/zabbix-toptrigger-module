@@ -59,8 +59,13 @@ foreach ($triggers as $trigger) {
 	// 	$hostName->addClass(ZBX_STYLE_RED);
 	// }
 
+	$triggerDescription = (new CLinkAction($trigger['description']))
+		->setMenuPopup(CMenuPopupHelper::getTrigger([
+			'triggerid' => $trigger['triggerid'],
+			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
+	]));
 
-	print_r($trigger['description']);
+
 	$table->addRow([
 		$hostName,
 		// $allowed_ui_problems
@@ -71,14 +76,7 @@ foreach ($triggers as $trigger) {
 		// 			->setArgument('triggerids', [$trigger['triggerid']])
 		// 	)
 		// 	: $trigger['description'],
-		$allowed_ui_problems
-			? (new CLinkAction($trigger['description']))
-				->setMenuPopup(CMenuPopupHelper::getTrigger([
-					'triggerid' => $trigger['triggerid'],
-					'backurl' => (new CUrl('toptriggers.php'))->getUrl()
-			]))
-			: $trigger['description'],
-
+		$allowed_ui_problems ? $triggerDescription : $trigger['description'],
 		// $triggerDescription,
 		($trigger['availability']['true'] < 0.00005)
 			? ''
