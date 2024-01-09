@@ -10,6 +10,7 @@ $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), 
 
 foreach ($data['triggers'] as $trigger) {
 	$hostId = $trigger['hosts'][0]['hostid'];
+	$triggerId = $trigger['triggerid'];
 
 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
 	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
@@ -18,7 +19,7 @@ foreach ($data['triggers'] as $trigger) {
 	// print($hostName);
 
 	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+		->setMenuPopup(CMenuPopupHelper::getTrigger($triggerId));
 
 	$table->addRow([
 		$hostName,
