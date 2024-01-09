@@ -9,7 +9,8 @@ $view_url = $data['view_curl']->getUrl();
 $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
 
 foreach ($data['triggers'] as $trigger) {
-// 	$hostId = $trigger['hosts'][0]['hostid'];
+	$hostId = $trigger['hosts'][0]['hostid'];
+	print($hostId);
 
 // 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
 // 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
