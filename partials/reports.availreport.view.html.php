@@ -25,23 +25,23 @@ foreach ($triggers as &$trigger) {
 }
 unset($trigger);
 
-foreach ($triggers as $trigger) {
-	$hostId = $trigger['hosts'][0]['hostid'];
+// foreach ($triggers as $trigger) {
+// 	$hostId = $trigger['hosts'][0]['hostid'];
 
-	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
-}
-unset($trigger);
+// 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+// 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+// 		$hostName->addClass(ZBX_STYLE_RED);
+// 	}
+// 	$triggerDescription = (new CLinkAction($trigger['description']))
+// 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+// }
+// unset($trigger);
 
 
 
 foreach ($triggers as $trigger) {
 	$table->addRow([
-		// $trigger['host_name'],
+		$trigger['host_name'],
 		$hostName,
 		// $allowed_ui_problems
 		// 	? new CLink($trigger['description'],
@@ -51,7 +51,8 @@ foreach ($triggers as $trigger) {
 		// 			->setArgument('triggerids', [$trigger['triggerid']])
 		// 	)
 		// 	: $trigger['description'],
-		$triggerDescription,
+		$triggerDescription = (new CLinkAction($trigger['description']))
+			->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0)),
 		($trigger['availability']['true'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
