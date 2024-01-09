@@ -2,35 +2,35 @@
 
 $form = (new CForm())->setName('availreport_view');
 
-// $table = (new CTableInfo());
+$table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
-// table
-$table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
+// // table
+// $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
 
-foreach ($data['triggers'] as $trigger) {
-	$hostId = $trigger['hosts'][0]['hostid'];
-	$triggerId = $trigger['triggerid'];
+// foreach ($data['triggers'] as $trigger) {
+// 	$hostId = $trigger['hosts'][0]['hostid'];
+// 	$triggerId = $trigger['triggerid'];
 
-	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
-	print($triggerId);
+// 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+// 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+// 		$hostName->addClass(ZBX_STYLE_RED);
+// 	}
+// 	print($triggerId);
 
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger([
-			'triggerid' => $trigger['triggerid'],
-			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
-	]));
+// 	$triggerDescription = (new CLinkAction($trigger['description']))
+// 		->setMenuPopup(CMenuPopupHelper::getTrigger([
+// 			'triggerid' => $trigger['triggerid'],
+// 			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
+// 	]));
 
-	$table->addRow([
-		$hostName,
-		$triggerDescription,
-		// getSeverityCell($trigger['priority'], $data['config']),
-		$trigger['cnt_event']
-	]);
-}
+// 	$table->addRow([
+// 		$hostName,
+// 		$triggerDescription,
+// 		// getSeverityCell($trigger['priority'], $data['config']),
+// 		$trigger['cnt_event']
+// 	]);
+// }
 // $table->setHeader([
 // 	(new CColHeader(_('Host'))),
 // 	(new CColHeader(_('Trigger'))),
@@ -41,67 +41,55 @@ foreach ($data['triggers'] as $trigger) {
 // 	(new CColHeader(_('Number of status changes')))
 // ]);
 
-// $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
-// $triggers = $data['triggers'];
+$allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
+$triggers = $data['triggers'];
 
-// $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
-// foreach ($triggers as &$trigger) {
-// 	$trigger['tags'] = $tags[$trigger['triggerid']];
-// }
-// unset($trigger);
+$tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
+foreach ($triggers as &$trigger) {
+	$trigger['tags'] = $tags[$trigger['triggerid']];
+}
+unset($trigger);
 
-// foreach ($triggers as $trigger) {
-// 	$hostId = $trigger['hosts'][0]['hostid'];
+foreach ($triggers as $trigger) {
 
-// 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-// 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-// 		$hostName->addClass(ZBX_STYLE_RED);
-// 	}
-// 	$triggerDescription = (new CLinkAction($trigger['description']))
-// 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
-// }
-// unset($trigger);
+	$hostId = $trigger['hosts'][0]['hostid'];
+
+	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+	// 	$hostName->addClass(ZBX_STYLE_RED);
+	// }
 
 
+	print_r($trigger['description']);
+	$table->addRow([
+		$hostName,
+		// $allowed_ui_problems
+		// 	? new CLink($trigger['description'],
+		// 		(new CUrl('zabbix.php'))
+		// 			->setArgument('action', 'problem.view')
+		// 			->setArgument('filter_name', '')
+		// 			->setArgument('triggerids', [$trigger['triggerid']])
+		// 	)
+		// 	: $trigger['description'],
+		$allowed_ui_problems
+			? (new CLinkAction($trigger['description']))
+				->setMenuPopup(CMenuPopupHelper::getTrigger([
+					'triggerid' => $trigger['triggerid'],
+					'backurl' => (new CUrl('toptriggers.php'))->getUrl()
+			]))
+			: $trigger['description'],
 
-// foreach ($triggers as $trigger) {
-
-// 	// $hostId = $trigger['hosts'][0]['hostid'];
-
-// 	// $hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-// 	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-// 	// 	$hostName->addClass(ZBX_STYLE_RED);
-// 	// }
-
-// 	// $triggerDescription = (new CLinkAction($trigger['description']))
-// 	// 	->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
-// 	print_r($trigger['description']);
-// 	$table->addRow([
-// 		$trigger['host_name'],
-// 		// $hostName,
-// 		// $allowed_ui_problems
-// 		// 	? new CLink($trigger['description'],
-// 		// 		(new CUrl('zabbix.php'))
-// 		// 			->setArgument('action', 'problem.view')
-// 		// 			->setArgument('filter_name', '')
-// 		// 			->setArgument('triggerids', [$trigger['triggerid']])
-// 		// 	)
-// 		// 	: $trigger['description'],
-
-// 		$triggerDescription = (new CLinkAction($trigger['description']))->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0)),
-
-// 		// $triggerDescription,
-// 		($trigger['availability']['true'] < 0.00005)
-// 			? ''
-// 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
-// 		($trigger['availability']['false'] < 0.00005)
-// 			? ''
-// 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-// 		// $trigger['tags'],
-// 		// $triggersEventCount[$triggerId]
-// 		$trigger['cnt_event']
-// 	]);
-// }
+		// $triggerDescription,
+		($trigger['availability']['true'] < 0.00005)
+			? ''
+			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
+		($trigger['availability']['false'] < 0.00005)
+			? ''
+			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
+		// $trigger['tags'],
+		$trigger['cnt_event']
+	]);
+}
 
 $form->addItem([$table,	$data['paging']]);
 
