@@ -43,12 +43,18 @@ foreach ($triggers as $trigger) {
 	$table->addRow([
 		$trigger['host_name'],
 		// $hostName,
+		// $allowed_ui_problems
+		// 	? new CLink($trigger['description'],
+		// 		(new CUrl('zabbix.php'))
+		// 			->setArgument('action', 'problem.view')
+		// 			->setArgument('filter_name', '')
+		// 			->setArgument('triggerids', [$trigger['triggerid']])
+		// 	)
+		// 	: $trigger['description'],
 		$allowed_ui_problems
 			? new CLink($trigger['description'],
-				(new CUrl('zabbix.php'))
-					->setArgument('action', 'problem.view')
-					->setArgument('filter_name', '')
-					->setArgument('triggerids', [$trigger['triggerid']])
+				(new CLinkAction($trigger['description']))
+					->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
 			)
 			: $trigger['description'],
 		// $triggerDescription = (new CLinkAction($trigger['description']))
