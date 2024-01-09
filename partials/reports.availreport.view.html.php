@@ -17,12 +17,12 @@ foreach ($data['triggers'] as $trigger) {
 	// }
 	// print($hostName);
 
-// 	$triggerDescription = (new CLinkAction($trigger['description']))
-// 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+	$triggerDescription = (new CLinkAction($trigger['description']))
+		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 
 	$table->addRow([
 		$hostName,
-		// $triggerDescription,
+		$triggerDescription,
 		// getSeverityCell($trigger['priority'], $data['config']),
 		$trigger['cnt_event']
 	]);
