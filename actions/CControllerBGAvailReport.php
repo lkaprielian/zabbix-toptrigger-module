@@ -228,6 +228,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$i++;
 		}
 
+		print_r($selected_triggers);
 		if (!$generating_csv_flag) {
 			// Not exporting data to CSV, just showing the data
 			// Split result array and create paging. Only if not generating CSV.
