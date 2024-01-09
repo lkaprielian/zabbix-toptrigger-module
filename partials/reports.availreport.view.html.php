@@ -18,8 +18,8 @@ foreach ($data['triggers'] as $trigger) {
 	// }
 	// print($hostName);
 
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($triggerId));
+	$triggerDescription = (new CLinkAction($trigger['description']));
+		// ->setMenuPopup(CMenuPopupHelper::getTrigger($triggerId));
 
 	$table->addRow([
 		$hostName,
