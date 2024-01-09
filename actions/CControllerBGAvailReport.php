@@ -97,7 +97,7 @@ abstract class CControllerBGAvailReport extends CController {
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
-			'triggerids' => array_keys($triggersEventCount),
+			// 'triggerids' => array_keys($triggersEventCount),
 			'selectTags' => 'extend',
 			'selectFunctions' => 'extend',
 			'expandDescription' => true,
