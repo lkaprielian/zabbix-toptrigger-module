@@ -49,7 +49,7 @@ foreach ($triggers as $trigger) {
 	// }
 
 	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+		->setMenuPopup(CMenuPopupHelper::getTrigger('triggerids', [$trigger['triggerid']]));
 	
 	$table->addRow([
 		$trigger['host_name'],
