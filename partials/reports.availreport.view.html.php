@@ -5,41 +5,16 @@ $form = (new CForm())->setName('availreport_view');
 $table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
-// // table
-// $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
 
-// foreach ($data['triggers'] as $trigger) {
-// 	$hostId = $trigger['hosts'][0]['hostid'];
-// 	$triggerId = $trigger['triggerid'];
-
-// 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-// 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-// 		$hostName->addClass(ZBX_STYLE_RED);
-// 	}
-// 	print($triggerId);
-
-// 	$triggerDescription = (new CLinkAction($trigger['description']))
-// 		->setMenuPopup(CMenuPopupHelper::getTrigger([
-// 			'triggerid' => $trigger['triggerid'],
-// 			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
-// 	]));
-
-// 	$table->addRow([
-// 		$hostName,
-// 		$triggerDescription,
-// 		// getSeverityCell($trigger['priority'], $data['config']),
-// 		$trigger['cnt_event']
-// 	]);
-// }
-// $table->setHeader([
-// 	(new CColHeader(_('Host'))),
-// 	(new CColHeader(_('Trigger'))),
-// 	(new CColHeader(_('Problems'))),
-// 	(new CColHeader(_('Ok'))),
-// 	// (new CColHeader(_('Tags'))),
-// 	// make_sorting_header(_('Number of status changes'), 'name', $data['sort'], $data['sortorder'], $view_url),
-// 	(new CColHeader(_('Number of status changes')))
-// ]);
+$table->setHeader([
+	(new CColHeader(_('Host'))),
+	(new CColHeader(_('Trigger'))),
+	(new CColHeader(_('Problems'))),
+	(new CColHeader(_('Ok'))),
+	// (new CColHeader(_('Tags'))),
+	// make_sorting_header(_('Number of status changes'), 'name', $data['sort'], $data['sortorder'], $view_url),
+	(new CColHeader(_('Number of status changes')))
+]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
 $triggers = $data['triggers'];
