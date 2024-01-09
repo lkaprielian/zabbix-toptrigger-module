@@ -63,7 +63,7 @@ foreach ($triggers as $trigger) {
 		// 	)
 		// 	: $trigger['description'],
 
-		$triggerDescription = (new CLinkAction($trigger['description']))->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'])),
+		$triggerDescription = (new CLinkAction($trigger['description']))->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0)),
 
 		// $triggerDescription,
 		($trigger['availability']['true'] < 0.00005)
