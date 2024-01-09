@@ -48,22 +48,22 @@ foreach ($triggers as $trigger) {
 	// 	$hostName->addClass(ZBX_STYLE_RED);
 	// }
 
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger('triggerids', [$trigger['triggerid']]));
-	
+	// $triggerDescription = (new CLinkAction($trigger['description']))
+	// 	->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+	print_r($trigger['triggerid']);
 	$table->addRow([
 		$trigger['host_name'],
 		// $hostName,
-		// $allowed_ui_problems
-		// 	? new CLink($trigger['description'],
-		// 		(new CUrl('zabbix.php'))
-		// 			->setArgument('action', 'problem.view')
-		// 			->setArgument('filter_name', '')
-		// 			->setArgument('triggerids', [$trigger['triggerid']])
-		// 	)
-		// 	: $trigger['description'],
+		$allowed_ui_problems
+			? new CLink($trigger['description'],
+				(new CUrl('zabbix.php'))
+					->setArgument('action', 'problem.view')
+					->setArgument('filter_name', '')
+					->setArgument('triggerids', [$trigger['triggerid']])
+			)
+			: $trigger['description'],
 
-		$triggerDescription,
+		// $triggerDescription,
 		($trigger['availability']['true'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
