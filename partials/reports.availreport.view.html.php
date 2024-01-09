@@ -26,15 +26,30 @@ foreach ($triggers as &$trigger) {
 unset($trigger);
 
 foreach ($triggers as $trigger) {
+	$hostId = $trigger['hosts'][0]['hostid'];
+
+	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+		$hostName->addClass(ZBX_STYLE_RED);
+	}
+}
+unset($trigger);
+
+foreach ($triggers as $trigger) {
 	$table->addRow([
-		$trigger['host_name'],
+		// $trigger['host_name'],
+		$hostName,
+		// $allowed_ui_problems
+		// 	? new CLink($trigger['description'],
+		// 		(new CUrl('zabbix.php'))
+		// 			->setArgument('action', 'problem.view')
+		// 			->setArgument('filter_name', '')
+		// 			->setArgument('triggerids', [$trigger['triggerid']])
+		// 	)
+		// 	: $trigger['description'],
 		$allowed_ui_problems
-			? new CLink($trigger['description'],
-				(new CUrl('zabbix.php'))
-					->setArgument('action', 'problem.view')
-					->setArgument('filter_name', '')
-					->setArgument('triggerids', [$trigger['triggerid']])
-			)
+			? (new CLinkAction($trigger['description']))
+			->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
 			: $trigger['description'],
 		($trigger['availability']['true'] < 0.00005)
 			? ''
