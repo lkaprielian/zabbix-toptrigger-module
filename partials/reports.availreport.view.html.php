@@ -12,7 +12,7 @@ foreach ($data['triggers'] as $trigger) {
 	$hostId = $trigger['hosts'][0]['hostid'];
 
 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+	if ($data[$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
 		$hostName->addClass(ZBX_STYLE_RED);
 	}
 	print($hostName);
