@@ -8,7 +8,7 @@ $view_url = $data['view_curl']->getUrl();
 // table
 $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
 
-// foreach ($data['triggers'] as $trigger) {
+foreach ($data['triggers'] as $trigger) {
 // 	$hostId = $trigger['hosts'][0]['hostid'];
 
 // 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
@@ -25,7 +25,7 @@ $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), 
 // 		getSeverityCell($trigger['priority'], $data['config']),
 // 		$trigger['cnt_event']
 // 	]);
-// }
+}
 // $table->setHeader([
 // 	(new CColHeader(_('Host'))),
 // 	(new CColHeader(_('Trigger'))),
