@@ -8,24 +8,24 @@ $view_url = $data['view_curl']->getUrl();
 // table
 $table = (new CTableInfo())->setHeader([_('Host'), _('Trigger'), _('Severity'), _('Number of status changes')]);
 
-foreach ($data['triggers'] as $trigger) {
-	$hostId = $trigger['hosts'][0]['hostid'];
+// foreach ($data['triggers'] as $trigger) {
+// 	$hostId = $trigger['hosts'][0]['hostid'];
 
-	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
+// 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+// 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+// 		$hostName->addClass(ZBX_STYLE_RED);
+// 	}
 
-	$triggerDescription = (new CLinkAction($trigger['description']))
-		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
+// 	$triggerDescription = (new CLinkAction($trigger['description']))
+// 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 
-	$table->addRow([
-		$hostName,
-		$triggerDescription,
-		getSeverityCell($trigger['priority'], $data['config']),
-		$trigger['cnt_event']
-	]);
-}
+// 	$table->addRow([
+// 		$hostName,
+// 		$triggerDescription,
+// 		getSeverityCell($trigger['priority'], $data['config']),
+// 		$trigger['cnt_event']
+// 	]);
+// }
 // $table->setHeader([
 // 	(new CColHeader(_('Host'))),
 // 	(new CColHeader(_('Trigger'))),
