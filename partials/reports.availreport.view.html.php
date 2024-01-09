@@ -42,7 +42,7 @@ unset($trigger);
 foreach ($triggers as $trigger) {
 	$table->addRow([
 		$trigger['host_name'],
-		$hostName,
+		// $hostName,
 		// $allowed_ui_problems
 		// 	? new CLink($trigger['description'],
 		// 		(new CUrl('zabbix.php'))
