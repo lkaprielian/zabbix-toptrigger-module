@@ -12,20 +12,20 @@ foreach ($data['triggers'] as $trigger) {
 	$hostId = $trigger['hosts'][0]['hostid'];
 
 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['items'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
+	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+	// 	$hostName->addClass(ZBX_STYLE_RED);
+	// }
 	print($hostName);
 
 // 	$triggerDescription = (new CLinkAction($trigger['description']))
 // 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 
-// 	$table->addRow([
-// 		$hostName,
-// 		$triggerDescription,
-// 		getSeverityCell($trigger['priority'], $data['config']),
-// 		$trigger['cnt_event']
-// 	]);
+	$table->addRow([
+		$hostName,
+		// $triggerDescription,
+		// getSeverityCell($trigger['priority'], $data['config']),
+		$trigger['cnt_event']
+	]);
 }
 // $table->setHeader([
 // 	(new CColHeader(_('Host'))),
