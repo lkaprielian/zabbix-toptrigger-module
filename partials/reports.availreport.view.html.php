@@ -13,9 +13,9 @@ foreach ($data['triggers'] as $trigger) {
 	$triggerId = $trigger['triggerid'];
 
 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-	// 	$hostName->addClass(ZBX_STYLE_RED);
-	// }
+	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+		$hostName->addClass(ZBX_STYLE_RED);
+	}
 	print($triggerId);
 
 	$triggerDescription = (new CLinkAction($trigger['description']))
@@ -23,7 +23,7 @@ foreach ($data['triggers'] as $trigger) {
 			'triggerid' => $trigger['triggerid'],
 			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
 	]));
-	
+
 	$table->addRow([
 		$hostName,
 		$triggerDescription,
