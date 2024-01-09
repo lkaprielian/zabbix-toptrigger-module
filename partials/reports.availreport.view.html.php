@@ -43,16 +43,16 @@ foreach ($triggers as $trigger) {
 	$table->addRow([
 		$trigger['host_name'],
 		// $hostName,
-		// $allowed_ui_problems
-		// 	? new CLink($trigger['description'],
-		// 		(new CUrl('zabbix.php'))
-		// 			->setArgument('action', 'problem.view')
-		// 			->setArgument('filter_name', '')
-		// 			->setArgument('triggerids', [$trigger['triggerid']])
-		// 	)
-		// 	: $trigger['description'],
-		$triggerDescription = (new CLinkAction($trigger['description']))
-			->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0)),
+		$allowed_ui_problems
+			? new CLink($trigger['description'],
+				(new CUrl('zabbix.php'))
+					->setArgument('action', 'problem.view')
+					->setArgument('filter_name', '')
+					->setArgument('triggerids', [$trigger['triggerid']])
+			)
+			: $trigger['description'],
+		// $triggerDescription = (new CLinkAction($trigger['description']))
+		// 	->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0)),
 		($trigger['availability']['true'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
