@@ -32,8 +32,12 @@ foreach ($triggers as $trigger) {
 	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
 		$hostName->addClass(ZBX_STYLE_RED);
 	}
+	$triggerDescription = (new CLinkAction($trigger['description']))
+		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 }
 unset($trigger);
+
+
 
 foreach ($triggers as $trigger) {
 	$table->addRow([
@@ -47,10 +51,7 @@ foreach ($triggers as $trigger) {
 		// 			->setArgument('triggerids', [$trigger['triggerid']])
 		// 	)
 		// 	: $trigger['description'],
-		$allowed_ui_problems
-			? (new CLinkAction($trigger['description']))
-			->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
-			: $trigger['description'],
+		$triggerDescription,
 		($trigger['availability']['true'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['true'])))->addClass(ZBX_STYLE_RED),
