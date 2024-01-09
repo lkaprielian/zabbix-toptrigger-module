@@ -15,7 +15,7 @@ foreach ($data['triggers'] as $trigger) {
 	if ($data[$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
 		$hostName->addClass(ZBX_STYLE_RED);
 	}
-	print($hostName);
+	print_r($hostName);
 
 // 	$triggerDescription = (new CLinkAction($trigger['description']))
 // 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
