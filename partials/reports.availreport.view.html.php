@@ -52,9 +52,8 @@ foreach ($triggers as $trigger) {
 		// 	)
 		// 	: $trigger['description'],
 		$allowed_ui_problems
-			? new CLink($trigger['description'],
-				(new CLinkAction($trigger['description']))
-					->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
+			? new CLinkAction($trigger['description']
+				->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
 			)
 			: $trigger['description'],
 		// $triggerDescription = (new CLinkAction($trigger['description']))
