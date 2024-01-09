@@ -57,10 +57,18 @@ foreach ($triggers as $trigger) {
 		$allowed_ui_problems
 			? new CLink($trigger['description'],
 				(new CUrl('zabbix.php'))
-					// ->setArgument('action', 'problem.view')
-					// ->setArgument('filter_name', '')
-					// ->setArgument('triggerids', [$trigger['triggerid']])
-					->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0))
+					->setArgument('action', 'problem.view')
+					->setArgument('filter_name', '')
+					->setArgument('triggerids', [$trigger['triggerid']])
+			)
+			: $trigger['description'],
+
+			$allowed_ui_problems
+			? new CLinkAction($trigger['description'],
+				(new CUrl('zabbix.php'))
+					->setArgument('action', 'problem.view')
+					->setArgument('filter_name', '')
+					->setArgument('triggerids', [$trigger['triggerid']])
 			)
 			: $trigger['description'],
 
