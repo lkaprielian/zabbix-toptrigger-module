@@ -41,19 +41,19 @@ unset($trigger);
 
 foreach ($triggers as $trigger) {
 
-	$hostId = $trigger['hosts'][0]['hostid'];
+	// $hostId = $trigger['hosts'][0]['hostid'];
 
-	$hostName = (new CLinkAction($trigger['host_name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
+	// $hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+	// if ($data['hosts'][$hostId]['status'] == HOST_STATUS_NOT_MONITORED) {
+	// 	$hostName->addClass(ZBX_STYLE_RED);
+	// }
 
 	$triggerDescription = (new CLinkAction($trigger['description']))
 		->setMenuPopup(CMenuPopupHelper::getTrigger($trigger['triggerid'], 0));
 	
 	$table->addRow([
-		// $trigger['host_name'],
-		$hostName,
+		$trigger['host_name'],
+		// $hostName,
 		// $allowed_ui_problems
 		// 	? new CLink($trigger['description'],
 		// 		(new CUrl('zabbix.php'))
