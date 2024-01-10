@@ -5,10 +5,13 @@ $form = (new CForm())->setName('availreport_view');
 $table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
-CArrayHelper::sort($triggers, [
-	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-	'host', 'description', 'priority'
-]);
+
+// CArrayHelper::sort($triggers, [
+// 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+// 	'host', 'description', 'priority'
+// ]);
+
+
 $table->setHeader([
 	(new CColHeader(_('Host'))),
 	(new CColHeader(_('Trigger'))),
