@@ -12,7 +12,7 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	// make_sorting_header(_('Number of status changes'), 'name', $data['sort'], $data['sortorder'], $view_url),
+	make_sorting_header(_('Number of status changes'), 'name', $data['sort'], $view_url),
 	(new CColHeader(_('Number of status changes')))
 ]);
 
