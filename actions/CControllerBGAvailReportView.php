@@ -30,7 +30,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'counter_index' =>		'ge 0',
 			'from' =>			'range_time',
 			'to' =>				'range_time',
-			'sort' =>			'in name,status',
+			'sort' =>			'in name,status,cnt_event',
 			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
 		];
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
