@@ -100,13 +100,13 @@ $filter_column = (new CFormList())
 		]))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('hostids_#{uniqid}')
-	)
-	->addRow(_('Show only hosts with problems'),
-		(new CCheckBox('only_with_problems'))
-			->setChecked($data['only_with_problems'] == 1)
-			->setUncheckedValue(0)
-			->setId('only_with_problems_#{uniqid}')
-		);
+				);
+	// ->addRow(_('Show only hosts with problems'),
+	// 	(new CCheckBox('only_with_problems'))
+	// 		->setChecked($data['only_with_problems'] == 1)
+	// 		->setUncheckedValue(0)
+	// 		->setId('only_with_problems_#{uniqid}')
+	// 	);
 
 $template = (new CDiv())
 	->addClass(ZBX_STYLE_TABLE)
@@ -261,10 +261,10 @@ if (array_key_exists('render_html', $data)) {
 			}
 		});
 
-		let only_with_problems_checkbox = $('[name="only_with_problems"]');
-		if (only_with_problems_checkbox.attr('unchecked-value') === data['only_with_problems']) {
-			only_with_problems_checkbox.removeAttr('checked');
-		}
+		// let only_with_problems_checkbox = $('[name="only_with_problems"]');
+		// if (only_with_problems_checkbox.attr('unchecked-value') === data['only_with_problems']) {
+		// 	only_with_problems_checkbox.removeAttr('checked');
+		// }
 
 		// Initialize src_url.
 		this.resetUnsavedState();
