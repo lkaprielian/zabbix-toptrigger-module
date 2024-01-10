@@ -15,7 +15,7 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	make_sorting_header(_('Number of status changes')),
+	// make_sorting_header(_('Number of status changes')),
 	(new CColHeader(_('Number of status changes')))
 ]);
 
