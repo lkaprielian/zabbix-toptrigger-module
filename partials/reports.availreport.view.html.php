@@ -9,7 +9,7 @@ $view_url = $data['view_curl']->getUrl();
 // 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
 // 	'host', 'description', 'priority'
 // ]);
-$triggers = $data['triggers'];
+// $triggers = $data['triggers'];
 
 $triggers['sortorder'] == 'ASC' ? ksort($host_groups_to_show) : krsort($host_groups_to_show);
 $table->setHeader([
