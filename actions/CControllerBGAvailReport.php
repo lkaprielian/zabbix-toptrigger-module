@@ -109,7 +109,7 @@ abstract class CControllerBGAvailReport extends CController {
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
             'limit' => $limit,
-			'sortfield' => 'hostname'
+			'sortfield' => 'priority'
         ]);
 
 		foreach ($triggers as $triggerId => $trigger) {
@@ -249,7 +249,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
 		}
 		unset($trigger);
-		
+
 		// if (!$filter['only_with_problems']) {
 		foreach($selected_triggers as &$trigger) {
 			// Add host tags
