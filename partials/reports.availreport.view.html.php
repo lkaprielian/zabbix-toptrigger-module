@@ -6,7 +6,7 @@ $table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
 
-print($data);
+print_r($data);
 
 $table->setHeader([
 	(new CColHeader(_('Host'))),
