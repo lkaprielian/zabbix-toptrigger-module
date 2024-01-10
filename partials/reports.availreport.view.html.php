@@ -18,7 +18,7 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	make_sorting_header(_('Number of status changes'), 'cnt_event', $triggers['cnt_event'], 'ASC', $view_url),
+	make_sorting_header(_('Number of status changes'), 'cnt_event', 'cnt_event', 'ASC', $view_url),
 	(new CColHeader(_('Number of status changes')))
 ]);
 
