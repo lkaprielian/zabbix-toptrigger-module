@@ -108,8 +108,7 @@ abstract class CControllerBGAvailReport extends CController {
 			'filter' => [
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
-            'limit' => $limit,
-			'sortfield' => 'priority'
+            'limit' => $limit
         ]);
 
 		foreach ($triggers as $triggerId => $trigger) {
