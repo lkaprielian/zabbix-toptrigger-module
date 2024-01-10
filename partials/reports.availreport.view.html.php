@@ -17,7 +17,7 @@ $table->setHeader([
 	(new CColHeader(_('Trigger'))),
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
-	// (new CColHeader(_('Tags'))),
+	(new CColHeader(_('Tags'))),
 	// make_sorting_header(_('Number of status changes')),
 	(new CColHeader(_('Number of status changes')))
 ]);
@@ -65,7 +65,7 @@ foreach ($triggers as $trigger) {
 		($trigger['availability']['false'] < 0.00005)
 			? ''
 			: (new CSpan(sprintf('%.4f%%', $trigger['availability']['false'])))->addClass(ZBX_STYLE_GREEN),
-		// $trigger['tags'],
+		$trigger['tags'],
 		$trigger['cnt_event']
 	]);
 }
