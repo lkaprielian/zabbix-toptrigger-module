@@ -99,7 +99,7 @@ abstract class CControllerBGAvailReport extends CController {
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
-			'triggerids' => array_keys($triggersEventCount),
+			'triggerids' => array_keys($triggersEventCount), //added to get top 100 
 			'selectTags' => 'extend',
 			'selectFunctions' => 'extend',
 			'expandDescription' => true,
@@ -207,6 +207,7 @@ abstract class CControllerBGAvailReport extends CController {
 		// Now just prepare needed data.
 		// CArrayHelper::sort($triggers, ['host_name', 'description'], 'ASC');
 
+		// Now just prepare needed data. Modified to take 2 ways of sorts
 		$filter['sortorder'] == 'ASC' ? CArrayHelper::sort($triggers, [
 			['field' => 'cnt_event', 'order' => ZBX_SORT_UP],
 			'host', 'description', 'priority'
