@@ -29,7 +29,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'from' => '',
 		'to' => '',
 		'sort' => 'name',
-		'sortorder' => ZBX_SORT_UP
+		'sortorder' => ZBX_SORT_DOWN
 	];
 
 	protected function getData(array $filter): array {
