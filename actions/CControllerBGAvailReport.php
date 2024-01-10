@@ -195,13 +195,20 @@ abstract class CControllerBGAvailReport extends CController {
 		$triggers = $triggers_with_problems;
 
 		// } // end of if problems
+
 		// Now just prepare needed data.sorted by Number of status changes
 		// CArrayHelper::sort($triggers, [
 		// 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
 		// 	'host', 'description', 'priority'
 		// ]);
+		Now just prepare needed data.sorted by Number of status changes
+		CArrayHelper::sort($triggers, [
+			['field' => 'availability', 'order' => ZBX_SORT_DOWN],
+			'host', 'description', 'priority'
+		]);
+
 		// Now just prepare needed data.
-		CArrayHelper::sort($triggers, ['host_name', 'description', 'cnt_event'], 'ASC');
+		// CArrayHelper::sort($triggers, ['host_name', 'description'], 'ASC');
 
 		$view_curl = (new CUrl())->setArgument('action', 'availreport.view');
 
