@@ -248,8 +248,8 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($selected_triggers as &$trigger) {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
 		}
-		$filter['sortorder'] == 'ASC' ? ksort($trigger['host_name']) : krsort($trigger['host_name']);
 		unset($trigger);
+		
 		// if (!$filter['only_with_problems']) {
 		foreach($selected_triggers as &$trigger) {
 			// Add host tags
