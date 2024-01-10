@@ -5,12 +5,6 @@ $form = (new CForm())->setName('availreport_view');
 $table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
-$triggers = $data['triggers'];
-$sort = CArrayHelper::sort($triggers, [
-	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
-	'host', 'description', 'priority'
-]);
-
 
 $table->setHeader([
 	(new CColHeader(_('Host'))),
@@ -18,12 +12,12 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	make_sorting_header(_('Number of status changes'), $sort),
+	// make_sorting_header(_('Number of status changes'), $sort),
 	(new CColHeader(_('Number of status changes')))
 ]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
-// $triggers = $data['triggers'];
+$triggers = $data['triggers'];
 
 $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 foreach ($triggers as &$trigger) {
