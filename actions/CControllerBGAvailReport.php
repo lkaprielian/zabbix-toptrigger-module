@@ -302,7 +302,7 @@ abstract class CControllerBGAvailReport extends CController {
 
 		if ($filter['templateids']) {
 			$templates= API::Template()->get([
-				'output' => ['templateid', 'name'],
+				'output' => ['templateids', 'name'],
 				'templateids' => $filter['templateids']
 			]);
 			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
