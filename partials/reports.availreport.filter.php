@@ -56,8 +56,8 @@ $filter_column = (new CFormList())
 					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_',
-					'templateid' => '4'
+					'dstfld1' => 'tpl_triggerids_'
+					// 'templateid' => '4'
 				]
 			]
 		]))
