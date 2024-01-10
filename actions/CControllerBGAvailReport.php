@@ -248,8 +248,8 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($selected_triggers as &$trigger) {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
 		}
-		unset($trigger);
 		$filter['sortorder'] == 'ASC' ? ksort($trigger['host_name']) : krsort($trigger['host_name']);
+		unset($trigger);
 		// if (!$filter['only_with_problems']) {
 		foreach($selected_triggers as &$trigger) {
 			// Add host tags
@@ -379,39 +379,5 @@ abstract class CControllerBGAvailReport extends CController {
 			}
 		}
 		return $all_group_ids;
-	}
-	protected function array_sort($array, $on, $order='ASC')
-	{
-		$new_array = array();
-		$sortable_array = array();
-
-		if (count($array) > 0) {
-			foreach ($array as $k => $v) {
-				if (is_array($v)) {
-					foreach ($v as $k2 => $v2) {
-						if ($k2 == $on) {
-							$sortable_array[$k] = $v2;
-						}
-					}
-				} else {
-					$sortable_array[$k] = $v;
-				}
-			}
-
-			switch ($order) {
-				case 'ASC':
-					asort($sortable_array, SORT_STRING);
-					break;
-				case 'DESC':
-					arsort($sortable_array, SORT_STRING);
-					break;
-			}
-
-			foreach ($sortable_array as $k => $v) {
-				$new_array[$k] = $array[$k];
-			}
-		}
-
-		return $new_array;
 	}
 }
