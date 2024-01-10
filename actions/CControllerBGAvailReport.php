@@ -353,7 +353,16 @@ abstract class CControllerBGAvailReport extends CController {
 			]);
 			$data['hosts_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($hosts), ['hostid' => 'id']);
 		}
+		
+		if ($filter['sort']) {
+			$data['sort'] = $filter['sort'];
+		}
 
+		if ($filter['sortorder']) {
+			$data['sortorder'] = $filter['sortorder'];
+		}
+
+		return $data;
 	}
 
 	protected function getChildGroups($parent_group_ids): array {
