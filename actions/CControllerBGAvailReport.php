@@ -24,7 +24,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'tpl_triggerids' => [], 
 		'hostgroupids' => [],
 		'hostids' => [],
-		'only_with_problems' => 0, //change to 1 by default
+		'only_with_problems' => 1,
                 'page' => null,
 		'from' => '',
 		'to' => ''
