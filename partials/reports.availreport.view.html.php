@@ -11,7 +11,7 @@ $view_url = $data['view_curl']->getUrl();
 // ]);
 // $triggers = $data['triggers'];
 
-$triggers['sortorder'] == 'ASC' ? ksort($host_groups_to_show) : krsort($host_groups_to_show);
+// $triggers['sortorder'] == 'ASC' ? ksort($host_groups_to_show) : krsort($host_groups_to_show);
 $table->setHeader([
 	(new CColHeader(_('Host'))),
 	(new CColHeader(_('Trigger'))),
