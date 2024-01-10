@@ -201,7 +201,7 @@ abstract class CControllerBGAvailReport extends CController {
 		// 	'host', 'description', 'priority'
 		// ]);
 		// Now just prepare needed data.
-		CArrayHelper::sort($triggers, ['host_name', 'description'], 'ASC');
+		CArrayHelper::sort($triggers, ['host_name', 'description', 'cnt_event'], 'ASC');
 
 		$view_curl = (new CUrl())->setArgument('action', 'availreport.view');
 
