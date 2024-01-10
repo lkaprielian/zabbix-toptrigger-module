@@ -115,86 +115,86 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
 
-		// if ($filter['only_with_problems']) {
-		// Find all triggers that went into PROBLEM state
-		// at any time in given time frame
-		$triggerids_with_problems = [];
-		$sql = 'SELECT e.eventid, e.objectid' .
-			' FROM events e'.
-			' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
-				' AND e.object='.EVENT_OBJECT_TRIGGER.
-				' AND e.value='.TRIGGER_VALUE_TRUE;
-		if ($filter['from_ts']) {
-			$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
-		}
-		if ($filter['to_ts']) {
-			$sql .= ' AND e.clock<='.zbx_dbstr($filter['to_ts']);
-		}
-		$dbEvents = DBselect($sql);
-		while ($row = DBfetch($dbEvents)) {
-			if (!array_key_exists($row['objectid'], $triggerids_with_problems)) {
-				$triggerids_with_problems[$row['objectid']] = [];
+		if ($filter['only_with_problems']) {
+			// Find all triggers that went into PROBLEM state
+			// at any time in given time frame
+			$triggerids_with_problems = [];
+			$sql = 'SELECT e.eventid, e.objectid' .
+				' FROM events e'.
+				' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
+					' AND e.object='.EVENT_OBJECT_TRIGGER.
+					' AND e.value='.TRIGGER_VALUE_TRUE;
+			if ($filter['from_ts']) {
+				$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
 			}
-			if (!array_key_exists('tags', $triggerids_with_problems[$row['objectid']])) {
-				$triggerids_with_problems[$row['objectid']] = ['tags' => []];
+			if ($filter['to_ts']) {
+				$sql .= ' AND e.clock<='.zbx_dbstr($filter['to_ts']);
 			}
-			$sql1 = 'SELECT et.tag, et.value' .
-				' FROM event_tag et' .
-				' WHERE et.eventid=' . $row['eventid'];
-			$dbTags = DBselect($sql1);
-			while ($row1 = DBfetch($dbTags)) {
-				$triggerids_with_problems[$row['objectid']]['tags'][] = [
-					'tag' => $row1['tag'],
-					'value' => $row1['value']
-				];
-			}
-		}
-		#here
-		// Find all triggers that were in the PROBLEM state
-		// at the start of this time frame
-		foreach($triggers as $trigger) {
-			$sql = 'SELECT e.eventid, e.objectid, e.value' .
-					' FROM events e'.
-					' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
-						' AND e.source='.EVENT_SOURCE_TRIGGERS.
-						' AND e.object='.EVENT_OBJECT_TRIGGER.
-						' AND e.clock<'.zbx_dbstr($filter['from_ts']).
-					' ORDER BY e.eventid DESC';
-			if ($row = DBfetch(DBselect($sql, 1))) {
-				// Add the triggerid to the array if it is not there
-				if ($row['value'] == TRIGGER_VALUE_TRUE &&
-					!in_array($row['objectid'], $triggerids_with_problems)) {
+			$dbEvents = DBselect($sql);
+			while ($row = DBfetch($dbEvents)) {
+				if (!array_key_exists($row['objectid'], $triggerids_with_problems)) {
+					$triggerids_with_problems[$row['objectid']] = [];
+				}
+				if (!array_key_exists('tags', $triggerids_with_problems[$row['objectid']])) {
 					$triggerids_with_problems[$row['objectid']] = ['tags' => []];
-					$sql1 = 'SELECT et.tag, et.value' .
-						' FROM event_tag et' .
-						' WHERE et.eventid=' . $row['eventid'];
-					$dbTags = DBselect($sql1);
-					while ($row1 = DBfetch($dbTags)) {
-						$triggerids_with_problems[$row['objectid']]['tags'][] = [
-							'tag' => $row1['tag'],
-							'value' => $row1['value']
-						];
+				}
+				$sql1 = 'SELECT et.tag, et.value' .
+					' FROM event_tag et' .
+					' WHERE et.eventid=' . $row['eventid'];
+				$dbTags = DBselect($sql1);
+				while ($row1 = DBfetch($dbTags)) {
+					$triggerids_with_problems[$row['objectid']]['tags'][] = [
+						'tag' => $row1['tag'],
+						'value' => $row1['value']
+					];
+				}
+			}
+			#here
+			// Find all triggers that were in the PROBLEM state
+			// at the start of this time frame
+			foreach($triggers as $trigger) {
+				$sql = 'SELECT e.eventid, e.objectid, e.value' .
+						' FROM events e'.
+						' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
+							' AND e.source='.EVENT_SOURCE_TRIGGERS.
+							' AND e.object='.EVENT_OBJECT_TRIGGER.
+							' AND e.clock<'.zbx_dbstr($filter['from_ts']).
+						' ORDER BY e.eventid DESC';
+				if ($row = DBfetch(DBselect($sql, 1))) {
+					// Add the triggerid to the array if it is not there
+					if ($row['value'] == TRIGGER_VALUE_TRUE &&
+						!in_array($row['objectid'], $triggerids_with_problems)) {
+						$triggerids_with_problems[$row['objectid']] = ['tags' => []];
+						$sql1 = 'SELECT et.tag, et.value' .
+							' FROM event_tag et' .
+							' WHERE et.eventid=' . $row['eventid'];
+						$dbTags = DBselect($sql1);
+						while ($row1 = DBfetch($dbTags)) {
+							$triggerids_with_problems[$row['objectid']]['tags'][] = [
+								'tag' => $row1['tag'],
+								'value' => $row1['value']
+							];
+						}
 					}
+				}
+
+			}
+
+
+			$triggers_with_problems = [];
+			foreach ($triggers as $trigger) {
+				if (array_key_exists($trigger['triggerid'], $triggerids_with_problems)) {
+					$trigger['tags'] = $triggerids_with_problems[$trigger['triggerid']]['tags'];
+					$triggers_with_problems[] = $trigger;
 				}
 			}
 
+			
+			// Reset all previously selected triggers to only ones with problems
+			unset($triggers);
+			$triggers = $triggers_with_problems;
+
 		}
-
-
-		$triggers_with_problems = [];
-		foreach ($triggers as $trigger) {
-			if (array_key_exists($trigger['triggerid'], $triggerids_with_problems)) {
-				$trigger['tags'] = $triggerids_with_problems[$trigger['triggerid']]['tags'];
-				$triggers_with_problems[] = $trigger;
-			}
-		}
-
-		
-		// Reset all previously selected triggers to only ones with problems
-		unset($triggers);
-		$triggers = $triggers_with_problems;
-
-		// } // end of if problems
 		// Now just prepare needed data.sorted by Number of status changes
 		CArrayHelper::sort($triggers, [
 			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
@@ -240,40 +240,40 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 		unset($trigger);
 
-		// if (!$filter['only_with_problems']) {
-		foreach($selected_triggers as &$trigger) {
-			// Add host tags
-			$hosts = API::Host()->get([
-				'output' => ['hostid'],
-				'selectTags' => 'extend',
-				'hostids' => [$trigger['hosts'][0]['hostid']]
-			]);
-			if (count($hosts[0]['tags']) > 0) {
-				$trigger['tags'][] = $hosts[0]['tags'];
-			}
+		if (!$filter['only_with_problems']) {
+			foreach($selected_triggers as &$trigger) {
+				// Add host tags
+				$hosts = API::Host()->get([
+					'output' => ['hostid'],
+					'selectTags' => 'extend',
+					'hostids' => [$trigger['hosts'][0]['hostid']]
+				]);
+				if (count($hosts[0]['tags']) > 0) {
+					$trigger['tags'][] = $hosts[0]['tags'];
+				}
 
-			// Add item(s) tags
-			foreach($trigger['functions'] as $function) {
-				$sql = 'SELECT it.tag, it.value' .
-					' FROM item_tag it' .
-					' WHERE it.itemid=' . $function['itemid'];
-				$dbTags = DBselect($sql);
-				while ($row = DBfetch($dbTags)) {
-					$new_tag = [
-						'tag' => $row['tag'],
-						'value' => $row['value']
-					];
-					if (!in_array($new_tag, $trigger['tags'])) {
-						$trigger['tags'][] = [
+				// Add item(s) tags
+				foreach($trigger['functions'] as $function) {
+					$sql = 'SELECT it.tag, it.value' .
+						' FROM item_tag it' .
+						' WHERE it.itemid=' . $function['itemid'];
+					$dbTags = DBselect($sql);
+					while ($row = DBfetch($dbTags)) {
+						$new_tag = [
 							'tag' => $row['tag'],
 							'value' => $row['value']
 						];
+						if (!in_array($new_tag, $trigger['tags'])) {
+							$trigger['tags'][] = [
+								'tag' => $row['tag'],
+								'value' => $row['value']
+							];
+						}
 					}
 				}
 			}
+			unset($trigger);
 		}
-		unset($trigger);
-		// } end of if problems
 
 		return [
 			'paging' => $paging,
