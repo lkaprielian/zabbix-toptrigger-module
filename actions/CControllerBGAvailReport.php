@@ -27,7 +27,9 @@ abstract class CControllerBGAvailReport extends CController {
 		'only_with_problems' => 1,
                 'page' => null,
 		'from' => '',
-		'to' => ''
+		'to' => '',
+		'sort' => 'name',
+		'sortorder' => ZBX_SORT_UP
 	];
 
 	protected function getData(array $filter): array {
@@ -211,6 +213,13 @@ abstract class CControllerBGAvailReport extends CController {
 
 		// Now just prepare needed data.
 		// CArrayHelper::sort($triggers, ['host_name', 'description'], 'ASC');
+		$filter['sortorder'] == 'ASC' ? CArrayHelper::sort($triggers, [
+			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+			'host', 'description', 'priority'
+		]): CArrayHelper::rsort($triggers, [
+			['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+			'host', 'description', 'priority'
+		]);
 
 		$view_curl = (new CUrl())->setArgument('action', 'availreport.view');
 
