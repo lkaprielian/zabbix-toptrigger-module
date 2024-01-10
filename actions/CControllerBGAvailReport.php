@@ -205,8 +205,8 @@ abstract class CControllerBGAvailReport extends CController {
 
 		// Now just prepare needed data.sorted by Number of status changes
 		CArrayHelper::sort($triggers, [
-			['field' => 'availability', 'order' => ZBX_SORT_DOWN],
-			'host', 'description', 'priority'
+			['field' => 'priority', 'order' => ZBX_SORT_DOWN],
+			'host', 'description'
 		]);
 
 		// Now just prepare needed data.
