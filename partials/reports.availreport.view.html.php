@@ -6,6 +6,8 @@ $table = (new CTableInfo());
 
 $view_url = $data['view_curl']->getUrl();
 
+print_r($data['sort']);
+
 $table->setHeader([
 	(new CColHeader(_('Host'))),
 	(new CColHeader(_('Trigger'))),
