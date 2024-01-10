@@ -9,7 +9,7 @@ $view_url = $data['view_curl']->getUrl();
 // 	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
 // 	'host', 'description', 'priority'
 // ]);
-// $triggers = $data['triggers'];
+$triggers = $data['triggers'];
 
 // $triggers['sortorder'] == 'ASC' ? ksort($host_groups_to_show) : krsort($host_groups_to_show);
 $table->setHeader([
@@ -18,12 +18,12 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	make_sorting_header(_('Number of status changes'), 'cnt_event', 'ASC', $view_url),
+	make_sorting_header(_('Number of status changes'), 'cnt_event', $triggers['cnt_event'], 'ASC', $view_url),
 	(new CColHeader(_('Number of status changes')))
 ]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
-$triggers = $data['triggers'];
+// $triggers = $data['triggers'];
 
 $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 foreach ($triggers as &$trigger) {
