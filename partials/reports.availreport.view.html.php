@@ -11,6 +11,10 @@ $view_url = $data['view_curl']->getUrl();
 // ]);
 $triggers = $data['triggers'];
 
+CArrayHelper::sort($triggers, [
+	['field' => 'cnt_event', 'order' => ZBX_SORT_DOWN],
+	'host', 'description', 'priority'
+]);
 // $triggers['sortorder'] == 'ASC' ? ksort($host_groups_to_show) : krsort($host_groups_to_show);
 $table->setHeader([
 	(new CColHeader(_('Host'))),
