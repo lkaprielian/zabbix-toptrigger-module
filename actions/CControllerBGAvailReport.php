@@ -140,16 +140,16 @@ abstract class CControllerBGAvailReport extends CController {
 			if (!array_key_exists('tags', $triggerids_with_problems[$row['objectid']])) {
 				$triggerids_with_problems[$row['objectid']] = ['tags' => []];
 			}
-			// $sql1 = 'SELECT et.tag, et.value' .
-			// 	' FROM event_tag et' .
-			// 	' WHERE et.eventid=' . $row['eventid'];
-			// $dbTags = DBselect($sql1);
-			// while ($row1 = DBfetch($dbTags)) {
-			// 	$triggerids_with_problems[$row['objectid']]['tags'][] = [
-			// 		'tag' => $row1['tag'],
-			// 		'value' => $row1['value']
-			// 	];
-			// }
+			$sql1 = 'SELECT et.tag, et.value' .
+				' FROM event_tag et' .
+				' WHERE et.eventid=' . $row['eventid'];
+			$dbTags = DBselect($sql1);
+			while ($row1 = DBfetch($dbTags)) {
+				$triggerids_with_problems[$row['objectid']]['tags'][] = [
+					'tag' => $row1['tag'],
+					'value' => $row1['value']
+				];
+			}
 		}
 		#here
 		// Find all triggers that were in the PROBLEM state
@@ -167,16 +167,16 @@ abstract class CControllerBGAvailReport extends CController {
 				if ($row['value'] == TRIGGER_VALUE_TRUE &&
 					!in_array($row['objectid'], $triggerids_with_problems)) {
 					$triggerids_with_problems[$row['objectid']] = ['tags' => []];
-					// $sql1 = 'SELECT et.tag, et.value' .
-					// 	' FROM event_tag et' .
-					// 	' WHERE et.eventid=' . $row['eventid'];
-					// $dbTags = DBselect($sql1);
-					// while ($row1 = DBfetch($dbTags)) {
-					// 	$triggerids_with_problems[$row['objectid']]['tags'][] = [
-					// 		'tag' => $row1['tag'],
-					// 		'value' => $row1['value']
-					// 	];
-					// }
+					$sql1 = 'SELECT et.tag, et.value' .
+						' FROM event_tag et' .
+						' WHERE et.eventid=' . $row['eventid'];
+					$dbTags = DBselect($sql1);
+					while ($row1 = DBfetch($dbTags)) {
+						$triggerids_with_problems[$row['objectid']]['tags'][] = [
+							'tag' => $row1['tag'],
+							'value' => $row1['value']
+						];
+					}
 				}
 			}
 
@@ -266,24 +266,24 @@ abstract class CControllerBGAvailReport extends CController {
 			}
 
 			// Add item(s) tags
-			// foreach($trigger['functions'] as $function) {
-			// 	$sql = 'SELECT it.tag, it.value' .
-			// 		' FROM item_tag it' .
-			// 		' WHERE it.itemid=' . $function['itemid'];
-			// 	$dbTags = DBselect($sql);
-			// 	while ($row = DBfetch($dbTags)) {
-			// 		$new_tag = [
-			// 			'tag' => $row['tag'],
-			// 			'value' => $row['value']
-			// 		];
-			// 		if (!in_array($new_tag, $trigger['tags'])) {
-			// 			$trigger['tags'][] = [
-			// 				'tag' => $row['tag'],
-			// 				'value' => $row['value']
-			// 			];
-			// 		}
-			// 	}
-			// }
+			foreach($trigger['functions'] as $function) {
+				$sql = 'SELECT it.tag, it.value' .
+					' FROM item_tag it' .
+					' WHERE it.itemid=' . $function['itemid'];
+				$dbTags = DBselect($sql);
+				while ($row = DBfetch($dbTags)) {
+					$new_tag = [
+						'tag' => $row['tag'],
+						'value' => $row['value']
+					];
+					if (!in_array($new_tag, $trigger['tags'])) {
+						$trigger['tags'][] = [
+							'tag' => $row['tag'],
+							'value' => $row['value']
+						];
+					}
+				}
+			}
 		}
 		unset($trigger);
 		// } end of if problems
