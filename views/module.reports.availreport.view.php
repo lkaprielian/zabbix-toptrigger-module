@@ -70,7 +70,7 @@ if ($data['action'] == 'availreport.view') {
 	}
 	$csv[] = array_filter([
                         _('Host'),
-                        _('Name'),
+                        _('Trigger'),
                         _('Problems'),
                         _('Ok')
                 ]);
