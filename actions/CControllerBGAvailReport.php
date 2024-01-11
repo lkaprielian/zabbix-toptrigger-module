@@ -266,24 +266,24 @@ abstract class CControllerBGAvailReport extends CController {
 			}
 
 			// Add item(s) tags
-			foreach($trigger['functions'] as $function) {
-				$sql = 'SELECT it.tag, it.value' .
-					' FROM item_tag it' .
-					' WHERE it.itemid=' . $function['itemid'];
-				$dbTags = DBselect($sql);
-				while ($row = DBfetch($dbTags)) {
-					$new_tag = [
-						'tag' => $row['tag'],
-						'value' => $row['value']
-					];
-					if (!in_array($new_tag, $trigger['tags'])) {
-						$trigger['tags'][] = [
-							'tag' => $row['tag'],
-							'value' => $row['value']
-						];
-					}
-				}
-			}
+			// foreach($trigger['functions'] as $function) {
+			// 	$sql = 'SELECT it.tag, it.value' .
+			// 		' FROM item_tag it' .
+			// 		' WHERE it.itemid=' . $function['itemid'];
+			// 	$dbTags = DBselect($sql);
+			// 	while ($row = DBfetch($dbTags)) {
+			// 		$new_tag = [
+			// 			'tag' => $row['tag'],
+			// 			'value' => $row['value']
+			// 		];
+			// 		if (!in_array($new_tag, $trigger['tags'])) {
+			// 			$trigger['tags'][] = [
+			// 				'tag' => $row['tag'],
+			// 				'value' => $row['value']
+			// 			];
+			// 		}
+			// 	}
+			// }
 		}
 		unset($trigger);
 		// } end of if problems
