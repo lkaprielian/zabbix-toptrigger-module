@@ -126,8 +126,8 @@ abstract class CControllerBGAvailReport extends CController {
 		$sql = 'SELECT e.eventid, e.objectid' .
 			' FROM events e'.
 			' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
-				' AND e.object='.EVENT_OBJECT_TRIGGER.
-				' AND e.value='.TRIGGER_VALUE_TRUE;
+				' AND e.object='.EVENT_OBJECT_TRIGGER;
+				// ' AND e.value='.TRIGGER_VALUE_TRUE;
 		if ($filter['from_ts']) {
 			$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
 		}
