@@ -47,6 +47,19 @@ abstract class CControllerBGAvailReport extends CController {
 			$limit = 5001;
 		}
 
+
+		// Get timestamps from and to
+		if ($filter['from'] != '' && $filter['to'] != '') {
+			$range_time_parser = new CRangeTimeParser();
+			$range_time_parser->parse($filter['from']);
+			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$range_time_parser->parse($filter['to']);
+			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+		} else {
+			$filter['from_ts'] = null;
+			$filter['to_ts'] = null;
+		}
+
 		####
 		$triggersEventCount = [];
 
@@ -66,7 +79,7 @@ abstract class CControllerBGAvailReport extends CController {
 		while ($row = DBfetch($result)) {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
-
+		
 		// All CONFIGURED triggers that fall under selected filter
 		$num_of_triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value'],
@@ -104,19 +117,6 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($triggers as $triggerId => $trigger) {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
-
-		// Get timestamps from and to
-		if ($filter['from'] != '' && $filter['to'] != '') {
-			$range_time_parser = new CRangeTimeParser();
-			$range_time_parser->parse($filter['from']);
-			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
-			$range_time_parser->parse($filter['to']);
-			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
-		} else {
-			$filter['from_ts'] = null;
-			$filter['to_ts'] = null;
-		}
-
 
 		// if ($filter['only_with_problems']) {
 		// Find all triggers that went into PROBLEM state
