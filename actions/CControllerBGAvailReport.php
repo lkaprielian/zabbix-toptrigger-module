@@ -24,6 +24,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'tpl_triggerids' => [], 
 		'hostgroupids' => [],
 		'hostids' => [],
+		'triggerids' => [],
 		'only_with_problems' => 1,
                 'page' => null,
 		'from' => '',
@@ -85,6 +86,7 @@ abstract class CControllerBGAvailReport extends CController {
 				' FROM triggers t,events e'.
 				' WHERE t.triggerid=e.objectid'.
 					' AND e.source='.EVENT_SOURCE_TRIGGERS.
+					' AND e.value='.TRIGGER_VALUE_TRUE;
 					' AND e.clock>='.zbx_dbstr($filter['from_ts']).
 					' AND e.clock<='.zbx_dbstr($filter['to_ts']);
 		
