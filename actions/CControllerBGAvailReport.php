@@ -122,37 +122,37 @@ abstract class CControllerBGAvailReport extends CController {
 		// if ($filter['only_with_problems']) {
 		// Find all triggers that went into PROBLEM state
 		// at any time in given time frame
-		// $triggerids_with_problems = [];
-		// $sql = 'SELECT e.eventid, e.objectid' .
-		// 	' FROM events e'.
-		// 	' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
-		// 		' AND e.object='.EVENT_OBJECT_TRIGGER.
-		// 		' AND e.value='.TRIGGER_VALUE_TRUE;
-		// if ($filter['from_ts']) {
-		// 	$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
-		// }
-		// if ($filter['to_ts']) {
-		// 	$sql .= ' AND e.clock<='.zbx_dbstr($filter['to_ts']);
-		// }
-		// $dbEvents = DBselect($sql);
-		// while ($row = DBfetch($dbEvents)) {
-		// 	if (!array_key_exists($row['objectid'], $triggerids_with_problems)) {
-		// 		$triggerids_with_problems[$row['objectid']] = [];
-		// 	}
-		// 	if (!array_key_exists('tags', $triggerids_with_problems[$row['objectid']])) {
-		// 		$triggerids_with_problems[$row['objectid']] = ['tags' => []];
-		// 	}
-		// 	$sql1 = 'SELECT et.tag, et.value' .
-		// 		' FROM event_tag et' .
-		// 		' WHERE et.eventid=' . $row['eventid'];
-		// 	$dbTags = DBselect($sql1);
-		// 	while ($row1 = DBfetch($dbTags)) {
-		// 		$triggerids_with_problems[$row['objectid']]['tags'][] = [
-		// 			'tag' => $row1['tag'],
-		// 			'value' => $row1['value']
-		// 		];
-		// 	}
-		// }
+		$triggerids_with_problems = [];
+		$sql = 'SELECT e.eventid, e.objectid' .
+			' FROM events e'.
+			' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
+				' AND e.object='.EVENT_OBJECT_TRIGGER.
+				' AND e.value='.TRIGGER_VALUE_TRUE;
+		if ($filter['from_ts']) {
+			$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
+		}
+		if ($filter['to_ts']) {
+			$sql .= ' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+		}
+		$dbEvents = DBselect($sql);
+		while ($row = DBfetch($dbEvents)) {
+			if (!array_key_exists($row['objectid'], $triggerids_with_problems)) {
+				$triggerids_with_problems[$row['objectid']] = [];
+			}
+			if (!array_key_exists('tags', $triggerids_with_problems[$row['objectid']])) {
+				$triggerids_with_problems[$row['objectid']] = ['tags' => []];
+			}
+			$sql1 = 'SELECT et.tag, et.value' .
+				' FROM event_tag et' .
+				' WHERE et.eventid=' . $row['eventid'];
+			$dbTags = DBselect($sql1);
+			while ($row1 = DBfetch($dbTags)) {
+				$triggerids_with_problems[$row['objectid']]['tags'][] = [
+					'tag' => $row1['tag'],
+					'value' => $row1['value']
+				];
+			}
+		}
 		#here
 		// Find all triggers that were in the PROBLEM state
 		// at the start of this time frame
