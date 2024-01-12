@@ -47,37 +47,6 @@ abstract class CControllerBGAvailReport extends CController {
 			$limit = 5001;
 		}
 
-
-		// All CONFIGURED triggers that fall under selected filter
-		$num_of_triggers = API::Trigger()->get([
-			'output' => ['triggerid', 'description', 'expression', 'value'],
-			'monitored' => true,
-			'groupids' => $host_group_ids,
-			'hostids ' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
-			'filter' => [
-				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
-			],
-			'countOutput' => true
-		]);
-		$warning = null;
-		if ($num_of_triggers > $limit) {
-			$warning = 'WARNING: ' . $num_of_triggers . ' triggers found which is more than reasonable limit ' . $limit . ', results below might be not totally accurate. Please add or review current filter conditions.';
-		}
-		// print $num_of_triggers;
-
-
-		// Get timestamps from and to
-		if ($filter['from'] != '' && $filter['to'] != '') {
-			$range_time_parser = new CRangeTimeParser();
-			$range_time_parser->parse($filter['from']);
-			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
-			$range_time_parser->parse($filter['to']);
-			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
-		} else {
-			$filter['from_ts'] = null;
-			$filter['to_ts'] = null;
-		}
-
 		####
 		$triggersEventCount = [];
 
@@ -97,6 +66,23 @@ abstract class CControllerBGAvailReport extends CController {
 		while ($row = DBfetch($result)) {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
+
+		// All CONFIGURED triggers that fall under selected filter
+		$num_of_triggers = API::Trigger()->get([
+			'output' => ['triggerid', 'description', 'expression', 'value'],
+			'monitored' => true,
+			'groupids' => $host_group_ids,
+			'hostids ' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
+			'filter' => [
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
+			],
+			'countOutput' => true
+		]);
+		$warning = null;
+		if ($num_of_triggers > $limit) {
+			$warning = 'WARNING: ' . $num_of_triggers . ' triggers found which is more than reasonable limit ' . $limit . ', results below might be not totally accurate. Please add or review current filter conditions.';
+		}
+		// print $num_of_triggers;
 
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
@@ -118,6 +104,19 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($triggers as $triggerId => $trigger) {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
+
+		// Get timestamps from and to
+		if ($filter['from'] != '' && $filter['to'] != '') {
+			$range_time_parser = new CRangeTimeParser();
+			$range_time_parser->parse($filter['from']);
+			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$range_time_parser->parse($filter['to']);
+			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+		} else {
+			$filter['from_ts'] = null;
+			$filter['to_ts'] = null;
+		}
+
 
 		// if ($filter['only_with_problems']) {
 		// Find all triggers that went into PROBLEM state
@@ -156,34 +155,34 @@ abstract class CControllerBGAvailReport extends CController {
 		#here
 		// Find all triggers that were in the PROBLEM state
 		// at the start of this time frame
-		// foreach($triggers as $trigger) {
-		// 	$sql = 'SELECT e.eventid, e.objectid, e.value' .
-		// 			' FROM events e'.
-		// 			' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
-		// 				' AND e.source='.EVENT_SOURCE_TRIGGERS.
-		// 				' AND e.object='.EVENT_OBJECT_TRIGGER.
-		// 				' AND e.clock<'.zbx_dbstr($filter['from_ts']).
-		// 				' AND e.clock<='.zbx_dbstr($filter['to_ts']);
-		// 			' ORDER BY e.eventid DESC';
-		// 	if ($row = DBfetch(DBselect($sql, 1))) {
-		// 		// Add the triggerid to the array if it is not there
-		// 		if ($row['value'] == TRIGGER_VALUE_TRUE &&
-		// 			!in_array($row['objectid'], $triggerids_with_problems)) {
-		// 			$triggerids_with_problems[$row['objectid']] = ['tags' => []];
-		// 			$sql1 = 'SELECT et.tag, et.value' .
-		// 				' FROM event_tag et' .
-		// 				' WHERE et.eventid=' . $row['eventid'];
-		// 			$dbTags = DBselect($sql1);
-		// 			while ($row1 = DBfetch($dbTags)) {
-		// 				$triggerids_with_problems[$row['objectid']]['tags'][] = [
-		// 					'tag' => $row1['tag'],
-		// 					'value' => $row1['value']
-		// 				];
-		// 			}
-		// 		}
-		// 	}
+		foreach($triggers as $trigger) {
+			$sql = 'SELECT e.eventid, e.objectid, e.value' .
+					' FROM events e'.
+					' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
+						' AND e.source='.EVENT_SOURCE_TRIGGERS.
+						' AND e.object='.EVENT_OBJECT_TRIGGER.
+						' AND e.clock<'.zbx_dbstr($filter['from_ts']).
+						' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+					' ORDER BY e.eventid DESC';
+			if ($row = DBfetch(DBselect($sql, 1))) {
+				// Add the triggerid to the array if it is not there
+				if ($row['value'] == TRIGGER_VALUE_TRUE &&
+					!in_array($row['objectid'], $triggerids_with_problems)) {
+					$triggerids_with_problems[$row['objectid']] = ['tags' => []];
+					$sql1 = 'SELECT et.tag, et.value' .
+						' FROM event_tag et' .
+						' WHERE et.eventid=' . $row['eventid'];
+					$dbTags = DBselect($sql1);
+					while ($row1 = DBfetch($dbTags)) {
+						$triggerids_with_problems[$row['objectid']]['tags'][] = [
+							'tag' => $row1['tag'],
+							'value' => $row1['value']
+						];
+					}
+				}
+			}
 
-		// }
+		}
 
 
 		$triggers_with_problems = [];
