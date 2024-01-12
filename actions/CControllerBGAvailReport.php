@@ -156,33 +156,34 @@ abstract class CControllerBGAvailReport extends CController {
 		#here
 		// Find all triggers that were in the PROBLEM state
 		// at the start of this time frame
-		foreach($triggers as $trigger) {
-			$sql = 'SELECT e.eventid, e.objectid, e.value' .
-					' FROM events e'.
-					' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
-						' AND e.source='.EVENT_SOURCE_TRIGGERS.
-						' AND e.object='.EVENT_OBJECT_TRIGGER.
-						' AND e.clock<'.zbx_dbstr($filter['from_ts']).
-					' ORDER BY e.eventid DESC';
-			if ($row = DBfetch(DBselect($sql, 1))) {
-				// Add the triggerid to the array if it is not there
-				if ($row['value'] == TRIGGER_VALUE_TRUE &&
-					!in_array($row['objectid'], $triggerids_with_problems)) {
-					$triggerids_with_problems[$row['objectid']] = ['tags' => []];
-					$sql1 = 'SELECT et.tag, et.value' .
-						' FROM event_tag et' .
-						' WHERE et.eventid=' . $row['eventid'];
-					$dbTags = DBselect($sql1);
-					while ($row1 = DBfetch($dbTags)) {
-						$triggerids_with_problems[$row['objectid']]['tags'][] = [
-							'tag' => $row1['tag'],
-							'value' => $row1['value']
-						];
-					}
-				}
-			}
+		// foreach($triggers as $trigger) {
+		// 	$sql = 'SELECT e.eventid, e.objectid, e.value' .
+		// 			' FROM events e'.
+		// 			' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
+		// 				' AND e.source='.EVENT_SOURCE_TRIGGERS.
+		// 				' AND e.object='.EVENT_OBJECT_TRIGGER.
+		// 				' AND e.clock<'.zbx_dbstr($filter['from_ts']).
+		// 				' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+		// 			' ORDER BY e.eventid DESC';
+		// 	if ($row = DBfetch(DBselect($sql, 1))) {
+		// 		// Add the triggerid to the array if it is not there
+		// 		if ($row['value'] == TRIGGER_VALUE_TRUE &&
+		// 			!in_array($row['objectid'], $triggerids_with_problems)) {
+		// 			$triggerids_with_problems[$row['objectid']] = ['tags' => []];
+		// 			$sql1 = 'SELECT et.tag, et.value' .
+		// 				' FROM event_tag et' .
+		// 				' WHERE et.eventid=' . $row['eventid'];
+		// 			$dbTags = DBselect($sql1);
+		// 			while ($row1 = DBfetch($dbTags)) {
+		// 				$triggerids_with_problems[$row['objectid']]['tags'][] = [
+		// 					'tag' => $row1['tag'],
+		// 					'value' => $row1['value']
+		// 				];
+		// 			}
+		// 		}
+		// 	}
 
-		}
+		// }
 
 
 		$triggers_with_problems = [];
