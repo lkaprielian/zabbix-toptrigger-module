@@ -152,7 +152,7 @@ $filterForm
 // 	->setAttribute('data-template', 'reports.availreport.filter')
 // 	->addItem($template)
 // 	->show();
-// ?>
+?>
 <script type="text/javascript">
 	let template = document.querySelector('[data-template="reports.availreport.filter"]');
 
