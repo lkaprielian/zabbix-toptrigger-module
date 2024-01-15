@@ -68,7 +68,7 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 				$ret = ($ret && $this->hasInput('value_int'));
 			}
 			else if ($property === 'properties' || $property === 'taborder') {
-				$ret = ($ret && $this->hasInput('value_str'));
+				$ret = ($ret && $this->hasInput('value_int	'));
 			}
 		}
 
