@@ -67,12 +67,12 @@ abstract class CControllerBGAvailReport extends CController {
 		if ($filter['from'] != '' && $filter['to'] != '') {
 			$range_time_parser = new CRangeTimeParser();
 			$range_time_parser->parse($filter['from']);
-			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$filter['from'] = $range_time_parser->getDateTime(true)->getTimestamp();
 			$range_time_parser->parse($filter['to']);
-			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+			$filter['to'] = $range_time_parser->getDateTime(false)->getTimestamp();
 		} else {
-			$filter['from_ts'] = null;
-			$filter['to_ts'] = null;
+			$filter['from'] = null;
+			$filter['to'] = null;
 		}
 
 		####
