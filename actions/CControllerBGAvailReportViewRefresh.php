@@ -9,7 +9,8 @@ use CTabFilterProfile;
 class CControllerBGAvailReportViewRefresh extends CControllerBGAvailReportView {
 
 	protected function doAction(): void {
-		$filter = static::FILTER_FIELDS_DEFAULT;
+		// $filter = static::FILTER_FIELDS_DEFAULT;
+		$filter = [];
 
 		$this->getInputs($filter, array_keys($filter));
 		$filter = $this->cleanInput($filter);
