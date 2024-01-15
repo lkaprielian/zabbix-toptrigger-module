@@ -108,7 +108,7 @@ $filter_column = (new CFormList())
 	// 		->setId('only_with_problems_#{uniqid}')
 	// 	);
 
-$filterForm = (new CFilter())->setResetUrl(new CUrl('toptriggers.php'));
+$filterForm = (new CFilter())->setResetUrl(new CUrl('zabbix.php'));
 $filterForm
 	->setProfile($data['filter']['timeline']['profileIdx'])
 	->setActiveTab($data['filter']['active_tab'])
