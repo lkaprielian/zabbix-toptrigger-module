@@ -79,63 +79,82 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		return $ret;
 	}
 
-	protected function doAction() {
-		$data = $this->getInputAll() + [
-			'value_int' => 0,
-			'value_str' => '',
-			'idx2' => 0
-		];
-		$idx_cunks = explode('.', $this->getInput('idx'));
-		$property = array_pop($idx_cunks);
-		$idx = implode('.', $idx_cunks);
-		$defaults = static::$namespaces[$idx];
+	protected function doAction(): void {
+		$filter = static::FILTER_FIELDS_DEFAULT;
 
-		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
-			$defaults += [
-				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-				'to' => 'now'
-			];
-		}
+		$this->getInputs($filter, array_keys($filter));
+		$filter = $this->cleanInput($filter);
+		$prepared_data = $this->getData($filter);
 
-		$filter = (new CTabFilterProfile($idx, $defaults))->read();
+		$view_url = (new CUrl())
+			->setArgument('action', 'availreport.view')
+			->removeArgument('page');
 
-		switch ($property) {
-			case 'selected':
-				$dynamictabs = count($filter->tabfilters);
+		$data = [
+			'filter' => $filter,
+			'view_curl' => $view_url
+		] + $prepared_data;
 
-				if ($data['value_int'] >= 0 && $data['value_int'] < $dynamictabs) {
-					$filter->selected = (int) $data['value_int'];
-				}
-
-				break;
-
-			case 'properties':
-				$properties = [];
-				parse_str($this->getInput('value_str'), $properties);
-				$filter->setTabFilter($this->getInput('idx2'), $this->cleanProperties($properties));
-
-				break;
-
-			case 'taborder':
-				$filter->sort($this->getInput('value_str'));
-
-				break;
-
-			case 'expanded':
-				$filter->expanded = ($data['value_int'] > 0);
-
-				break;
-		}
-
-		$filter->update();
-
-		$data += [
-			'property' => $property,
-			'idx' => $idx
-		];
 		$response = new CControllerResponseData($data);
 		$this->setResponse($response);
-	}
+	} 
+
+		// $data = $this->getInputAll() + [
+		// 	'value_int' => 0,
+		// 	'value_str' => '',
+		// 	'idx2' => 0
+		// ];
+		// $idx_cunks = explode('.', $this->getInput('idx'));
+		// $property = array_pop($idx_cunks);
+		// $idx = implode('.', $idx_cunks);
+		// $defaults = static::$namespaces[$idx];
+
+		// if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
+		// 	$defaults += [
+		// 		'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+		// 		'to' => 'now'
+		// 	];
+		// }
+
+		// $filter = (new CTabFilterProfile($idx, $defaults))->read();
+
+		// switch ($property) {
+		// 	case 'selected':
+		// 		$dynamictabs = count($filter->tabfilters);
+
+		// 		if ($data['value_int'] >= 0 && $data['value_int'] < $dynamictabs) {
+		// 			$filter->selected = (int) $data['value_int'];
+		// 		}
+
+		// 		break;
+
+		// 	case 'properties':
+		// 		$properties = [];
+		// 		parse_str($this->getInput('value_str'), $properties);
+		// 		$filter->setTabFilter($this->getInput('idx2'), $this->cleanProperties($properties));
+
+		// 		break;
+
+		// 	case 'taborder':
+		// 		$filter->sort($this->getInput('value_str'));
+
+		// 		break;
+
+		// 	case 'expanded':
+		// 		$filter->expanded = ($data['value_int'] > 0);
+
+		// 		break;
+		// }
+
+		// $filter->update();
+
+		// $data += [
+		// 	'property' => $property,
+		// 	'idx' => $idx
+		// ];
+		// $response = new CControllerResponseData($data);
+		// $this->setResponse($response);
+	// }
 
 	/**
 	 * Clean fields data removing empty initial elements.
