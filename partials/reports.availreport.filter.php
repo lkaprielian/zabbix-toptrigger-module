@@ -124,7 +124,7 @@ $template = (new CDiv())
 	->addItem((new CDiv($filter_column))->addClass(ZBX_STYLE_CELL));
 
 $template = (new CForm('get'))
-	->cleanItems()
+	// ->cleanItems()
 	->setName('zbx_filter')
 	->addItem([
 		$template,
