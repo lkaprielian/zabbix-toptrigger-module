@@ -65,10 +65,10 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 			$ret = (in_array($property, $supported) && array_key_exists($idx, static::$namespaces));
 
 			if ($property === 'selected' || $property === 'expanded') {
-				$ret = ($ret && $this->hasInput('value_int'));
+				$ret = ($ret && $this->hasInput('value_str'));
 			}
 			else if ($property === 'properties' || $property === 'taborder') {
-				$ret = ($ret && $this->hasInput('value_int'));
+				$ret = ($ret && $this->hasInput('value_str'));
 			}
 		}
 
