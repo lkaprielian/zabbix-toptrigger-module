@@ -140,7 +140,7 @@ if (array_key_exists('render_html', $data)) {
 
 (new CTemplateTag('filter-reports-availreport'))
 	->setAttribute('data-template', 'reports.availreport.filter')
-	->addItem($template)
+	// ->addItem($template)
 	->show();
 ?>
 <script type="text/javascript">
