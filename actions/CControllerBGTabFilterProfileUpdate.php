@@ -90,12 +90,12 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		$idx = implode('.', $idx_cunks);
 		$defaults = static::$namespaces[$idx];
 
-		// if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
-		// 	$defaults += [
-		// 		'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-		// 		'to' => 'now'
-		// 	];
-		// }
+		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
+			$defaults += [
+				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+				'to' => 'now'
+			];
+		}
 
 		$filter = (new CTabFilterProfile($idx, $defaults))->read();
 
