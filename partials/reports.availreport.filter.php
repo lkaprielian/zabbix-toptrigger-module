@@ -108,50 +108,51 @@ $filter_column = (new CFormList())
 	// 		->setId('only_with_problems_#{uniqid}')
 	// 	);
 
-$filterForm = (new CFilter())->setResetUrl(new CUrl('zabbix.php'));
-$filterForm
-	->setProfile($data['filter']['timeline']['profileIdx'])
-	->setActiveTab($data['filter']['active_tab'])
-	->addTimeSelector($data['filter']['timeline']['from'], $data['filter']['timeline']['to'], true,
-		'reports.availreport.filter', ZBX_DATE_TIME
-	)
-	->addFilterTab(_('Filter'), [$filter_column]);
+// $filterForm = (new CFilter())->setResetUrl(new CUrl('zabbix.php'));
+// $filterForm
+// 	->setProfile($data['filter']['timeline']['profileIdx'])
+// 	->setActiveTab($data['filter']['active_tab'])
+// 	->addTimeSelector($filter['from'], $filter['to'], true,
+// 		'reports.availreport.filter', ZBX_DATE_TIME
+// 	)
+// 	->addFilterTab(_('Filter'), [$filter_column]);
 
 
-// $template = (new CDiv())
-// 	->addClass(ZBX_STYLE_TABLE)
-// 	->addClass(ZBX_STYLE_FILTER_FORMS)
-// 	->addItem((new CDiv($filter_column))->addClass(ZBX_STYLE_CELL));
+$template = (new CDiv())
+	->addClass(ZBX_STYLE_TABLE)
+	->addClass(ZBX_STYLE_FILTER_FORMS)
+	->addItem((new CDiv($filter_column))->addClass(ZBX_STYLE_CELL));
 
-// $template = (new CForm('get'))
-// 	->cleanItems()
-// 	->setName('zbx_filter')
-// 	->addItem([
-// 		$template,
-// 		(new CSubmitButton(null))->addClass(ZBX_STYLE_DISPLAY_NONE),
-// 		(new CVar('filter_name', '#{filter_name}'))->removeId(),
-// 		(new CVar('filter_show_counter', '#{filter_show_counter}'))->removeId(),
-// 		(new CVar('filter_custom_time', '#{filter_custom_time}'))->removeId(),
-// 		(new CVar('from', '#{from}'))->removeId(),
-// 		(new CVar('to', '#{to}'))->removeId()
-// 	]);
+$template = (new CForm('get'))
+	->cleanItems()
+	->setName('zbx_filter')
+	->addItem([
+		$template,
+		(new CSubmitButton(null))->addClass(ZBX_STYLE_DISPLAY_NONE),
+		(new CVar('filter_name', '#{filter_name}'))->removeId(),
+		(new CVar('filter_show_counter', '#{filter_show_counter}'))->removeId(),
+		(new CVar('filter_custom_time', '#{filter_custom_time}'))->removeId(),
+		(new CVar('from', '#{from}'))->removeId(),
+		(new CVar('to', '#{to}'))->removeId()
+	]);
 
-// if (array_key_exists('render_html', $data)) {
-// 	/**
-// 	 * Render HTML to prevent filter flickering after initial page load. PHP created content will be replaced by
-// 	 * javascript with additional event handling (dynamic rows, etc.) when page will be fully loaded and javascript
-// 	 * executed.
-// 	 */
+if (array_key_exists('render_html', $data)) {
+	/**
+	 * Render HTML to prevent filter flickering after initial page load. PHP created content will be replaced by
+	 * javascript with additional event handling (dynamic rows, etc.) when page will be fully loaded and javascript
+	 * executed.
+	 */
 
-// 	$template->show();
+	$template->show();
 
-// 	return;
-// }
+	return;
+}
 
-// (new CTemplateTag('filter-reports-availreport'))
-// 	->setAttribute('data-template', 'reports.availreport.filter')
-// 	->addItem($template)
-// 	->show();
+(new CTemplateTag('filter-reports-availreport'))
+	->setAttribute('data-template', 'reports.availreport.filter')
+	->addItem($template)
+	->show();
+
 ?>
 <script type="text/javascript">
 	let template = document.querySelector('[data-template="reports.availreport.filter"]');
