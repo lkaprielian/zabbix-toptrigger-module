@@ -63,23 +63,18 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 		// print $num_of_triggers;
 
-		// // Get timestamps from and to
-		// if ($filter['from'] != '' && $filter['to'] != '') {
-		// 	$range_time_parser = new CRangeTimeParser();
-		// 	$range_time_parser->parse($filter['from']);
-		// 	$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
-		// 	$range_time_parser->parse($filter['to']);
-		// 	$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
-		// } else {
-		// 	$filter['from_ts'] = null;
-		// 	$filter['to_ts'] = null;
-		// }
-		if (hasRequest('from') || hasRequest('to')) {
-			validateTimeSelectorPeriod(
-				hasRequest('from') ? getRequest('from') : null,
-				hasRequest('to') ? getRequest('to') : null
-			);
+		// Get timestamps from and to
+		if ($filter['from'] != '' && $filter['to'] != '') {
+			$range_time_parser = new CRangeTimeParser();
+			$range_time_parser->parse($filter['from']);
+			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$range_time_parser->parse($filter['to']);
+			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+		} else {
+			$filter['from_ts'] = null;
+			$filter['to_ts'] = null;
 		}
+
 		####
 		$triggersEventCount = [];
 
