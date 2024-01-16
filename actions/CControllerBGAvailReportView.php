@@ -51,12 +51,12 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 	}
 
 	protected function doAction() {
-		if (hasRequest('from') || hasRequest('to')) {
-			validateTimeSelectorPeriod(
-				hasRequest('from') ? getRequest('from') : null,
-				hasRequest('to') ? getRequest('to') : null
-			);
-		}
+		// if (hasRequest('from') || hasRequest('to')) {
+		// 	validateTimeSelectorPeriod(
+		// 		hasRequest('from') ? getRequest('from') : null,
+		// 		hasRequest('to') ? getRequest('to') : null
+		// 	);
+		// }
 		$timeselector_from = getRequest('from', CProfile::get('reports.availreport.filter.from','now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT)));
 		$timeselector_to = getRequest('to', CProfile::get('reports.availreport.filter.to', 'now'));
 
