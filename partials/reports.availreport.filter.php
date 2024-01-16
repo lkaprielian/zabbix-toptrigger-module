@@ -278,8 +278,8 @@ if (array_key_exists('render_html', $data)) {
 		// }
 
 		// Initialize src_url.
-		this.resetUnsavedState();
-		this.on(TABFILTERITEM_EVENT_ACTION, update.bind(this));
+		// this.resetUnsavedState();
+		// this.on(TABFILTERITEM_EVENT_ACTION, update.bind(this));
 	}
 
 	function expand(data, container) {
