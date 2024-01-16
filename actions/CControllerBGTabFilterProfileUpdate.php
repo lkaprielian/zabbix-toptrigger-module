@@ -90,7 +90,7 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		$idx = implode('.', $idx_cunks);
 		$defaults = static::$namespaces[$idx];
 		// $timeselector_options = [
-		// 	'profileIdx' => 'reports.availreport.filter',
+		// 	'profileIdx' => 'web.toptriggers.filter',
 		// 	'profileIdx2' => 0,
 		// 	'from' => getRequest('from'),
 		// 	'to' => getRequest('to')
@@ -98,8 +98,8 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
-				'from' => getRequest('from'),
-				'to' => getRequest('to')
+				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+				'to' => 'now'
 			];
 		}
 
