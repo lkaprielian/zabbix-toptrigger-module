@@ -38,8 +38,8 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 	public static $namespaces = [
 		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
-		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
-		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
+		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT
+		// CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
 	];
 
 	protected function checkPermissions() {
