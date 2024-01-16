@@ -292,9 +292,9 @@ if (array_key_exists('render_html', $data)) {
 		let action = ev.detail.action,
 			container = this._content_container;
 
-		if (action !== 'filter_apply' && action !== 'filter_update') {
-			return;
-		}
+		// if (action !== 'filter_apply' && action !== 'filter_update') {
+		// 	return;
+		// }
 	}
 
 	// Tab filter item events handlers.
