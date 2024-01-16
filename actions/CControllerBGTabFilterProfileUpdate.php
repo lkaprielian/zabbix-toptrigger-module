@@ -1,7 +1,7 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 0);
 /*
 ** Zabbix
-** Copyright (C) 2001-2021 Zabbix SIA
+** Copyright (C) 2001-2024 Zabbix SIA
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -18,165 +18,102 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-namespace Modules\LMFR\Actions;
-
-use CController;
-use CControllerHost;
-use CControllerProblem;
-use CControllerResponseData;
-use CSettingsHelper;
-use CTabFilterProfile;
 
 /**
- * Controller to update tab filter. Handles following events:
- * - select tab;
- * - expand/collapse active tab;
- * - update filter properties;
- * - save tab order.
+ * Controller to update tab filter.
  */
-class CControllerBGTabFilterProfileUpdate extends CController {
-
-	public static $namespaces = [
-		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
-		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
-		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
-	];
-
-	protected function checkPermissions() {
-		return ($this->getUserType() >= USER_TYPE_ZABBIX_USER);
-	}
+class CControllerPopupTabFilterUpdate extends CController {
 
 	protected function checkInput() {
-		$fields = [
-			'idx' =>		'required|string',
-			'value_int' =>	'int32',
-			'value_str' =>	'string',
-			'idx2' =>		'id'
+		$rules = [
+			'idx' =>					'string|required',
+			'idx2' =>					'int32|required',
+			'filter_name' =>			'string|not_empty',
+			'filter_show_counter' =>	'in 0,1',
+			'filter_custom_time' =>		'in 0,1',
+			'tabfilter_from' =>			'string',
+			'tabfilter_to' =>			'string',
+			'support_custom_time' =>	'in 0,1',
+			'create' =>					'in 0,1'
 		];
 
-		$ret = $this->validateInput($fields);
-
-		if ($ret) {
-			$idx_cunks = explode('.', $this->getInput('idx'));
-			$property = array_pop($idx_cunks);
-			$idx = implode('.', $idx_cunks);
-			$supported = ['selected', 'expanded', 'properties', 'taborder'];
-
-			$ret = (in_array($property, $supported) && array_key_exists($idx, static::$namespaces));
-
-			if ($property === 'selected' || $property === 'expanded') {
-				$ret = ($ret && $this->hasInput('value_int'));
-			}
-			else if ($property === 'properties' || $property === 'taborder') {
-				$ret = ($ret && $this->hasInput('value_str'));
-			}
-		}
+		$ret = $this->validateInput($rules) && $this->customValidation();
 
 		if (!$ret) {
-			$this->setResponse(new CControllerResponseData(['main_block' => '']));
+			$this->setResponse(
+				new CControllerResponseData(['main_block' => json_encode([
+					'error' => [
+						'messages' => array_column(get_and_clear_messages(), 'message')
+					]
+				])])
+			);
 		}
 
 		return $ret;
 	}
 
-	protected function doAction() {
-		$data = $this->getInputAll() + [
-			'value_int' => 0,
-			'value_str' => '',
-			'idx2' => 0
-		];
-		$idx_cunks = explode('.', $this->getInput('idx'));
-		$property = array_pop($idx_cunks);
-		$idx = implode('.', $idx_cunks);
-		$defaults = static::$namespaces[$idx];
-		// $timeselector_options = [
-		// 	'profileIdx' => 'web.toptriggers.filter',
-		// 	'profileIdx2' => 0,
-		// 	'from' => getRequest('from'),
-		// 	'to' => getRequest('to')
-		// ];
+	protected function customValidation(): bool {
+		if (!$this->getInput('support_custom_time', 0) || !$this->getInput('filter_custom_time', 0)) {
+			return true;
+		}
 
-		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
-			$defaults += [
-				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-				'to' => 'now'
+		$rules = [
+			'tabfilter_from' =>		'range_time|required',
+			'tabfilter_to' =>		'range_time|required'
+		];
+
+		$validator = new CNewValidator($this->getInputAll(), $rules);
+		$ret = !$validator->isError() && !$validator->isErrorFatal();
+
+		foreach ($validator->getAllErrors() as $error) {
+			info($error);
+		}
+
+		if ($ret) {
+			$this->input += [
+				'from' => $this->input['tabfilter_from'],
+				'to' => $this->input['tabfilter_to']
 			];
+			$ret = $this->validateTimeSelectorPeriod();
 		}
 
-		$filter = (new CTabFilterProfile($idx, $defaults))->read();
-
-		switch ($property) {
-			case 'selected':
-				$dynamictabs = count($filter->tabfilters);
-
-				if ($data['value_int'] >= 0 && $data['value_int'] < $dynamictabs) {
-					$filter->selected = (int) $data['value_int'];
-				}
-
-				break;
-
-			case 'properties':
-				$properties = [];
-				parse_str($this->getInput('value_str'), $properties);
-				$filter->setTabFilter($this->getInput('idx2'), $this->cleanProperties($properties));
-
-				break;
-
-			case 'taborder':
-				$filter->sort($this->getInput('value_str'));
-
-				break;
-
-			case 'expanded':
-				$filter->expanded = ($data['value_int'] > 0);
-
-				break;
-		}
-
-		$filter->update();
-
-		$data += [
-			'property' => $property,
-			'idx' => $idx
-		];
-		$response = new CControllerResponseData($data);
-		$this->setResponse($response);
+		return $ret;
 	}
 
-	/**
-	 * Clean fields data removing empty initial elements.
-	 *
-	 * @param array $properties  Array of submitted fields data.
-	 *
-	 * @return array
-	 */
-	protected function cleanProperties(array $properties): array {
-		if (array_key_exists('tags', $properties)) {
-			$tags = array_filter($properties['tags'], function ($tag) {
-				return !($tag['tag'] === '' && $tag['value'] === '');
-			});
+	protected function checkPermissions() {
+		return ($this->getUserType() >= USER_TYPE_ZABBIX_USER);
+	}
 
-			if ($tags) {
-				$properties['tags'] = array_values($tags);
-			}
-			else {
-				unset($properties['tags']);
-			}
+	protected function doAction() {
+		$idx = $this->getInput('idx', '');
+		$idx2 = $this->getInput('idx2', '');
+		$create = (int) $this->getInput('create', 0);
+
+		$properties = [
+			'filter_name' => $this->getInput('filter_name'),
+			'filter_show_counter' => (int) $this->getInput('filter_show_counter', 0),
+			'filter_custom_time' => (int) $this->getInput('filter_custom_time', 0)
+		];
+
+		if ($this->getInput('support_custom_time', 0) && $properties['filter_custom_time']) {
+			$properties['from'] = $this->getInput('tabfilter_from', '');
+			$properties['to'] = $this->getInput('tabfilter_to', '');
 		}
 
-		if (array_key_exists('inventory', $properties)) {
-			$inventory = array_filter($properties['inventory'], function ($field) {
-				return ($field['value'] !== '');
-			});
+		$filter = (new CTabFilterProfile($idx, []))->read();
 
-			if ($inventory) {
-				$properties['inventory'] = array_values($inventory);
-			}
-			else {
-				unset($properties['inventory']);
-			}
+		if (array_key_exists($idx2, $filter->tabfilters)) {
+			$properties = $properties + $filter->tabfilters[$idx2];
+		}
+		else {
+			$idx2 = count($filter->tabfilters);
 		}
 
-		return $properties;
+		$filter->tabfilters[$idx2] = $properties;
+		$filter->update();
+
+		$this->setResponse(new CControllerResponseData([
+			'main_block' => json_encode($properties + ['idx2' => $idx2, 'create' => $create])
+		]));
 	}
 }
