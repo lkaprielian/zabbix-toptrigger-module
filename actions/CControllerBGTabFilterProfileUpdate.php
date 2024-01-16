@@ -1,7 +1,7 @@
-<?php declare(strict_types = 0);
+<?php declare(strict_types=1);
 /*
 ** Zabbix
-** Copyright (C) 2001-2024 Zabbix SIA
+** Copyright (C) 2001-2021 Zabbix SIA
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -18,6 +18,14 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
+namespace Modules\BGmotAR\Actions;
+
+use CController;
+use CControllerHost;
+use CControllerProblem;
+use CControllerResponseData;
+use CSettingsHelper;
+use CTabFilterProfile;
 
 /**
  * Controller to update tab filter. Handles following events:
@@ -26,12 +34,12 @@
  * - update filter properties;
  * - save tab order.
  */
-class CControllerTabFilterProfileUpdate extends CController {
+class CControllerBGTabFilterProfileUpdate extends CController {
 
 	public static $namespaces = [
 		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
 		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
-		CControllerLatest::FILTER_IDX => CControllerLatest::FILTER_FIELDS_DEFAULT
+		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
 	];
 
 	protected function checkPermissions() {
