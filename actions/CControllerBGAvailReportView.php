@@ -34,6 +34,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'sort' =>			'in name,status,cnt_event',
 			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
 		];
+
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
 		if (!$ret) {
@@ -43,11 +44,22 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		return $ret;
 	}
 
+
+
 	protected function checkPermissions() {
 		return $this->checkAccess(CRoleHelper::UI_REPORTS_AVAILABILITY_REPORT);
 	}
 
 	protected function doAction() {
+		if (hasRequest('from') || hasRequest('to')) {
+			validateTimeSelectorPeriod(
+				hasRequest('from') ? getRequest('from') : null,
+				hasRequest('to') ? getRequest('to') : null
+			);
+		}
+		$timeselector_from = getRequest('from', CProfile::get('reports.availreport.filter.from','now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT)));
+		$timeselector_to = getRequest('to', CProfile::get('reports.availreport.filter.to', 'now'));
+
 		$filter_tabs = [];
 
 		$profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))->read();
@@ -86,11 +98,8 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				'support_custom_time' => 1,
 				'expanded' => $profile->expanded,
 				'page' => $filter['page'],
-				'timeselector' => [
-					'from' => $profile->from,
-					'to' => $profile->to,
-					'disabled' => false
-				] + getTimeselectorActions($profile->from, $profile->to)
+				'from' => $timeselector_from,
+				'to' => $timeselector_to
 			],
 			'filter_tabs' => $filter_tabs,
 			'refresh_url' => $refresh_curl->getUrl(),
