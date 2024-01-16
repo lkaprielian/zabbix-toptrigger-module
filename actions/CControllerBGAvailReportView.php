@@ -40,8 +40,8 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				hasRequest('to') ? getRequest('to') : null
 			);
 		}
-		$timeselector_from = getRequest('from', CProfile::get('web.toptriggers.filter.from','now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT)));
-		$timeselector_to = getRequest('to', CProfile::get('web.toptriggers.filter.to', 'now'));
+		// $timeselector_from = getRequest('from', CProfile::get('web.toptriggers.filter.from','now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT)));
+		// $timeselector_to = getRequest('to', CProfile::get('web.toptriggers.filter.to', 'now'));
 
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
