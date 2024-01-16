@@ -29,10 +29,8 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'only_with_problems' =>		'in 0,1',
 			'page' =>			'ge 1',
 			'counter_index' =>		'ge 0',
-			// 'from' =>			'range_time',
-			// 'to' =>				'range_time',
-			'from' =>		T_ZBX_RANGE_TIME,
-			'to' =>			T_ZBX_RANGE_TIME,
+			'from' =>			'range_time',
+			'to' =>				'range_time',
 			'sort' =>			'in name,status,cnt_event',
 			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
 		];

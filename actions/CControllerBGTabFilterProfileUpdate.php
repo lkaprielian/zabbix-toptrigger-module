@@ -92,7 +92,7 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
-				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+				'from' => 'now-7d',
 				'to' => 'now'
 			];
 		}
