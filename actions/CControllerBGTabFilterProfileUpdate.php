@@ -92,16 +92,14 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		// $timeselector_options = [
 		// 	'profileIdx' => 'reports.availreport.filter',
 		// 	'profileIdx2' => 0,
-		// 	'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-		// 	'to' => 'now'
+		// 	'from' => getRequest('from'),
+		// 	'to' => getRequest('to')
 		// ];
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
-				'profileIdx' => 'reports.availreport.filter',
-				'profileIdx2' => 0,
-				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-				'to' => 'now'
+				'from' => getRequest('from'),
+				'to' => getRequest('to')
 			];
 		}
 
