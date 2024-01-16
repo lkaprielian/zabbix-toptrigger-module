@@ -292,7 +292,7 @@ if (array_key_exists('render_html', $data)) {
 		let action = ev.detail.action,
 			container = this._content_container;
 
-		if (action === 'filter_update') {
+		if (action !== 'filter_apply' && action !== 'filter_update') {
 			return;
 		}
 	}

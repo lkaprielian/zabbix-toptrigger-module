@@ -16,7 +16,6 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 	}
 
 	protected function checkInput() {
-		error_reporting(0);
 		$fields = [
 			'name' =>			'string',
 			'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
@@ -57,7 +56,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			$profile->reset();
 		}
 		else {
-			$profile->setInput($this->cleanInput($this->getInputAll()));
+			$profile->setInput($this->getInputAll());
 		}
 
 		foreach ($profile->getTabsWithDefaults() as $index => $filter_tab) {
