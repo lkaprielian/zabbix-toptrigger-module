@@ -35,14 +35,6 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'sort' =>			'in name,status,cnt_event',
 			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
 		];
-		if (hasRequest('from') || hasRequest('to')) {
-			validateTimeSelectorPeriod(
-				hasRequest('from') ? getRequest('from') : null,
-				hasRequest('to') ? getRequest('to') : null
-			);
-		}
-		$timeselector_from = getRequest('from', CProfile::get('web.toptriggers.filter.from','now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT)));
-		$timeselector_to = getRequest('to', CProfile::get('web.toptriggers.filter.to', 'now'));
 
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
@@ -99,7 +91,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				'timeselector' => [
 					'from' => $profile->from,
 					'to' => $profile->to,
-					'disabled' => false
+					'disabled' => true
 				] + getTimeselectorActions($profile->from, $profile->to)
 			],
 			'filter_tabs' => $filter_tabs,
