@@ -86,8 +86,11 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				'support_custom_time' => 1,
 				'expanded' => $profile->expanded,
 				'page' => $filter['page'],
-				'from' => $this->hasInput('from') ? $this->getInput('from') : null,
-				'to' => $this->hasInput('to') ? $this->getInput('to') : null
+				'timeselector' => [
+					'from' => $this->hasInput('from') ? $this->getInput('from') : null,
+					'to' => $this->hasInput('to') ? $this->getInput('to') : null,
+					'disabled' => false
+				] + getTimeselectorActions($profile->from, $profile->to)
 			],
 			'filter_tabs' => $filter_tabs,
 			'refresh_url' => $refresh_curl->getUrl(),
