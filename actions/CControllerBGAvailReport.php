@@ -67,12 +67,12 @@ abstract class CControllerBGAvailReport extends CController {
 		if ($filter['from'] != '' && $filter['to'] != '') {
 			$range_time_parser = new CRangeTimeParser();
 			$range_time_parser->parse($filter['from']);
-			$filter['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$filter['from'] = $range_time_parser->getDateTime(true)->getTimestamp();
 			$range_time_parser->parse($filter['to']);
-			$filter['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+			$filter['to'] = $range_time_parser->getDateTime(false)->getTimestamp();
 		} else {
-			$filter['from_ts'] = null;
-			$filter['to_ts'] = null;
+			$filter['from'] = null;
+			$filter['to'] = null;
 		}
 
 		####
@@ -84,8 +84,8 @@ abstract class CControllerBGAvailReport extends CController {
 				' WHERE t.triggerid=e.objectid'.
 					' AND e.source='.EVENT_SOURCE_TRIGGERS.
 					' AND e.value='.TRIGGER_VALUE_TRUE.
-					' AND e.clock>='.zbx_dbstr($filter['from_ts']).
-					' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+					' AND e.clock>='.zbx_dbstr($filter['from']).
+					' AND e.clock<='.zbx_dbstr($filter['to']);
 		
 		$sql .= ' AND '.dbConditionInt('t.flags', [ZBX_FLAG_DISCOVERY_NORMAL, ZBX_FLAG_DISCOVERY_CREATED]).
 				' GROUP BY e.objectid'.
@@ -126,11 +126,11 @@ abstract class CControllerBGAvailReport extends CController {
 			' WHERE e.source='.EVENT_SOURCE_TRIGGERS.
 				' AND e.object='.EVENT_OBJECT_TRIGGER.
 				' AND e.value='.TRIGGER_VALUE_TRUE;
-		if ($filter['from_ts']) {
-			$sql .= ' AND e.clock>='.zbx_dbstr($filter['from_ts']);
+		if ($filter['from']) {
+			$sql .= ' AND e.clock>='.zbx_dbstr($filter['from']);
 		}
-		if ($filter['to_ts']) {
-			$sql .= ' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+		if ($filter['to']) {
+			$sql .= ' AND e.clock<='.zbx_dbstr($filter['to']);
 		}
 		$dbEvents = DBselect($sql);
 		while ($row = DBfetch($dbEvents)) {
@@ -160,8 +160,8 @@ abstract class CControllerBGAvailReport extends CController {
 					' WHERE e.objectid='.zbx_dbstr($trigger['triggerid']).
 						' AND e.source='.EVENT_SOURCE_TRIGGERS.
 						' AND e.object='.EVENT_OBJECT_TRIGGER.
-						' AND e.clock<'.zbx_dbstr($filter['from_ts']).
-						' AND e.clock<='.zbx_dbstr($filter['to_ts']);
+						' AND e.clock<'.zbx_dbstr($filter['from']).
+						' AND e.clock<='.zbx_dbstr($filter['to']);
 					' ORDER BY e.eventid DESC';
 			if ($row = DBfetch(DBselect($sql, 1))) {
 				// Add the triggerid to the array if it is not there
@@ -228,7 +228,7 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach ($triggers as &$trigger) {
 			if ($generating_csv_flag ||
 				 ($i >= $start_idx && $i < $end_idx) ) {
-				$trigger['availability'] = calculateAvailability($trigger['triggerid'], $filter['from_ts'], $filter['to_ts']);
+				$trigger['availability'] = calculateAvailability($trigger['triggerid'], $filter['from'], $filter['to']);
 				if ($filter['only_with_problems']) {
 					if ($trigger['availability']['true'] > 0.00005) {
 						$selected_triggers[] = $trigger;

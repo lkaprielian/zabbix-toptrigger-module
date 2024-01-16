@@ -39,7 +39,7 @@ foreach ($triggers as $trigger) {
 	$triggerDescription = (new CLinkAction($trigger['description']))
 		->setMenuPopup(CMenuPopupHelper::getTrigger([
 			'triggerid' => $trigger['triggerid'],
-			'backurl' => (new CUrl('zabbix.php'))->getUrl()
+			'backurl' => (new CUrl('toptriggers.php'))->getUrl()
 	]));
 
 
