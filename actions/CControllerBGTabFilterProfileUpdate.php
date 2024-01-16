@@ -34,7 +34,7 @@ use CTabFilterProfile;
  * - update filter properties;
  * - save tab order.
  */
-class CControllerBGTabFilterProfileUpdate extends CController {
+class CControllerBGTabFilterProfileUpdate extends CControllerBGAvailReportView {
 
 	public static $namespaces = [
 		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
