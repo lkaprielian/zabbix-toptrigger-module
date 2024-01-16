@@ -38,8 +38,8 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 	public static $namespaces = [
 		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
-		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT
-		// CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
+		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
+		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
 	];
 
 	protected function checkPermissions() {
@@ -89,9 +89,17 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		$property = array_pop($idx_cunks);
 		$idx = implode('.', $idx_cunks);
 		$defaults = static::$namespaces[$idx];
+		// $timeselector_options = [
+		// 	'profileIdx' => 'reports.availreport.filter',
+		// 	'profileIdx2' => 0,
+		// 	'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+		// 	'to' => 'now'
+		// ];
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
+				'profileIdx' => 'reports.availreport.filter',
+				'profileIdx2' => 0,
 				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
 				'to' => 'now'
 			];
