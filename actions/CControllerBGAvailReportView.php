@@ -56,7 +56,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			$profile->reset();
 		}
 		else {
-			$profile->setInput($this->getInputAll());
+			$profile->setInput($this->cleanInput($this->getInputAll()));
 		}
 
 		foreach ($profile->getTabsWithDefaults() as $index => $filter_tab) {

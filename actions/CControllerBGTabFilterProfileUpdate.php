@@ -51,10 +51,13 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 			'idx' =>		'required|string',
 			'value_int' =>	'int32',
 			'value_str' =>	'string',
-			'idx2' =>		'id'
+			'idx2' =>		'id',
+			'from' =>			'range_time',
+			'to' =>				'range_time'
 		];
 
-		$ret = $this->validateInput($fields);
+		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
+		// Get timestamps from and to
 
 		if ($ret) {
 			$idx_cunks = explode('.', $this->getInput('idx'));
@@ -80,6 +83,21 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 	}
 
 	protected function doAction() {
+		$fields = [
+			'from' => 'range_time',
+			'to' =>	'range_time',
+		];
+		// Get timestamps from and to
+		if ($fields['from'] != '' && $fields['to'] != '') {
+			$range_time_parser = new CRangeTimeParser();
+			$range_time_parser->parse($fields['from']);
+			$fields['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
+			$range_time_parser->parse($fields['to']);
+			$fields['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
+		} else {
+			$fields['from_ts'] = null;
+			$fields['to_ts'] = null;
+		}
 		$data = $this->getInputAll() + [
 			'value_int' => 0,
 			'value_str' => '',
@@ -92,8 +110,8 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
-				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
-				'to' => 'now'
+				'from' => $fields['from_ts'],
+				'to' => $fields['to_ts']
 			];
 		}
 
@@ -133,7 +151,6 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 			'property' => $property,
 			'idx' => $idx
 		];
-		
 		$response = new CControllerResponseData($data);
 		$this->setResponse($response);
 	}
