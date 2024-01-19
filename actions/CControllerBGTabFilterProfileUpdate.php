@@ -18,7 +18,7 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-namespace Modules\BGmotAR\Actions;
+namespace Modules\LMFR\Actions;
 
 use CController;
 use CControllerHost;
@@ -51,13 +51,10 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 			'idx' =>		'required|string',
 			'value_int' =>	'int32',
 			'value_str' =>	'string',
-			'idx2' =>		'id',
-			'from' =>			'range_time',
-			'to' =>				'range_time'
+			'idx2' =>		'id'
 		];
 
-		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
-		// Get timestamps from and to
+		$ret = $this->validateInput($fields);
 
 		if ($ret) {
 			$idx_cunks = explode('.', $this->getInput('idx'));
@@ -83,21 +80,6 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 	}
 
 	protected function doAction() {
-		$fields = [
-			'from' => 'range_time',
-			'to' =>	'range_time',
-		];
-		// Get timestamps from and to
-		if ($fields['from'] != '' && $fields['to'] != '') {
-			$range_time_parser = new CRangeTimeParser();
-			$range_time_parser->parse($fields['from']);
-			$fields['from_ts'] = $range_time_parser->getDateTime(true)->getTimestamp();
-			$range_time_parser->parse($fields['to']);
-			$fields['to_ts'] = $range_time_parser->getDateTime(false)->getTimestamp();
-		} else {
-			$fields['from_ts'] = null;
-			$fields['to_ts'] = null;
-		}
 		$data = $this->getInputAll() + [
 			'value_int' => 0,
 			'value_str' => '',
@@ -110,8 +92,8 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 		if (array_key_exists('from', $defaults) || array_key_exists('to', $defaults)) {
 			$defaults += [
-				'from' => $fields['from_ts'],
-				'to' => $fields['to_ts']
+				'from' => 'now-'.CSettingsHelper::get(CSettingsHelper::PERIOD_DEFAULT),
+				'to' => 'now'
 			];
 		}
 
