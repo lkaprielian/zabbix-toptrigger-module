@@ -62,8 +62,7 @@ class CControllerBGAvailReportViewRefresh extends CControllerBGAvailReportView {
 			'filter_counters' =>		'in 1'
 		];
 
-		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod() && $this->validateInventory()
-			&& $this->validateTags();
+		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
 		if (!$ret) {
 			$this->setResponse(new CControllerResponseFatal());
