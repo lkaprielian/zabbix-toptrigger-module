@@ -114,6 +114,7 @@ abstract class CControllerBGAvailReport extends CController {
 		// print_r(array_keys($filter['triggerids']));
 		
 		print_r($triggersEventCount);
+		print_r($filter['triggerids']);
 
 		// $matched_triggerids = array_intersect($triggersEventCount,$filter['triggerids']);
 		// print_r($matched_triggerids);
