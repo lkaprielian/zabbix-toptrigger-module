@@ -96,28 +96,28 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
 
-		$triggerids_list = [];
-		foreach (array_keys($triggersEventCount) as $triggerid => $trigger) {
-			// print($trigger);
-			if ((sizeof($filter['triggerids']) > 0)) {
-				foreach (array_keys($filter['triggerids']) as $k => $v) {
-					if ($v === $trigger) {
-						print('yes');
-			// 			$triggerids[] = $triggerids + $trigger; 
-					}
-				}
-			} 
-		}
+		// $triggerids_list = [];
+		// foreach (array_keys($triggersEventCount) as $triggerid => $trigger) {
+		// 	// print($trigger);
+		// 	if ((sizeof($filter['triggerids']) > 0)) {
+		// 		foreach (array_keys($filter['triggerids']) as $k => $v) {
+		// 			if ($v === $trigger) {
+		// 				print('yes');
+		// 	// 			$triggerids[] = $triggerids + $trigger; 
+		// 			}
+		// 		}
+		// 	} 
+		// }
 
 
-		print_r(array_keys($triggersEventCount));
-		print_r(array_keys($filter['triggerids']));
+		// print_r(array_keys($triggersEventCount));
+		// print_r(array_keys($filter['triggerids']));
 
 
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
-			'triggerids' =>  array_keys($triggersEventCount), //added to get top 100 
+			'triggerids' =>  sizeof($filter['triggerids']) > 0 ? $filter['triggerids'] : null, //array_keys($triggersEventCount), //added to get top 100 
 			'selectTags' => 'extend',
 			'selectFunctions' => 'extend',
 			'expandDescription' => true,
