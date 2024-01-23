@@ -64,6 +64,22 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 		// print $num_of_triggers;
 
+		$triggers = API::Trigger()->get([
+			'output' => ['triggerid', 'description', 'expression', 'value'],
+			'selectHosts' => ['name'],
+			'selectTags' => 'extend',
+			'selectFunctions' => 'extend',
+			'expandDescription' => true,
+			'monitored' => true,
+			'groupids' => $host_group_ids,
+			'triggerids' => sizeof($filter['triggerids']) > 0 ? $filter['triggerids'] : null,
+			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
+			'filter' => [
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
+			],
+                        'limit' => $limit
+        ]);
+		
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
 			$range_time_parser = new CRangeTimeParser();
@@ -113,8 +129,8 @@ abstract class CControllerBGAvailReport extends CController {
 		// print_r(array_keys($triggersEventCount));
 		// print_r(array_keys($filter['triggerids']));
 		
-		print_r($triggersEventCount);
-		print_r($filter['triggerids']);
+		// print_r($triggersEventCount);
+		// print_r($filter['triggerids']);
 
 		// $matched_triggerids = array_intersect($triggersEventCount,$filter['triggerids']);
 		// print_r($matched_triggerids);
