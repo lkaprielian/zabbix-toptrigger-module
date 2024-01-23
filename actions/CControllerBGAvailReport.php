@@ -22,7 +22,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'tpl_groupids' => [],
 		'templateids' => [],
 		'tpl_triggerids' => [],
-		'triggerids' => [],
+		'triggerids' => ['23441'],
 		'hostgroupids' => [],
 		'hostids' => [],
 		'only_with_problems' => 1,
