@@ -102,7 +102,7 @@ abstract class CControllerBGAvailReport extends CController {
 			if ((sizeof($filter['triggerids']) > 0)) {
 				foreach (array_keys($filter['triggerids']) as $k => $v) {
 					if ($v === $trigger) {
-						print($v);
+						print('yes');
 			// 			$triggerids[] = $triggerids + $trigger; 
 					}
 				}
