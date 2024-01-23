@@ -101,7 +101,7 @@ abstract class CControllerBGAvailReport extends CController {
 			if ((sizeof($filter['triggerids']) > 0)) {
 				foreach ($filter['$triggerids'] as $trigger) {
 					if ($trigger === $triggerid) {
-						$triggerids[] = $triggerids + $trigger; 
+						$triggerids = $triggerids + $trigger; 
 					}
 				}
 			} 
