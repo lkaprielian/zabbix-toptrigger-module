@@ -79,7 +79,7 @@ abstract class CControllerBGAvailReport extends CController {
 			],
                         'limit' => $limit
         ]);
-
+		unset($triggers);
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
 			$range_time_parser = new CRangeTimeParser();
