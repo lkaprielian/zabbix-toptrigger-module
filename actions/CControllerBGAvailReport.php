@@ -62,7 +62,23 @@ abstract class CControllerBGAvailReport extends CController {
 		if ($num_of_triggers > $limit) {
 			$warning = 'WARNING: ' . $num_of_triggers . ' triggers found which is more than reasonable limit ' . $limit . ', results below might be not totally accurate. Please add or review current filter conditions.';
 		}
+
 		// print $num_of_triggers;
+		$triggers = API::Trigger()->get([
+			'output' => ['triggerid', 'description', 'expression', 'value'],
+			'selectHosts' => ['name'],
+			'selectTags' => 'extend',
+			'selectFunctions' => 'extend',
+			'expandDescription' => true,
+			'monitored' => true,
+			'groupids' => $host_group_ids,
+			'triggerids' => sizeof($filter['triggerids']) > 0 ? $filter['triggerids'] : null,
+			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
+			'filter' => [
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
+			],
+                        'limit' => $limit
+        ]);
 
 		// Get timestamps from and to
 		if ($filter['from'] != '' && $filter['to'] != '') {
@@ -100,7 +116,7 @@ abstract class CControllerBGAvailReport extends CController {
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
-			'triggerids' => sizeof($filter['triggerids']) > 0 ? array_keys($triggersEventCount) : null, //added to get top 100 
+			'triggerids' => array_keys($triggersEventCount), //added to get top 100 
 			'selectTags' => 'extend',
 			'selectFunctions' => 'extend',
 			'expandDescription' => true,
