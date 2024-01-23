@@ -116,8 +116,8 @@ abstract class CControllerBGAvailReport extends CController {
 		print_r(array_keys($triggersEventCount));
 		print_r($filter['triggerids']);
 
-		// $matched_triggerids = array_intersect($triggersEventCount,$filter['triggerids']);
-		// print_r($matched_triggerids);
+		$matched_triggerids = array_intersect(array_keys($triggersEventCount), $filter['triggerids']);
+		print_r($matched_triggerids);
 
 		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
