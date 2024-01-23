@@ -96,16 +96,18 @@ abstract class CControllerBGAvailReport extends CController {
 			$triggersEventCount[$row['objectid']] = $row['cnt_event'];
 		}
 
-		// $triggerids = [];
-		// foreach (array_keys($triggersEventCount) as $triggerid) {
-		// 	if ((sizeof($filter['triggerids']) > 0)) {
-		// 		foreach ($filter['$triggerids'] as $trigger) {
-		// 			if ($trigger === $triggerid) {
-		// 				$triggerids[] = $triggerids + $trigger; 
-		// 			}
-		// 		}
-		// 	} 
-		// }
+		$triggerids = [];
+		foreach (array_keys($triggersEventCount) as $triggerid => $trigger) {
+			print($trigger);
+			// if ((sizeof($filter['triggerids']) > 0)) {
+			// 	foreach (array_keys($filter['triggerids']) as $trigger) {
+			// 		if ($trigger === $triggerid) {
+			// 			$triggerids[] = $triggerids + $trigger; 
+			// 		}
+			// 	}
+			// } 
+		}
+
 
 		print_r(array_keys($triggersEventCount));
 		print_r(array_keys($filter['triggerids']));
