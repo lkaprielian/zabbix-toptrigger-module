@@ -112,8 +112,10 @@ abstract class CControllerBGAvailReport extends CController {
 
 		// print_r(array_keys($triggersEventCount));
 		// print_r(array_keys($filter['triggerids']));
-
-		$triggers_top = API::Trigger()->get([
+		
+		$matched_triggerids = array_intersect(array_keys($triggersEventCount),array_keys($filter['triggerids']));
+		print_r($matched_triggerids);
+		$triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
 			'triggerids' =>  array_keys($triggersEventCount), //added to get top 100 
@@ -130,25 +132,9 @@ abstract class CControllerBGAvailReport extends CController {
             'limit' => $limit
         ]);
 
-		foreach ($triggers_top as $triggerId => $trigger) {
+		foreach ($triggers as $triggerId => $trigger) {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
-
-		$triggers = API::Trigger()->get([
-			'output' => ['triggerid', 'description', 'expression', 'value'],
-			'selectHosts' => ['name'],
-			'selectTags' => 'extend',
-			'selectFunctions' => 'extend',
-			'expandDescription' => true,
-			'monitored' => true,
-			'groupids' => $host_group_ids,
-			'triggerids' => $triggers_top['triggerids'],
-			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
-			'filter' => [
-				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
-			],
-            'limit' => $limit
-        ]);
 
 		// if ($filter['only_with_problems']) {
 		// Find all triggers that went into PROBLEM state
