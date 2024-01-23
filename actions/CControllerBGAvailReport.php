@@ -21,10 +21,10 @@ abstract class CControllerBGAvailReport extends CController {
 		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		'tpl_groupids' => [],
 		'templateids' => [],
-		'tpl_triggerids' => [], 
+		'tpl_triggerids' => [],
+		'triggerids' => [],
 		'hostgroupids' => [],
 		'hostids' => [],
-		'triggerids' => [],
 		'only_with_problems' => 1,
         'page' => null,
 		'from' => '',
@@ -50,6 +50,7 @@ abstract class CControllerBGAvailReport extends CController {
 		$num_of_triggers = API::Trigger()->get([
 			'output' => ['triggerid', 'description', 'expression', 'value'],
 			'monitored' => true,
+			'triggerids' => sizeof($filter['triggerids']) > 0 ? $filter['triggerids'] : null,
 			'groupids' => $host_group_ids,
 			'hostids ' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
@@ -338,6 +339,29 @@ abstract class CControllerBGAvailReport extends CController {
 			}
 
 			$data['tpl_triggers_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($triggers), ['triggerid' => 'id']);
+		}
+
+		// Triggers multiselect.
+		if ($filter['triggerids']) {
+			$triggers = CArrayHelper::renameObjectsKeys(API::Trigger()->get([
+				'output' => ['triggerid', 'description'],
+				'selectHosts' => ['name'],
+				'expandDescription' => true,
+				'triggerids' => $filter['triggerids'],
+				'monitored' => true
+			]), ['triggerid' => 'id', 'description' => 'name']);
+
+			CArrayHelper::sort($triggers, [
+				['field' => 'name', 'order' => ZBX_SORT_UP]
+			]);
+
+			foreach ($triggers as &$trigger) {
+				$trigger['prefix'] = $trigger['hosts'][0]['name'].NAME_DELIMITER;
+				unset($trigger['hosts']);
+			}
+			unset($trigger);
+
+			$data['triggers'] = $triggers;
 		}
 
 		if ($filter['hostgroupids']) {

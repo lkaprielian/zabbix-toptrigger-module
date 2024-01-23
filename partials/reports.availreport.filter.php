@@ -64,6 +64,31 @@ $filter_column = (new CFormList())
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('tpl_triggerids_#{uniqid}')
 	)
+
+	->addRow((new CLabel(_('Triggers'), 'triggerids_#{uniqid}_ms')),
+		(new CMultiSelect([
+			'name' => 'triggerids[]',
+			'object_name' => 'triggers',
+			'data' => array_key_exists('triggers', $data) ? $data['triggers'] : [],
+			'popup' => [
+				'filter_preselect' => [
+					'id' => 'hostids_',
+					'submit_as' => 'hostid'
+				],
+				'parameters' => [
+					'srctbl' => 'triggers',
+					'srcfld1' => 'triggerid',
+					'dstfrm' => 'zbx_filter',
+					'dstfld1' => 'triggerids_',
+					'monitored_hosts' => true,
+					'with_monitored_triggers' => true
+				]
+			]
+		]))
+			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+			->setId('triggerids_#{uniqid}')
+	)
+	
 	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'hostgroupids[]',
@@ -224,6 +249,29 @@ if (array_key_exists('render_html', $data)) {
 					srcfld1: 'triggerid',
 					dstfrm: 'zbx_filter',
 					dstfld1: 'tpl_triggerids_' + data.uniqid
+				}
+			}
+		});
+
+		// Triggers multiselect.
+		$('#triggerids_' + data.uniqid, container).multiSelectHelper({
+			id: 'triggerids_' + data.uniqid,
+			object_name: 'triggers',
+			name: 'triggerids[]',
+			data: data.filter_view_data.triggers || [],
+			popup: {
+				filter_preselect: {
+					id: 'hostids_' + data.uniqid,
+					submit_as: 'hostid'
+				},
+				parameters: {
+					srctbl: 'triggers',
+					srcfld1: 'triggerid',
+					dstfrm: 'zbx_filter',
+					dstfld1: 'triggerids_' + data.uniqid,
+					multiselect: 1,
+					monitored_hosts: 1,
+					with_monitored_triggers: 1
 				}
 			}
 		});
