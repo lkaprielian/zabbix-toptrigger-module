@@ -116,6 +116,7 @@ abstract class CControllerBGAvailReport extends CController {
 		// print_r(array_keys($triggersEventCount));
 		// print_r($filter['triggerids']);
 
+		// retrieve only triggerid which is in the filter and exist in triggereventcount(filter + sql result) use it in trigger api call
 		$matched_triggerids = array_intersect(array_keys($triggersEventCount), $filter['triggerids']);
 		// print_r($matched_triggerids);
 
