@@ -14,7 +14,7 @@ $table->setHeader([
 	(new CColHeader(_('Problems'))),
 	(new CColHeader(_('Ok'))),
 	// (new CColHeader(_('Tags'))),
-	make_sorting_header(_('Number of status changes'), 'cnt_event', $data['filter']['sort'], $data['filter']['sortorder'], $view_url)
+	make_sorting_header(_('Number of triggers'), 'cnt_event', $data['filter']['sort'], $data['filter']['sortorder'], $view_url)
 ]);
 
 $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
