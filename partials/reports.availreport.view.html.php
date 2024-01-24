@@ -34,7 +34,7 @@ foreach ($triggers as $trigger) {
 	
 
 	$hostName = (new CLinkAction($hostName))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($hostId['status'] == HOST_STATUS_NOT_MONITORED) {
+	if ($trigger['hosts'][0]['hostid']['status'] == HOST_STATUS_NOT_MONITORED) {
 		$hostName->addClass(ZBX_STYLE_RED);
 	}
 
