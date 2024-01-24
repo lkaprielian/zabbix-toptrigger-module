@@ -31,7 +31,7 @@ $triggers = $data['triggers'];
 foreach ($triggers as $trigger) {
 
 	$hostName = $trigger['hosts'][0]['name'];
-	$hostId = $trigger['hosts'][0]['hostid'];
+	$hostId = $data['hosts'][0]['hostid'];
 	
 
 	$hostName = (new CLinkAction($hostName))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
