@@ -21,7 +21,6 @@ $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS
 
 $triggers = $data['triggers'];
 
-// print_r($data['hosts'][0]['hostid']);
 // $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 // foreach ($triggers as &$trigger) {
 // 	$trigger['tags'] = $tags[$trigger['triggerid']];
@@ -33,11 +32,12 @@ foreach ($triggers as $trigger) {
 	$hostName = $trigger['hosts'][0]['name'];
 	$hostId = $trigger['hosts'][0]['hostid'];
 	
+	print_r($trigger['hosts']['status']);
 
 	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
-	if ($data['hosts'][0]['status'] == HOST_STATUS_NOT_MONITORED) {
-		$hostName->addClass(ZBX_STYLE_RED);
-	}
+	// if ($data['hosts'][0]['status'] == HOST_STATUS_NOT_MONITORED) {
+	// 	$hostName->addClass(ZBX_STYLE_RED);
+	// }
 
 	$triggerDescription = (new CLinkAction($trigger['description']))
 		->setMenuPopup(CMenuPopupHelper::getTrigger([
