@@ -21,7 +21,7 @@ $allowed_ui_problems = CWebUser::checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS
 
 $triggers = $data['triggers'];
 
-print_r($data['hosts']['status']);
+print_r($data['hosts']);
 // $tags = makeTags($triggers, true, 'triggerid', ZBX_TAG_COUNT_DEFAULT);
 // foreach ($triggers as &$trigger) {
 // 	$trigger['tags'] = $tags[$trigger['triggerid']];
