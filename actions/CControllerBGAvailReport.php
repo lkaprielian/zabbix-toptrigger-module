@@ -275,6 +275,8 @@ abstract class CControllerBGAvailReport extends CController {
 
 		foreach ($selected_triggers as &$trigger) {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
+			$trigger['host_id'] = $trigger['hosts'][0]['hostid'];
+
 		}
 		unset($trigger);
 
