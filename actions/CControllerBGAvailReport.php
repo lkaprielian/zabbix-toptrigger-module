@@ -285,8 +285,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$hosts = API::Host()->get([
 				'output' => ['hostid', 'status'],
 				'selectTags' => 'extend',
-				'hostids' => [$trigger['hosts'][0]['hostid']],
-				'preservekeys' => true
+				'hostids' => [$trigger['hosts'][0]['hostid']]
 			]);
 			if (count($hosts[0]['tags']) > 0) {
 				$trigger['tags'][] = $hosts[0]['tags'];
