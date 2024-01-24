@@ -3,6 +3,7 @@
 if ($data['action'] == 'availreport.view') {
 	$this->addJsFile('multiselect.js');
 	$this->addJsFile('layout.mode.js');
+	$this->addJsFile('menupopup.js');
 	$this->addJsFile('gtlc.js');
 	$this->addJsFile('class.calendar.js');
 	$this->addJsFile('class.tabfilter.js');
