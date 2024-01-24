@@ -137,6 +137,7 @@ abstract class CControllerBGAvailReport extends CController {
             'limit' => $limit
         ]);
 
+		## added for cnt and hostid
 		foreach ($triggers as $triggerId => $trigger) {
 			$triggers[$triggerId]['cnt_event'] = $triggersEventCount[$triggerId];
 		}
@@ -244,7 +245,7 @@ abstract class CControllerBGAvailReport extends CController {
 		$view_curl = (new CUrl())->setArgument('action', 'availreport.view');
 
 		$rows_per_page = (int) CWebUser::$data['rows_per_page'];
-                $selected_triggers = [];
+        $selected_triggers = [];
 		$i = 0;  // Counter. We need to stop doing expensive calculateAvailability() when results are not visible
 		$page = $filter['page'] ? $filter['page'] - 1 : 0;
 		$start_idx = $page * $rows_per_page;
@@ -313,9 +314,11 @@ abstract class CControllerBGAvailReport extends CController {
 		unset($trigger);
 		// } end of if problems
 
+		## add hosts to return
 		return [
 			'paging' => $paging,
 			'triggers' => $selected_triggers,
+			'hosts' => $hosts,
 			'warning' => $warning
 		];
 	}
