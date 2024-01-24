@@ -290,10 +290,6 @@ abstract class CControllerBGAvailReport extends CController {
 			if (count($hosts[0]['tags']) > 0) {
 				$trigger['tags'][] = $hosts[0]['tags'];
 			}
-			# add hosts status
-			if (count($hosts[0]['status']) > 0) {
-				$trigger['status'][] = $hosts[0]['status'];
-			}
 
 			// Add item(s) tags
 			foreach($trigger['functions'] as $function) {
