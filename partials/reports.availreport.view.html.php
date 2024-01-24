@@ -31,10 +31,10 @@ $triggers = $data['triggers'];
 foreach ($triggers as $trigger) {
 
 	$hostName = $trigger['hosts'][0]['name'];
-	$hostId = $data['hosts'][0]['hostid'];
+	$hostId = $trigger['hosts'][0]['hostid'];
 	
 
-	$hostName = (new CLinkAction($hostName))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
+	$hostName = (new CLinkAction($trigger['hosts'][0]['name']))->setMenuPopup(CMenuPopupHelper::getHost($hostId));
 	if ($data['hosts'][0]['status'] == HOST_STATUS_NOT_MONITORED) {
 		$hostName->addClass(ZBX_STYLE_RED);
 	}
