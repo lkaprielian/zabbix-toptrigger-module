@@ -17,28 +17,31 @@
 			if (filter_options) {
 				this.refresh_counters = this.createCountersRefresh(1);
 				this.filter = new CTabFilter($('#reports_availreport_filter')[0], filter_options);
-				this.filter.on(TABFILTER_EVENT_URLSET, (ev) => {
-					let url = new Curl('', false);
-
-					url.setArgument('action', 'availreport.view.refresh');
-					this.refresh_url = url.getUrl();
-					this.unscheduleRefresh();
-					this.refresh();
-
-					var filter_item = this.filter._active_item;
-
-					if (this.filter._active_item.hasCounter()) {
-						$.post('zabbix.php', {
-							action: 'availreport.view.refresh',
-							filter_counters: 1,
-							counter_index: filter_item._index
-						}).done((json) => {
-							if (json.filter_counters) {
-								filter_item.updateCounter(json.filter_counters.pop());
-							}
-						});
-					}
+				this.filter.on(TABFILTER_EVENT_URLSET, () => {
+				this.reloadPartialAndTabCounters();
 				});
+				// this.filter.on(TABFILTER_EVENT_URLSET, (ev) => {
+				// 	let url = new Curl('', false);
+
+				// 	url.setArgument('action', 'availreport.view.refresh');
+				// 	this.refresh_url = url.getUrl();
+				// 	this.unscheduleRefresh();
+				// 	this.refresh();
+
+				// 	var filter_item = this.filter._active_item;
+
+				// 	if (this.filter._active_item.hasCounter()) {
+				// 		$.post('zabbix.php', {
+				// 			action: 'availreport.view.refresh',
+				// 			filter_counters: 1,
+				// 			counter_index: filter_item._index
+				// 		}).done((json) => {
+				// 			if (json.filter_counters) {
+				// 				filter_item.updateCounter(json.filter_counters.pop());
+				// 			}
+				// 		});
+				// 	}
+				// });
 			}
 		}
 
@@ -99,6 +102,28 @@
 			clearLoading: function() {
 				//this.getCurrentForm().removeClass('is-loading is-loading-fadein delayed-15s');
 				$('div[id=reports_availreport_filter]').removeClass('is-loading is-loading-fadein');
+			},
+			reloadPartialAndTabCounters() {
+				this.refresh_url = new Curl('', false);
+
+				this.unscheduleRefresh();
+				this.refresh();
+
+				// Filter is not present in Kiosk mode.
+				if (this.filter) {
+					const filter_item = this.filter._active_item;
+
+					if (this.filter._active_item.hasCounter()) {
+						$.post(this.refresh_simple_url, {
+							filter_counters: 1,
+							counter_index: filter_item._index
+						}).done((json) => {
+							if (json.filter_counters) {
+								filter_item.updateCounter(json.filter_counters.pop());
+							}
+						});
+					}
+				}
 			},
 			doRefresh: function(body) {
 				this.getCurrentForm().replaceWith(body);
@@ -173,6 +198,7 @@
 				this.running = true;
 				this.refresh();
 			}
+			
 		};
 
 		window.availreport_page = new availreportPage();
@@ -192,7 +218,7 @@
 			window.availreport_page.refresh();
 		}
 	});
-	
+
 	const view = {
 		editHost(hostid) {
 			const host_data = {hostid};
