@@ -157,7 +157,7 @@ $template = (new CForm('get'))
 		(new CVar('filter_name', '#{filter_name}'))->removeId(),
 		(new CVar('filter_show_counter', '#{filter_show_counter}'))->removeId(),
 		(new CVar('filter_custom_time', '#{filter_custom_time}'))->removeId(),
-		(new CVar('from', 'now-7d'))->removeId(),
+		(new CVar('from', 'now-1h'))->removeId(),
 		(new CVar('to', '#{to}'))->removeId()
 	]);
 
