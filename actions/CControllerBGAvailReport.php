@@ -41,7 +41,7 @@ abstract class CControllerBGAvailReport extends CController {
 			$filter['action_from_url'] != 'availreport.view.csv') {
 			// Generating for UI
 			// $limit = CSettingsHelper::get(CSettingsHelper::SEARCH_LIMIT) + 1; // test limit
-			$limit = 40000; // test limit
+			$limit = CSettingsHelper::get(CSettingsHelper::SEARCH_LIMIT) + 1; // test limit
 
 			$generating_csv_flag = 0;
 		} else {
