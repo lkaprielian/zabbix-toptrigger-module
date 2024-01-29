@@ -27,8 +27,8 @@ abstract class CControllerBGAvailReport extends CController {
 		'hostids' => [],
 		'only_with_problems' => 1,
         'page' => null,
-		'from' => 'now-1h',
-		'to' => 'now',
+		'from' => '',
+		'to' => '',
 		'sort' => 'name',
 		'sortorder' => ZBX_SORT_DOWN
 	];
