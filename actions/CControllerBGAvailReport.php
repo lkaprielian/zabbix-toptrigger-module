@@ -142,14 +142,16 @@ abstract class CControllerBGAvailReport extends CController {
 			if ($generating_csv_flag ||
 				 ($i >= $start_idx && $i < $end_idx) ) {
 				$trigger['availability'] = calculateAvailability($trigger['triggerid'], $filter['from_ts'], $filter['to_ts']);
-				if ($filter['only_with_problems']) {
-					if ($trigger['availability']['true'] > 0.00005) {
-						$selected_triggers[] = $trigger;
-					}
-				} else {
+				// if ($filter['only_with_problems']) {
+				if ($trigger['availability']['true'] > 0.00005) {
 					$selected_triggers[] = $trigger;
 				}
-			} else {
+				// } 
+				else {
+					$selected_triggers[] = $trigger;
+				}
+			} 
+			else {
 				$selected_triggers[] = $trigger;
 			}
 			$i++;
