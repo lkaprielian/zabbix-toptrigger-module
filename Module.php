@@ -2,8 +2,11 @@
  
 namespace Modules\LMFR;
  
-use APP;
+// use APP;
  
+use Zabbix\Core\CModule,
+    APP,
+    CMenuItem;
 // class Module extends \Zabbix\Core\CModule {
 // 	public function init(): void {
 // 		// Initialize main menu (CMenu class instance).
