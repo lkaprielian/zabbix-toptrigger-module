@@ -23,8 +23,9 @@ use Zabbix\Core\CModule,
 class Module extends \Zabbix\Core\CModule {
     public function init(): void {
         APP::Component()->get('menu.main')
-            ->add((new CMenuItem(_('Tools')))
-            ->setAction('availreport.view'));
+            ->add(new CMenuItem(_('Tools')))
+				->insertAfter('', (new \CMenuItem(_('Recurrence')))
+            	->setAction('availreport.view'));
     }
 }
 ?>
