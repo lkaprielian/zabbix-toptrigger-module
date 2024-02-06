@@ -12,7 +12,7 @@ if ($data['action'] == 'availreport.view') {
 	$this->enableLayoutModes();
 	$web_layout_mode = $this->getLayoutMode();
 	$widget = (new CHtmlPage())
-		->setTitle(_('Top Triggers Recurrence'))
+		->setTitle(_('Recurrence'))
 		->setWebLayoutMode($web_layout_mode)
 		->setControls(
 			(new CTag('nav', true, (new CList())

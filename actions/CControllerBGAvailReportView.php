@@ -100,7 +100,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		] + $this->getData($filter);
 
 		$response = new CControllerResponseData($data);
-		$response->setTitle(_('Top Triggers Recurrence'));
+		$response->setTitle(_('Recurrence'));
 
 		if ($data['action'] === 'availreport.view.csv') {
 			$response->setFileName('zbx_availability_report_export.csv');

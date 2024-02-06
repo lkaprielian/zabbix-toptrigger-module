@@ -13,7 +13,7 @@ use Zabbix\Core\CModule,
 // 		APP::Component()->get('menu.main')
 // 			->findOrAdd(_('Reports'))
 // 				->getSubmenu()
-// 					->insertAfter('Availability report', (new \CMenuItem(_('Top Triggers Recurrence')))
+// 					->insertAfter('Availability report', (new \CMenuItem(_('Recurrence')))
 // 						->setAction('availreport.view')
 // 					);
 // 	}
