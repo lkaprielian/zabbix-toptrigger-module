@@ -1,12 +1,11 @@
 {
   "manifest_version": 2.0,
-  "id": "recurrence",
-  "name": "Recurrence",
+  "id": "top_triggers_recurrence",
+  "name": "Top Triggers Recurrence",
   "version": "1.0.0",
   "namespace": "LMFR",
   "author": "Leroy Merlin",
-  "url": "https://bgmot.com",
-  "description": "recurrence improvementes",
+  "description": "Recurrence improvementes",
   "actions": {
     "availreport.view": {
       "class": "CControllerBGAvailReportView",
