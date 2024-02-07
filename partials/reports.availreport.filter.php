@@ -21,7 +21,28 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('tpl_groupids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
+	// ->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'templateids[]',
+	// 		'object_name' => 'templates',
+	// 		'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
+	// 		'popup' => [
+	// 			'filter_preselect' => [
+	// 				'id' => 'tpl_groupids_',
+	// 				'submit_as' => 'templategroupid'
+	// 			],
+	// 			'parameters' => [
+	// 				'srctbl' => 'templates',
+	// 				'srcfld1' => 'hostid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'templateids_'
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('templateids_#{uniqid}')
+	// )
+	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'templateids[]',
 			'object_name' => 'templates',
@@ -38,11 +59,7 @@ $filter_column = (new CFormList())
 					'dstfld1' => 'templateids_'
 				]
 			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('templateids_#{uniqid}')
-	)
-	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
+		])),
 		(new CMultiSelect([
 			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
