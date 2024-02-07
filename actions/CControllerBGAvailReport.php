@@ -111,7 +111,8 @@ abstract class CControllerBGAvailReport extends CController {
 			'preservekeys' => true,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
-				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null,
+				'groupid' => sizeof($filter['tpl_groupids']) > 0 ? $filter['tpl_groupids'] : null
 			],
             'limit' => $limit
         ]);
