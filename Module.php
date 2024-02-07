@@ -25,8 +25,8 @@ class Module extends \Zabbix\Core\CModule {
 		// Initialize main menu (CMenu class instance).
 		APP::Component()->get('menu.main')
 			->findOrAdd(_('Tools'))
-				->setIcon('icon-tools')
-				->getSubmenu()
+				->setIcon('icon-inventory')
+					->getSubmenu()
 					->insertAfter('', (new \CMenuItem(_('Recurrence')))
 						->setAction('availreport.view')
 					);
