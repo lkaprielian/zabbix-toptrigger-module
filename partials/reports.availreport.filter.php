@@ -21,27 +21,21 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('tpl_groupids_#{uniqid}')
 	// )
-	->addRow(_('Show only hosts with problems'),
-		(new CCheckBox('only_with_problems'))
-			->setChecked($data['only_with_problems'] == 1)
-			->setUncheckedValue(0)
-			->setId('only_with_problems_#{uniqid}')
-	)
+
 	->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'templateids[]',
 			'object_name' => 'templates',
 			'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
 			'popup' => [
-				'filter_preselect' => [
-					'id' => 'tpl_groupids_',
-					'submit_as' => 'templategroupid'
-				],
 				'parameters' => [
-					'srctbl' => 'templates',
-					'srcfld1' => 'hostid',
+					'srctbl' => 'template_groups',
+					'srcfld1' => 'groupid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'templateids_'
+					'dstfld1' => 'tpl_groupids_',
+					'with_templates' => true,
+					'editable' => true,
+					'enrich_parent_groups' => true
 				]
 			]
 		]))
