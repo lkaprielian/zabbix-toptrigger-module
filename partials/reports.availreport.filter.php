@@ -43,17 +43,18 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('templateids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Template trigger'), 'triggerids_#{uniqid}_ms')),
+	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'triggerids[]',
+			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
-			'data' => array_key_exists('triggers', $data) ? $data['triggers'] : [],
+			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
 			'popup' => [
 				'parameters' => [
-					'srctbl' => 'triggers',
+					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'triggerids_'
+					'dstfld1' => 'tpl_triggerids_'		
+					// 'templateid' => '4'
 				]
 			]
 		]))
@@ -235,10 +236,10 @@ if (array_key_exists('render_html', $data)) {
 			name: 'tpl_triggerids[]',
 			data: data.filter_view_data.tpl_triggers_multiselect || [],
 			popup: {
-				filter_preselect: {
-					id: 'templateids_' + data.uniqid,
-					submit_as: 'templateid'
-				},
+				// filter_preselect: {
+				// 	id: 'templateids_' + data.uniqid,
+				// 	submit_as: 'templateid'
+				// },
 				parameters: {
 					multiselect: '1',
 					srctbl: 'template_triggers',
