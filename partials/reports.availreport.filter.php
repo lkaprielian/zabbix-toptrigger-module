@@ -24,8 +24,10 @@ $filter_column = (new CFormList())
 
 	->addRow((new CLabel(_('Templates'), 'tpl_groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'templateids[]',
-			'object_name' => 'templates',
+			// 'name' => 'templateids[]',
+			// 'object_name' => 'templates',
+			'name' => 'tpl_groupids[]',
+			'object_name' => 'hostGroup',
 			'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
 			'popup' => [
 				'filter_preselect' => [
