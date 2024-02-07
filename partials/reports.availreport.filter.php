@@ -22,42 +22,40 @@ $filter_column = (new CFormList())
 	// 		->setId('tpl_groupids_#{uniqid}')
 	// )
 
-	->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
-		(new CMultiSelect([
-			'name' => 'templateids[]',
-			'object_name' => 'templates',
-			'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
-			'popup' => [
-				'filter_preselect' => [
-					'id' => 'tpl_groupids_',
-					'submit_as' => 'templategroupid'
-				],
-				'parameters' => [
-					'srctbl' => 'templates',
-					'srcfld1' => 'hostid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'templateids_'
-				]
-			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('templateids_#{uniqid}')
-	)
+	// ->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'templateids[]',
+	// 		'object_name' => 'templates',
+	// 		'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
+	// 		'popup' => [
+	// 			'filter_preselect' => [
+	// 				'id' => 'tpl_groupids_',
+	// 				'submit_as' => 'templategroupid'
+	// 			],
+	// 			'parameters' => [
+	// 				'srctbl' => 'templates',
+	// 				'srcfld1' => 'hostid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'templateids_'
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('templateids_#{uniqid}')
+	// )
 	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
 			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
 			'popup' => [
-				'filter_preselect' => [
-					'id' => 'templateids_',
-					'submit_as' => 'templateid'
-				],
 				'parameters' => [
 					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_'		
+					'dstfld1' => 'tpl_triggerids_',
+					'monitored_hosts' => true,
+					'with_monitored_triggers' => true	
 					// 'templateid' => '4'
 				]
 			]
@@ -108,25 +106,25 @@ $filter_column = (new CFormList())
 		]))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('hostgroupids_#{uniqid}')
+	)
+	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
+		(new CMultiSelect([
+			'name' => 'hostids[]',
+			'object_name' => 'hosts',
+			'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
+			'popup' => [
+				'parameters' => [
+					'srctbl' => 'hosts',
+					'srcfld1' => 'hostid',
+					'dstfrm' => 'zbx_filter',
+					'dstfld1' => 'hostids_',
+					'real_hosts' => true
+				]
+			]
+		]))
+			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+			->setId('hostids_#{uniqid}')
 				);
-	// ->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
-	// 	(new CMultiSelect([
-	// 		'name' => 'hostids[]',
-	// 		'object_name' => 'hosts',
-	// 		'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
-	// 		'popup' => [
-	// 			'parameters' => [
-	// 				'srctbl' => 'hosts',
-	// 				'srcfld1' => 'hostid',
-	// 				'dstfrm' => 'zbx_filter',
-	// 				'dstfld1' => 'hostids_',
-	// 				'real_hosts' => true
-	// 			]
-	// 		]
-	// 	]))
-	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-	// 		->setId('hostids_#{uniqid}')
-	// 			);
 	// ->addRow(_('Show only hosts with problems'),
 	// 	(new CCheckBox('only_with_problems'))
 	// 		->setChecked($data['only_with_problems'] == 1)
