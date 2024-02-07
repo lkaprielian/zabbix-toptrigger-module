@@ -54,9 +54,7 @@ $filter_column = (new CFormList())
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
 					'dstfld1' => 'tpl_triggerids_',
-					'monitored_hosts' => true,
-					'with_monitored_triggers' => true	
-					// 'templateid' => '4'
+					'templateid' => ''
 				]
 			]
 		]))
