@@ -20,7 +20,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'name' => '',
 		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		'tpl_groupids' => [],
-		'templateids' => [],
+		'templateids' => ['10564'],
 		'tpl_triggerids' => [],
 		'triggerids' => [],
 		'hostgroupids' => [],
@@ -111,7 +111,7 @@ abstract class CControllerBGAvailReport extends CController {
 			'preservekeys' => true,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
-				'templateids' => sizeof($filter['templateids']) > 0 ? $filter['templateids'] : null
+				'templateid' => sizeof($filter['templateids']) > 0 ? $filter['templateids'] : null
 			],
             'limit' => $limit
         ]);
