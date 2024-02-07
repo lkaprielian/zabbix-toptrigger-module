@@ -24,7 +24,7 @@ $filter_column = (new CFormList())
 	->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'templateids[]',
-			'object_name' => 'templates',
+			'object_name' => 'hosts',
 			'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
 			'popup' => [
 				// 'filter_preselect' => [
