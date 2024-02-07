@@ -20,7 +20,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'name' => '',
 		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		'tpl_groupids' => [],
-		'templateids' => ['10564'],
+		'templateids' => '10564',
 		'tpl_triggerids' => [],
 		'triggerids' => [],
 		'hostgroupids' => [],
