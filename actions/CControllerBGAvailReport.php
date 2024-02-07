@@ -167,15 +167,6 @@ abstract class CControllerBGAvailReport extends CController {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
 		}
 		unset($trigger);
-		
-		$data = [];
-		if ($filter['templateids']) {
-			$templates= API::Template()->get([
-				'output' => ['templateid', 'name'],
-				'templateids' => $filter['templateids']
-			]);
-			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
-		}
 
 		return [
 			'paging' => $paging,
@@ -203,10 +194,22 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 
 		if ($filter['templateids']) {
-			$templates= API::Template()->get([
-				'output' => ['templateid', 'name'],
-				'templateids' => $filter['templateids']
+			// $templates= API::Template()->get([
+			// 	'output' => ['templateid', 'name'],
+			// 	'templateids' => $filter['templateids']
+			// ]);
+			$templates = API::Trigger()->get([
+				'output' => ['triggerid', 'description'],
+				'selectHosts' => 'extend',
+				'triggerids' => $filter['templateids']
 			]);
+			foreach($templates as &$trigger) {
+				sizeof($trigger['hosts']) > 0 ?
+					$trigger['name'] = $trigger['hosts'][0]['host'] . ': ' . $trigger['description'] :
+					$trigger['name'] = $trigger['description'];
+				unset($trigger['hosts']);
+				unset($trigger['description']);
+			}
 			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
 		}
 
