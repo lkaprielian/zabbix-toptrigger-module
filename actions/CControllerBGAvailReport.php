@@ -167,6 +167,15 @@ abstract class CControllerBGAvailReport extends CController {
 			$trigger['host_name'] = $trigger['hosts'][0]['name'];
 		}
 		unset($trigger);
+		
+		$data = [];
+		if ($filter['templateids']) {
+			$templates= API::Template()->get([
+				'output' => ['templateid', 'name'],
+				'templateids' => $filter['templateids']
+			]);
+			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
+		}
 
 		return [
 			'paging' => $paging,
