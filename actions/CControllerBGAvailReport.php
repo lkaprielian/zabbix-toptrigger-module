@@ -100,7 +100,7 @@ abstract class CControllerBGAvailReport extends CController {
 
 
 		$triggers = API::Trigger()->get([
-			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange','templateid'],
+			'output' => ['triggerid', 'description', 'expression', 'value', 'priority', 'lastchange'],
 			'selectHosts' => ['hostid', 'status', 'name'],
 			'triggerids' => sizeof($filter['triggerids']) > 0 ? $matched_triggerids : array_keys($triggersEventCount), //added to get top 100 
 			'selectTags' => 'extend',
@@ -111,11 +111,10 @@ abstract class CControllerBGAvailReport extends CController {
 			'preservekeys' => true,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
-				'templateid' => sizeof($filter['templateids']) > 0 ? $filter['templateids'] : null,
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null,
 			],
             'limit' => $limit
         ]);
-		// print_r($triggers);
 
 		## added for cnt and hostid
 		foreach ($triggers as $triggerId => $trigger) {
