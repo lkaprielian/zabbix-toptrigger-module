@@ -108,25 +108,25 @@ $filter_column = (new CFormList())
 		]))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('hostgroupids_#{uniqid}')
-	)
-	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
-		(new CMultiSelect([
-			'name' => 'hostids[]',
-			'object_name' => 'hosts',
-			'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
-			'popup' => [
-				'parameters' => [
-					'srctbl' => 'hosts',
-					'srcfld1' => 'hostid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'hostids_',
-					'real_hosts' => true
-				]
-			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('hostids_#{uniqid}')
 				);
+	// ->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'hostids[]',
+	// 		'object_name' => 'hosts',
+	// 		'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
+	// 		'popup' => [
+	// 			'parameters' => [
+	// 				'srctbl' => 'hosts',
+	// 				'srcfld1' => 'hostid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'hostids_',
+	// 				'real_hosts' => true
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('hostids_#{uniqid}')
+	// 			);
 	// ->addRow(_('Show only hosts with problems'),
 	// 	(new CCheckBox('only_with_problems'))
 	// 		->setChecked($data['only_with_problems'] == 1)
