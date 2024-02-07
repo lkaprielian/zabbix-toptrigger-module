@@ -1,26 +1,26 @@
 <?php declare(strict_types = 1);
 
 $filter_column = (new CFormList())
-	// ->addRow((new CLabel(_('Template groups'), 'tpl_groupids_#{uniqid}_ms')),
-	// 	(new CMultiSelect([
-	// 		'name' => 'tpl_groupids[]',
-	// 		'object_name' => 'hostGroup',
-	// 		'data' => array_key_exists('tpl_groups_multiselect', $data) ? $data['tpl_groups_multiselect'] : [],
-	// 		'popup' => [
-	// 			'parameters' => [
-	// 				'srctbl' => 'template_groups',
-	// 				'srcfld1' => 'groupid',
-	// 				'dstfrm' => 'zbx_filter',
-	// 				'dstfld1' => 'tpl_groupids_',
-	// 				'with_templates' => true,
-	// 				'editable' => true,
-	// 				'enrich_parent_groups' => true
-	// 			]
-	// 		]
-	// 	]))
-	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-	// 		->setId('tpl_groupids_#{uniqid}')
-	// )
+	->addRow((new CLabel(_('Template groups'), 'tpl_groupids_#{uniqid}_ms')),
+		(new CMultiSelect([
+			'name' => 'tpl_groupids[]',
+			'object_name' => 'hostGroup',
+			'data' => array_key_exists('tpl_groups_multiselect', $data) ? $data['tpl_groups_multiselect'] : [],
+			'popup' => [
+				'parameters' => [
+					'srctbl' => 'template_groups',
+					'srcfld1' => 'groupid',
+					'dstfrm' => 'zbx_filter',
+					'dstfld1' => 'tpl_groupids_',
+					'with_templates' => true,
+					'editable' => true,
+					'enrich_parent_groups' => true
+				]
+			]
+		]))
+			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+			->setId('tpl_groupids_#{uniqid}')
+	)
 	// ->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
 	// 	(new CMultiSelect([
 	// 		'name' => 'templateids[]',
@@ -56,10 +56,7 @@ $filter_column = (new CFormList())
 					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_',
-					'with_templates' => true,
-	 				'editable' => true,
-	 				'enrich_parent_groups' => true
+					'dstfld1' => 'tpl_triggerids_'		
 					// 'templateid' => '4'
 				]
 			]
