@@ -44,23 +44,6 @@ $filter_column = (new CFormList())
 	// )
 	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'templateids[]',
-			'object_name' => 'templates',
-			'data' => array_key_exists('templates_multiselect', $data) ? $data['templates_multiselect'] : [],
-			'popup' => [
-				'filter_preselect' => [
-					'id' => 'tpl_groupids_',
-					'submit_as' => 'templategroupid'
-				],
-				'parameters' => [
-					'srctbl' => 'templates',
-					'srcfld1' => 'hostid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'templateids_'
-				]
-			]
-		])),
-		(new CMultiSelect([
 			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
 			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
@@ -73,7 +56,10 @@ $filter_column = (new CFormList())
 					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_'
+					'dstfld1' => 'tpl_triggerids_',
+					'with_templates' => true,
+	 				'editable' => true,
+	 				'enrich_parent_groups' => true
 					// 'templateid' => '4'
 				]
 			]
