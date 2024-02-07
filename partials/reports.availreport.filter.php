@@ -43,14 +43,14 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('templateids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
+	->addRow((new CLabel(_('Template trigger'), 'triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'tpl_triggerids[]',
+			'name' => 'triggerids[]',
 			'object_name' => 'triggers',
 			'data' => array_key_exists('triggers', $data) ? $data['triggers'] : [],
 			'popup' => [
 				'parameters' => [
-					'srctbl' => 'template_triggers',
+					'srctbl' => 'triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
 					'dstfld1' => 'triggerids_'
