@@ -20,7 +20,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'name' => '',
 		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		'tpl_groupids' => [],
-		'templateids' => ['10564'],
+		'templateids' => [],
 		'tpl_triggerids' => [],
 		'triggerids' => [],
 		'hostgroupids' => [],
@@ -111,7 +111,7 @@ abstract class CControllerBGAvailReport extends CController {
 			'preservekeys' => true,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
-				'templateid' => sizeof($filter['templateids']) > 0 ? $filter['templateids'] : null
+				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
 			],
             'limit' => $limit
         ]);
@@ -194,22 +194,10 @@ abstract class CControllerBGAvailReport extends CController {
 		}
 
 		if ($filter['templateids']) {
-			// $templates= API::Template()->get([
-			// 	'output' => ['templateid', 'name'],
-			// 	'templateids' => $filter['templateids']
-			// ]);
-			$templates = API::Trigger()->get([
-				'output' => ['triggerid', 'description'],
-				'selectHosts' => 'extend',
-				'triggerids' => $filter['templateids']
+			$templates= API::Template()->get([
+				'output' => ['templateid', 'name'],
+				'templateids' => $filter['templateids']
 			]);
-			foreach($templates as &$trigger) {
-				sizeof($trigger['hosts']) > 0 ?
-					$trigger['name'] = $trigger['hosts'][0]['host'] . ': ' . $trigger['description'] :
-					$trigger['name'] = $trigger['description'];
-				unset($trigger['hosts']);
-				unset($trigger['description']);
-			}
 			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
 		}
 
