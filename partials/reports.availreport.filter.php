@@ -5,7 +5,7 @@ $filter_column = (new CFormList())
 		(new CMultiSelect([
 			'name' => 'tpl_groupids[]',
 			'object_name' => 'hostGroup',
-			'data' => array_key_exists('tpl_groups_multiselect', $data) ? $data['tpl_groups_multiselect'] : [],
+			'data' => $data['tpl_groups_multiselect'],
 			'popup' => [
 				'parameters' => [
 					'srctbl' => 'template_groups',
