@@ -47,7 +47,7 @@ $filter_column = (new CFormList())
 		(new CMultiSelect([
 			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
-			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
+			'data' => array_key_exists('triggers', $data) ? $data['triggers'] : [],
 			'popup' => [
 				'parameters' => [
 					'srctbl' => 'template_triggers',
