@@ -21,7 +21,6 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('tpl_groupids_#{uniqid}')
 	// )
-
 	// ->addRow((new CLabel(_('Templates'), 'templateids_#{uniqid}_ms')),
 	// 	(new CMultiSelect([
 	// 		'name' => 'templateids[]',
@@ -43,17 +42,21 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('templateids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
+	->addRow((new CLabel(_('Template triggers'), 'tpl_triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'tpl_triggerids[]',
 			'object_name' => 'triggers',
 			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
 			'popup' => [
+				// 'filter_preselect' => [
+				// 	'id' => 'templateids_',
+				// 	'submit_as' => 'templateid'
+				// ],
 				'parameters' => [
 					'srctbl' => 'template_triggers',
 					'srcfld1' => 'triggerid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_'		
+					'dstfld1' => 'tpl_triggerids_',
 					// 'templateid' => '4'
 				]
 			]
@@ -62,7 +65,7 @@ $filter_column = (new CFormList())
 			->setId('tpl_triggerids_#{uniqid}')
 	)
 
-	->addRow((new CLabel(_('Host trigger'), 'triggerids_#{uniqid}_ms')),
+	->addRow((new CLabel(_('Host triggers'), 'triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'triggerids[]',
 			'object_name' => 'triggers',
@@ -85,7 +88,7 @@ $filter_column = (new CFormList())
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('triggerids_#{uniqid}')
 	)
-	
+
 	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'hostgroupids[]',
@@ -130,16 +133,6 @@ $filter_column = (new CFormList())
 	// 		->setId('only_with_problems_#{uniqid}')
 	// 	);
 
-// $filterForm = (new CFilter())->setResetUrl(new CUrl('zabbix.php'));
-// $filterForm
-// 	->setProfile($data['filter']['timeline']['profileIdx'])
-// 	->setActiveTab($data['filter']['active_tab'])
-// 	->addTimeSelector($filter['from'], $filter['to'], true,
-// 		'reports.availreport.filter', ZBX_DATE_TIME
-// 	)
-// 	->addFilterTab(_('Filter'), [$filter_column]);
-
-
 $template = (new CDiv())
 	->addClass(ZBX_STYLE_TABLE)
 	->addClass(ZBX_STYLE_FILTER_FORMS)
@@ -156,6 +149,8 @@ $template = (new CForm('get'))
 		(new CVar('filter_custom_time', '#{filter_custom_time}'))->removeId(),
 		(new CVar('from', '#{from}'))->removeId(),
 		(new CVar('to', '#{to}'))->removeId()
+		// (new CVar('sort', '#{sort}'))->removeId(),
+		// (new CVar('sortorder', '#{sortorder}'))->removeId()
 	]);
 
 if (array_key_exists('render_html', $data)) {
@@ -174,7 +169,6 @@ if (array_key_exists('render_html', $data)) {
 	->setAttribute('data-template', 'reports.availreport.filter')
 	->addItem($template)
 	->show();
-
 ?>
 <script type="text/javascript">
 	let template = document.querySelector('[data-template="reports.availreport.filter"]');
@@ -317,10 +311,10 @@ if (array_key_exists('render_html', $data)) {
 			}
 		});
 
-		// let only_with_problems_checkbox = $('[name="only_with_problems"]');
-		// if (only_with_problems_checkbox.attr('unchecked-value') === data['only_with_problems']) {
-		// 	only_with_problems_checkbox.removeAttr('checked');
-		// }
+		let only_with_problems_checkbox = $('[name="only_with_problems"]');
+		if (only_with_problems_checkbox.attr('unchecked-value') === data['only_with_problems']) {
+			only_with_problems_checkbox.removeAttr('checked');
+		}
 
 		// Initialize src_url.
 		this.resetUnsavedState();
