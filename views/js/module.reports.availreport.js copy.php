@@ -60,7 +60,7 @@
 							this.filter.updateCounters(json.filter_counters);
 						}
 					}).always(() => {
-						if (this.refresh_interval >= 0) {
+						if (this.refresh_interval > 0) {
 							this.refresh_counters = this.createCountersRefresh(this.refresh_interval);
 						}
 					});
@@ -179,19 +179,19 @@
 		window.availreport_page.start();
 	});
 
-	// jQuery.subscribe('timeselector.rangeupdate', function(e, data) {
-	// 	if (window.availreport_page) {
-	// 		const url = new URL(window.availreport_page.refresh_url, 'http://example.com');
-	// 		for(var key of url.searchParams.keys()) {
-	// 			if (key == 'from' || key == 'to') {
-	// 				url.searchParams.set(key, data[key]);
-	// 			}
-	// 		}
+	jQuery.subscribe('timeselector.rangeupdate', function(e, data) {
+		if (window.availreport_page) {
+			const url = new URL(window.availreport_page.refresh_url, 'http://example.com');
+			for(var key of url.searchParams.keys()) {
+				if (key == 'from' || key == 'to') {
+					url.searchParams.set(key, data[key]);
+				}
+			}
 
-	// 		window.availreport_page.refresh_url=url.pathname.slice(1) + '?' + url.searchParams.toString();
-	// 		window.availreport_page.refresh();
-	// 	}
-	// });
+			window.availreport_page.refresh_url=url.pathname.slice(1) + '?' + url.searchParams.toString();
+			window.availreport_page.refresh();
+		}
+	});
 
 	const view = {
 		editHost(hostid) {
