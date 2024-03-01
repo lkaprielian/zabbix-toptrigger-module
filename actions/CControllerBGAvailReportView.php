@@ -33,7 +33,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'to' =>				'range_time',
 			'sort' =>			'in name,status,cnt_event',
 			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
-			'filter_name' =>			'string',
+			'filter_name' =>			'string'
 
 		];
 
