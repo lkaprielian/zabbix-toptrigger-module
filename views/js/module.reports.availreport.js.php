@@ -60,7 +60,7 @@
 							this.filter.updateCounters(json.filter_counters);
 						}
 					}).always(() => {
-						if (this.refresh_interval >= 0) {
+						if (this.refresh_interval > 0) {
 							this.refresh_counters = this.createCountersRefresh(this.refresh_interval);
 						}
 					});
