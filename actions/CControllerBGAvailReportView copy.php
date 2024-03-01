@@ -29,16 +29,12 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'only_with_problems' =>		'in 0,1',
 			'page' =>			'ge 1',
 			'counter_index' =>		'ge 0',
-			'sort' =>					'in clock,host,severity,name',
-			'sortorder' =>				'in '.ZBX_SORT_DOWN.','.ZBX_SORT_UP,	
 			'from' =>			'range_time',
 			'to' =>				'range_time',
-			'filter_name' =>			'string',
-			'filter_custom_time' =>		'in 1,0',
-			'filter_show_counter' =>	'in 1,0',
-			'filter_counters' =>		'in 1',
-			'filter_set' =>				'in 1'
+			'sort' =>			'in name,status,cnt_event',
+			'sortorder' =>			'in '.ZBX_SORT_UP.','.ZBX_SORT_DOWN,
 		];
+
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
 		if (!$ret) {
@@ -55,22 +51,13 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 	protected function doAction() {
 		$filter_tabs = [];
 
-		// $profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))->read();
-		// if ($this->hasInput('filter_reset')) {
-		// 	$profile->reset();
-		// }
-
-		$filter_tabs = [];
-		$profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))
-			->read()
-			->setInput($this->cleanInput($this->getInputAll()));
-		// elseif ($this->hasInput('filter_set')) {
-		// 	$profile->setTabFilter(0, ['filter_name' => ''] + $this->cleanInput($this->getInputAll()));
-		// 	$profile->update();
-		// }
-		// else {
-		// 	$profile->setInput($this->cleanInput($this->getInputAll()));
-		// }
+		$profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))->read();
+		if ($this->hasInput('filter_reset')) {
+			$profile->reset();
+		}
+		else {
+			$profile->setInput($this->cleanInput($this->getInputAll()));
+		}
 
 		foreach ($profile->getTabsWithDefaults() as $index => $filter_tab) {
 			if ($index == $profile->selected) {
@@ -87,9 +74,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		$filter['action'] = 'availreport.view.refresh';
 		$filter['action_from_url'] = $this->getAction();
 		array_map([$refresh_curl, 'setArgument'], array_keys($filter), $filter);
-		// $timeselector_from = $filter['filter_custom_time'] == 0 ? $filter['from'] : $profile->from;
-		// $timeselector_to = $filter['filter_custom_time'] == 0 ? $filter['to'] : $profile->to;
-		
+
 		$data = [
 			'action' => $this->getAction(),
 			'tabfilter_idx' => static::FILTER_IDX,
@@ -105,17 +90,17 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				// 'timeselector' => [
 				// 	'from' => $profile->from,
 				// 	'to' => $profile->to,
-				// 	'disabled' => true
+				// 	'disabled' => false
 				// ] + getTimeselectorActions($profile->from, $profile->to)
 			],
 			'filter_tabs' => $filter_tabs,
 			'refresh_url' => $refresh_curl->getUrl(),
-			'refresh_interval' => 3600000, //+++1000,
+			'refresh_interval' => CWebUser::getRefresh() * 10000, //+++1000,
 			'page' => $this->getInput('page', 1)
 		] + $this->getData($filter);
 
 		$response = new CControllerResponseData($data);
-		$response->setTitle(_('Availability report'));
+		$response->setTitle(_('Recurrence'));
 
 		if ($data['action'] === 'availreport.view.csv') {
 			$response->setFileName('zbx_availability_report_export.csv');
