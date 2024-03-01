@@ -95,7 +95,8 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			],
 			'filter_tabs' => $filter_tabs,
 			'refresh_url' => $refresh_curl->getUrl(),
-			'refresh_interval' => CWebUser::getRefresh() * 10000, //+++1000,
+			// 'refresh_interval' => CWebUser::getRefresh() * 10000, //+++1000,
+			'refresh_interval' => 3600000, //+++1000,
 			'page' => $this->getInput('page', 1)
 		] + $this->getData($filter);
 
